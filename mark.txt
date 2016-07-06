@@ -1,0 +1,182 @@
+1q2w3e4r
+andy-msSql2012
+
+
+
+陕西师范大学 SXNU（Shaanxi Normal University）
+
+SXNU_Questionnaire
+
+
+
+129600 =360*360
+
+天罡之数36、地煞之数72与大衍之数50
+36*72*50=129600
+
+
+
+一千三百五十号生死簿
+19年为1章，27章为1会，3会为1统，3统便是"一元"
+19×27×3×3就是4617，也就是"一元"的宇宙周期实际上是4617年
+1350×342=461700=100
+
+
+data-bind="event:{click:$root.UploadImg}
+
+6214 6801 2124 8353
+
+
+Valentino
+Christian Louboutin
+Stuart Weitzman
+
+
+/// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("SELECT * FROM ( ");
+            strSql.Append(" SELECT ROW_NUMBER() OVER (");
+            if (!string.IsNullOrEmpty(orderby.Trim()))
+            {
+                strSql.Append("order by T." + orderby);
+            }
+            else
+            {
+                strSql.Append("order by T.");
+            }
+            strSql.Append(")AS Row, T.*  from AkmiiAllApplactionView T ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(" ) TT");
+            //strSql.AppendFormat(" WHERE TT.Row between {0} and {1} order by TT.SubmitTime desc ", startIndex, endIndex);
+            strSql.AppendFormat(" WHERE TT.Row between {0} and {1} ", startIndex, endIndex);
+            return AkmiiDBHelper.ExecuteDataset(CommandType.Text, strSql.ToString());
+        }
+
+
+
+
+
+
+SELECT * FROM ( SELECT ROW_NUMBER() OVER (order by T.id)AS Row, T.*  from [dbo].[user_info] T) TT WHERE TT.Row between 1 and 22
+
+
+
+
+
+ SELECT TT.*,(select count(1) from [dbo].[user_info] where 1=1)as TotalRecord  FROM ( SELECT ROW_NUMBER() OVER (order by T.id)AS Row, T.*  from [dbo].[user_info] T) TT WHERE TT.Row between 1320210 and 1320234
+ 
+ 
+
+
+
+
+
+getByPageOrderBy: function (userID, typeID, currentIndex, pageSize, SearchKey, SearchType, SearchStatus, from, order_temp) {
+                return Ben.JSHelper.POSTMethod(this.ItemUrl + "?&CurrentIndex=" + currentIndex + "&PageSize=" + pageSize + "&SearchKey=" + (SearchKey == undefined ? "" : SearchKey) + "&SearchType=" + (SearchType == undefined ? "" : SearchType) + "&SearchStatus=" + (SearchStatus == undefined ? "" : SearchStatus) + "&From=" + from + "&ostype=" + order_temp, {
+                    userID: userID,
+                    typeID: typeID
+                });
+            },
+
+
+
+
+
+ 10
+0 1 2  
+
+0 10 
+
+1 11
+
+11 +10 
+
+0
+b=0
+e=10 
+1
+b=11
+e=11+10-1=20
+
+
+
+1 100
+2 100
+3 50
+
+
+100 100
+
+
+
+
+
+
+
+
+
+
+数据库存储设计的题目
+
+公共存储信息
+题干
+答题时间
+逻辑关联
+
+
+
+
+单选
+数组类型的选项
+数组元素为对象类型
+例如
+
+var Problem=[{item:"xxxxxx",type:"redio"},{item:"xxxxxx",type:"input"}]
+ 
+
+
+
+
+多选
+
+问答
+
+组合
+
+表格
+
+
+
+
+MSM8952
+
+
+
+
+
+
+
+andylynn007
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
