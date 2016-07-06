@@ -1,8 +1,5 @@
 ﻿var SXNU_ViewModel_Ques1 = function ($, currentDom) {
-    var sxnu = currentDom || this;
-     
-   
-
+    var sxnu = currentDom || this; 
     //====== 开始step2=======================
     sxnu.ControlsType = ko.observableArray(["文本框", "单选按钮", "下拉菜单"]);
     sxnu.EnumControlsType={
@@ -302,6 +299,7 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
 
 }
+
 var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     var sxnu = currentDom || this;
     sxnu.isProject_QA = ko.observable(false);
@@ -421,15 +419,8 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     }
 
     sxnu.s2_DataArray.push(new sxnu.bim("字段1111", "文本框", "11", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("字段字段", "单选按钮", "xxx字段xxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("字段", "下拉菜单", "111x字段xxxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("1字段", "单选按钮", "111111111xxxxxxx字段xxxxxxxxxxxxxxx字段xxxxxxxxxxxxx111111字段111", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("1字段", "下拉菜单", "1111111", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("1字段", "单选按钮", "1xxxxxxxxxxxxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("1字段", "下拉菜单", "1xx字段xxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("1字段", "单选按钮", "1xxxxxxx字段xxxxxxxxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("字段1", "下拉菜单", "1xxxxxxxx字段xxx", "0"));
-    sxnu.s2_DataArray.push(new sxnu.bim("字段1字段", "单选按钮", "11xxxxx字段xxxxx", "0"));
+    
+ 
 
 
     // ======结束step2========================
@@ -447,21 +438,21 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.ValidStart = ko.observable();
     sxnu.ValidEnd = ko.observable();
 
-    sxnu.ValidStart.subscribe(function (val) {
-        $("#ValidEnd").datepicker("option", "minDate", val);
+    
 
-    });
-    sxnu.ValidEnd.subscribe(function (val) {
-        $("#ValidStart").datepicker("option", "maxDate", val);
-    });
-
-
-    sxnu.Submited_Step1 = function () {
-        //window.location.href = "/Admin/Question/Step2";
-        return true;
-    }
+  
 
     sxnu.Submited_Step2 = function () {
+       
+
+    }
+    sxnu.Submited_Step3 = function () {
+        window.location.href = "/Admin/Question/Step4";
+    }
+
+   
+
+    sxnu.ViewImg = function () {
         if (!sxnu.Validate_Step2()) {
             alert("输入内容有误！");
         }
@@ -481,83 +472,8 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             alert("提交失败！");
         });
 
-
     }
-    sxnu.Submited_Step3 = function () {
-        window.location.href = "/Admin/Question/Step4";
-    }
-
-    sxnu.Submited_Step4 = function () {
-        window.location.href = "/Admin/Question/QuesList";
-    }
-
-    sxnu.ViewImg = function () {
-        $("input[name='front_cover']").on("change", function () {
-            var file = this.files[0];
-            if (this.files && file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("#front_cover_view").attr("src", e.target.result);
-                    //$("#fn").text(file.name);
-                    //$("#fs").text(file.size + "bytes");
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
-    //==============分页 开始==============
-    sxnu.accountList = ko.observableArray();
-
-    sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
-    sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
-    sxnu.am_TotalPage = ko.observable(1); // 页总数
-    sxnu.am_TotalRecord = ko.observable();//总记录数
-    sxnu.UserIsExits = ko.observable(false);
-
-
-    sxnu.Provider = function () {
-        if (sxnu.am_CurrenPageIndex() > 0) {
-            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
-            sxnu.GetByPageingData();
-        }
-    }
-    sxnu.NextPage = function () {
-        if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
-        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() + 1);
-        sxnu.GetByPageingData();
-    }
-
-    sxnu.GotoPage = function (index) {
-        if (index < 0 || index > (sxnu.am_TotalPage() - 1)) {
-            return;
-        };
-        sxnu.am_CurrenPageIndex(index);
-        sxnu.GetByPageingData();
-    }
-
-    sxnu.GetByPageingData = function () {
-        var parmentMode = {
-            StrWhere: sxnu.SearchValue().trim(),
-            CurrenPageIndex: sxnu.am_CurrenPageIndex(),
-            PageSize: sxnu.am_PageSize()
-        }
-        sxnu.accountList.removeAll();
-        $.ajax("/Admin/User/ShowAccountListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
-            if (result) {
-                sxnu.accountList(result.Data);
-                sxnu.am_TotalPage(result.TotalPages);
-                sxnu.am_TotalRecord(result.TotalRecords);
-            }
-        }).fail(function () {
-            alert("系统异常！");
-        });
-    }
-    //==============分页 结束===============
-
-    //sxnu.RedirModidy = function (val) {
-    //    window.location.href = "/Admin/User/AccountModify?ID=" + val.am_ID + "&loginName=" + encodeURIComponent(val.am_LoginUser) + "&Email=" + encodeURIComponent( val.am_Email) + "";
-    //}
+  
 
     sxnu.InvaildStr = function (val) {
         var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
@@ -573,135 +489,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         }
         return false;
     }
-
-    sxnu.SearchAccount = function () {
-        if (sxnu.InvaildStr(sxnu.SearchValue())) {
-            alert("输入内容包含非法字符串！");
-            return false;
-        }
-        sxnu.am_CurrenPageIndex(0);
-        sxnu.am_TotalPage(1);
-        sxnu.GetByPageingData();
-    }
-
-
-    sxnu.Login = function (flg) {
-        window.location.href = "/Admin/Home/Home";
-    }
-
-
-
-
-    sxnu.CheckUserIsExist = function () {
-        if (sxnu.userName()) {
-            $.ajax("/Admin/User/CheckUserIsExist", { async: true, type: "GET", data: { LoginName: sxnu.userName() }, dataType: "json" }).then(function (result) {
-                if (result.IsExist) {
-                    sxnu.userName_vis(true);
-                    sxnu.UserIsExits(true);
-                    sxnu.userName_error_des("用户名已存在");
-                } else {
-                    sxnu.userName_vis(false);
-                    sxnu.UserIsExits(false);
-                }
-            }).fail(function () {
-                alert("系统异常！");
-            });
-        }
-    }
-
-    sxnu.M_CheckUserIsExist = function () {
-        if (sxnu.Temp_User() == sxnu.userName().trim()) {
-            return false;
-        }
-        if (sxnu.userName()) {
-            $.ajax("/Admin/User/CheckUserIsExist", { async: true, cache: false, type: "GET", data: { LoginName: sxnu.userName() }, dataType: "json", }).then(function (result) {
-                if (result.IsExist) {
-                    sxnu.userName_vis(true);
-                    sxnu.UserIsExits(true);
-                    sxnu.userName_error_des("用户名已存在");
-                } else {
-                    sxnu.userName_vis(false);
-                    sxnu.UserIsExits(false);
-                }
-            }).fail(function () {
-                alert("系统异常！");
-            });
-        }
-    }
-
-
-    sxnu.CreateAccount = function () {
-        var userModel = {
-            U_ID: 0,
-            U_LoginName: sxnu.userName(),
-            U_PWD: "123456",
-            U_Name: "",
-            U_Email: sxnu.userEmail(),
-            U_Phone: "",
-            U_Status: "y",
-            CreateTime: ""
-        };
-        sxnu.AddAndModify(userModel, "C");
-    }
-
-    sxnu.BackUserList = function () {
-        window.location.href = "/Admin/User/AccountManage";
-    }
-
-
-    sxnu.EnableAccount = function (val) {
-        $.ajax("/Admin/User/EnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
-                alert("操作成功");
-                sxnu.GetByPageingData();
-            }
-        }).fail(function () {
-            alert("系统异常！");
-        });
-    }
-    sxnu.ResetPwd = function (val) {
-        $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
-                alert("操作成功");
-                sxnu.BackUserList();
-            }
-        }).fail(function () {
-            alert("系统异常！");
-        });
-    }
-
-
-    sxnu.ModifyAccount = function () {
-        var userModel = {
-            U_ID: $("#m_id").val(),
-            U_LoginName: sxnu.userName(),
-            U_PWD: "123456",
-            U_Name: "",
-            U_Email: sxnu.userEmail(),
-            U_Phone: "",
-            U_Status: "y",
-            CreateTime: ""
-        };
-        sxnu.AddAndModify(userModel, "M");
-    }
-
-    sxnu.AddAndModify = function (UserModel, flg) {
-        if (sxnu.UserIsExits()) { return false };
-        if (sxnu.ValidateData(sxnu.userName(), sxnu.userEmail())) {
-            $.ajax("/Admin/User/AddAccount", { async: true, type: "POST", cache: false, data: UserModel, dataType: "json", }).then(function (result) {
-                if (result) {
-                    if (result.IsSucceff) {
-                        alert(flg == "C" ? "创建成功！" : "修改成功！");
-                        window.location.href = "/Admin/User/AccountManage";
-                    } else {
-                        alert(flg == "C" ? "创建失败！" : "修改失败！");
-                    }
-                }
-            }).fail(function () {
-                alert(flg == "C" ? "创建失败！" : "修改失败！");
-            });
-        }
-    }
+     
     sxnu.ValidateData = function (user, email) {
         var flg = true;
         var EmailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -771,6 +559,8 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
 
 }
+
+
 var SXNU_ViewModel_Ques4 = function ($, currentDom) {
     var sxnu = currentDom || this;
     sxnu.isProject_QA = ko.observable(false);
