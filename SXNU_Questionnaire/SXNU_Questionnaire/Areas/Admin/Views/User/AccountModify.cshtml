@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "账号管理-修改账号";
+    ViewBag.flgStyle = "a";
+}
+
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_AccountManage($);
+        ko.applyBindings(pageModel, $("#ko_account")[0]);
+
+    });
+</script>
+<div class="right p-w92" id="ko_account">
+    <div class="admin_name admin_zi">账号管理 -- <span>修改账号</span></div>
+    <div class="admin_frame h-400">
+        <input type="hidden" value="@ViewBag.m_ID" id="m_id" />
+        <input type="hidden" value="@ViewBag.m_loginName" id="m_loginname" />
+        <input type="hidden" value="@ViewBag.m_Email" id="m_email" />
+        <div class="m-b15 m-l20"><input type="submit" value="返回" class="a_red_min w-86" data-bind="click:BackUserList" /></div>
+        <div class="m-b15 m-t20">
+            <div class="inf_left w-100"><span class="ind_red">*</span> 用户名：</div>
+            <input type="" value="请输入用户名" class="inf_text w-450 left" id="userName" maxlength="12" data-bind="value:userName,event: { blur: $root.M_CheckUserIsExist }" />
+            <div class="left m-l15 ind_wrong" style="display:none" data-bind="visible:userName_vis"><span><img src="~/Content/images/admin/wrong.jpg"></span><!--ko text: userName_error_des--><!--/ko--></div>
+            <div class="clear"></div>
+        </div>
+        <div class="m-b15">
+            <div class="inf_left w-100"><span class="ind_red">*</span> 邮箱：</div>
+            <input type="" value="请输入邮箱" class="inf_text w-450 left" id="userEmail" maxlength="30" data-bind="value:userEmail" />
+            <div class="left m-l15 ind_wrong" style="display:none" data-bind="visible:userEmail_vis"><span><img src="~/Content/images/admin/wrong.jpg"></span><!--ko text: userEmail_error_des--><!--/ko--></div>
+            <div class="clear"></div>
+        </div>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="提 交" data-bind="click:ModifyAccount" class="a_red w-120" />
+        </div>
+    </div>
+</div>

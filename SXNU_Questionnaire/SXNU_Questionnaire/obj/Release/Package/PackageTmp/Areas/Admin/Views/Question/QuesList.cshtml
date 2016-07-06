@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.flgStyle = "q";
+    ViewBag.Title = "问卷管理-问卷管理列表";
+}
+
+<div class="right p-w92">
+    <div class="admin_name admin_zi">问卷管理 -- <span>问卷管理列表</span></div>
+    <div class="admin_frame min_h">
+        <div class="m-b30 m-t20">
+            <div class="inf_left w-80">数据查询：</div>
+            <input type="" value="请输通知标题" class="inf_text w-385 left" />
+            <input type="submit" value="查询" class="a_red_min w-86 left m-t3 m-l20" />
+            <div class="clear"></div>
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
+            <tr>
+                <td class="p-w18"><b>问卷标题</b></td>
+                <td class="p-w15"><b>项目来源</b></td>
+                <td class="p-w15"><b>有效期</b></td>
+                <td class="p-w8"><b>发布人</b></td>
+                <td class="p-w8"><b>发布时间</b></td>
+                <td class="p-w15"><b>认证码</b></td>
+                <td><b>操作</b></td>
+            </tr>
+        </table>
+        <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
+            <tr>
+                <td class="p-w18"><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
+                <td class="p-w15">小学科学教程难易度的国际比较</td>
+                <td class="p-w15">2016/03/10--2016/06/12</td>
+                <td class="p-w8">张峰</td>
+                <td class="p-w8">2016/03/08</td>
+                <td class="p-w15">VNFDDFDF58552</td>
+                <td>
+                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
+                    <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
+                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
+                    <span class="ico_red vol_ico4"><a href="#">删除</a></span>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
+                <td>小学科学教程难易度的国际比较</td>
+                <td>2016/03/10--2016/06/12</td>
+                <td>张峰</td>
+                <td>2016/03/08</td>
+                <td>VNFDDFDF58552</td>
+                <td>
+                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
+                    <span class="ico vol_ico5 m-r20"><a href="/admin/Question/AnswerDetails">查看回收数据</a></span>
+                    <span class="ico vol_ico6 m-r20"><a href="#">撤回</a></span>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="vol_ash m-r5">进行中</span>企业员工满意度调查问卷</td>
+                <td>小学科学教程难易度的国际比较</td>
+                <td>2016/03/10--2016/06/12</td>
+                <td>张峰</td>
+                <td>2016/03/08</td>
+                <td>VNFDDFDF58552</td>
+                <td>
+                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
+                    <span class="ico vol_ico5 m-r20"><a href ="/admin/Question/AnswerDetails">查看回收数据</a></span>
+                    <span class="ico vol_ico6 m-r20"><a href="#">撤回</a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="p-w18"><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
+                <td class="p-w15">小学科学教程难易度的国际比较</td>
+                <td class="p-w15">2016/03/10--2016/06/12</td>
+                <td class="p-w8">张峰</td>
+                <td class="p-w8">2016/03/08</td>
+                <td class="p-w15">VNFDDFDF58552</td>
+                <td>
+                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
+                    <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
+                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
+                    <span class="ico_red vol_ico4"><a href="#">删除</a></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="waik">分页</div>
+</div>
+
+
+
+<script language="javascript">
+    window.onload = function showtable() {
+        var tablename = document.getElementById("mytable");
+        var li = tablename.getElementsByTagName("tr");
+        for (var i = 0; i <= li.length; i++) {
+            if (i % 2 == 0) {
+                li[i].style.backgroundColor = "#f7f8fa";
+            } else li[i].style.backgroundColor = "#FFFFFF";
+        }
+    }
+</script>

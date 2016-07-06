@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "通知管理";
+    ViewBag.flgStyle = "n";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+     $(function () {
+         var pageModel = new SXNU_ViewModel_NoticeManage($);
+         ko.applyBindings(pageModel, $("#ko_notice")[0]);
+
+     });
+</script>
+<div class="right p-w92" id="ko_notice">
+    <input type="hidden" value="" id="m_title" />
+    <input type="hidden" value="" id="m_content" />
+    <div class="admin_name admin_zi">通知管理 -- <span>发布通知</span></div>
+    <div class="admin_frame h-400">
+        <div class="m-b15">
+            <div class="inf_left w-140"><span class="ind_red">*</span> 通知标题：</div>
+            <input type="" value="请输通知标题" class="inf_text p-w70 left" data-bind="value:no_title" />
+            <div style="display:none" data-bind="visible:noTitle_vis" class="left m-l15 ind_wrong"><span><img src="~/Content/images/admin/wrong.jpg"></span>标题不能为空</div>
+            <div class="clear"></div>
+        </div>
+        <div class="m-b15">
+            <div class="inf_left w-140"><span class="ind_red">*</span> 内容描述：</div>
+            <textarea class="inf_textarea p-w70 left" name="" cols="20" rows="3" data-bind="value:no_content">请输内容描述</textarea>
+            <div style="display:none" data-bind="visible:noContent_vis" class="left m-l15 ind_wrong"><span><img src="~/Content/images/admin/wrong.jpg"></span>内容不能为空</div>
+            <div class="clear"></div>
+        </div>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="提 交" data-bind="click:Add_Notice" class="a_red w-120" />
+        </div>
+    </div>
+</div> 

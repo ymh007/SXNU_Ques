@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.flgStyle = "q";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+ 
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_AccountManage($);
+        ko.applyBindings(pageModel, $("#ko_ques")[0]);
+
+    });
+</script> 
+<div class="right p-w92" id="ko_ques">
+    <div class="admin_name admin_zi">问卷管理 -- <span>创建问卷</span></div>
+    <div class="admin_frame min_h">
+        <div class="newly">
+            <ul>
+                <li><a class="newly_hover" href="#">1.填写问卷基本信息</a></li>
+                <li><a class="newly_hover" href="#">2.答卷人信息设置</a></li>
+                <li><a href="#">3.添加试题</a></li>
+                <li><a href="#">4.规则设置</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="newly_name">请按照以下内容要求完成答卷人信息配置：</div>
+        <div class="newly_prompt m-t15">
+            温馨提示：<br>
+            1.若展现类型是文本框或多行文本框，则规则设置需要填写内容的字数限制，此时规则设置可以为空，采用默认设置，即多行文本框不超过255个字符，文本框字数无限制；若展现类型是单选按钮或多选按钮或下拉菜单，则规则设置需要填写内容项，此时规则设置不能为空，填写时内容项之间需要以逗号隔开；<br>
+            2.是否为必填项默认为否；
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t20 newly_title">
+            <tr>
+                <td class="p-w20"><b>字段名称</b></td>
+                <td class="p-w20"><b>展现类型</b></td>
+                <td class="p-w20"><b>规则设置</b></td>
+                <td class="p-w20"><b>是否必填项</b></td>
+                <td><b>操作</b></td>
+            </tr>
+        </table>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="newly_table">
+            <tr>
+                <td class="p-w20"><input type="" value="请输入旧密码" class="inf_text p-w100 left" /></td>
+                <td class="p-w20"><input type="" value="请输入旧密码" class="inf_text p-w100 left" /></td>
+                <td class="p-w20"><input type="" value="请输入旧密码" class="inf_text p-w100 left" /></td>
+                <td class="p-w20"><input checked="checked" type="radio" name="" value="male" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="" value="male" /> 否</td>
+                <td><span>qq</span></td>
+            </tr>
+        </table>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="提 交" class="a_red w-120" />
+        </div>
+    </div>
+</div>

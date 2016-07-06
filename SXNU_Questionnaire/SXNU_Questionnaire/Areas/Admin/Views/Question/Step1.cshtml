@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutQues.cshtml";
+    ViewBag.flgStyle = "q";
+    ViewBag.Title = "问卷管理-问卷管理列表";
+}
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Ques1($);
+        ko.applyBindings(pageModel, $("#ko_Question")[0]);
+    });
+</script>
+
+<div class="right p-w92" id="ko_Question">
+    <div class="admin_name admin_zi">问卷管理 -- <span>创建问卷</span></div>
+    <form action="/Admin/Question/SubmitedStep1" method="post" enctype="multipart/form-data">
+        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" />
+        <div class="admin_frame min_h">
+            <div class="newly">
+                <ul>
+                    <li><a class="newly_hover" href="/admin/Question/Step1?ID=@ViewBag.WJ_ID">1.填写问卷基本信息</a></li>
+                    <li><a href="/admin/Question/Step2?ID=@ViewBag.WJ_ID">2.答卷人信息设置</a></li>
+                    <li><a href="/admin/Question/Step3?ID=@ViewBag.WJ_ID">3.添加试题</a></li>
+                    <li><a href="/admin/Question/Step4?ID=@ViewBag.WJ_ID">4.规则设置</a></li>
+                    <div class="clear"></div>
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <div class="m-b15 m-t20">
+                <input type="hidden" name="wj_ID" value="0">
+                <div class="inf_left w-130"><span class="ind_red">*</span> 问卷标题：</div>
+                <input type="text"   name="wj_Title" class="inf_text w-450 left" />
+                <div class="clear"></div>
+            </div>
+            <div class="m-b15">
+                <div class="inf_left w-130">项目来源：</div>
+                <input type="text"   name="wj_ProjectSource" class="inf_text w-450 left" />
+                <div class="clear"></div>
+            </div>
+            <div class="m-b15">
+                <div class="inf_left w-130">答题时间：</div>
+                <input type="text" maxlength="3" name="wj_Time" class="inf_text w-415 left" /> <div class="p-t10 m-l10 left">分钟</div>
+                <div class="clear"></div>
+            </div>
+            <div class="m-b15">
+                <div class="inf_left w-130"><span class="ind_red">*</span> 有效期：</div>
+                <div class="left riqi"><input type="text" readonly class="left w-170 " id="ValidStart" name="wj_ValidStart" data-bind="value:$root.ValidStart" /><img class="right m-t10 m-r10" src="~/Content/images/admin/time.jpg"></div>
+                <div class="left"><img class="left m-t8 m-l12 m-r12" src="~/Content/images/admin/img13.png"></div>
+                <div class="left riqi"><input type="text" readonly class="left w-170 " id="ValidEnd" name="wj_ValidEnd" data-bind="value:$root.ValidEnd" /><img class="right m-t10 m-r10" src="~/Content/images/admin/time.jpg"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="m-b15">
+                <div class="inf_left w-130">上传问卷封面：</div>
+                <input type="file" name="front_cover" id="FrontCover" style="display:none;" />
+                <div class="left"><img data-bind="click:$root.UploadImg" id="front_cover_view" src="~/Content/images/admin/1.jpg" style="width:310px;height:200px"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="m-b15">
+                <div class="inf_left w-130"><span class="ind_red">*</span> 卷封摘要说明：</div>
+                <textarea class="inf_textarea w-450 left" cols="20" name="wj_BeginBody" rows="3" ></textarea>
+                <div class="clear"></div>
+            </div>
+            <div class="w-100 centers m-t40">
+                <input type="submit" value="提 交" class="a_red w-120" data-bind="click:Submited_Step1" />
+            </div>
+        </div>
+    </form>
+</div>

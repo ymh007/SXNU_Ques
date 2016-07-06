@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "问卷中心";
+    ViewBag.flgStyle = "ques";
+}
+<div class="show_h"></div>
+<div class="wrapper m-t30 m-b150">
+
+    <table class="tale">
+        <tr>
+            <td width="250" align="right"><span>*</span> 您的姓名：</td>
+            <td><input class="input" value="请填写您的姓名"></td>
+        </tr>
+        <tr>
+            <td align="right"><span>*</span> 性别：</td>
+            <td><input type="radio" checked="checked" name="sex" /> 男 <input type="radio" name="sex" /> 女</td>
+        </tr>
+        <tr>
+            <td align="right"><span>*</span> 年龄：</td>
+            <td><input class="input" value="请填写您的年龄"></td>
+        </tr>
+        <tr>
+            <td align="right">手机：</td>
+            <td><input class="input" value="请填写您的手机"></td>
+        </tr>
+        <tr>
+            <td align="right">Email：</td>
+            <td><input class="input" value="请填写您的Email"></td>
+        </tr>
+        <tr>
+            <td align="right">职业：</td>
+            <td><input class="input" value="请填写您的职业"></td>
+        </tr>
+        <tr>
+            <td align="right">所在高校：</td>
+            <td>
+                <select name="select" id="select_k1" class="input">
+                    <option value="请填写您所在的高校">请填写您所在的高校</option>
+                    <option value="选择品牌1">选择品牌1</option>
+                    <option value="选择品牌2">选择品牌2</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <div class="center m-t30"><input class="sub w-120" type="submit" name="" value="下一步"></div>
+</div>
+

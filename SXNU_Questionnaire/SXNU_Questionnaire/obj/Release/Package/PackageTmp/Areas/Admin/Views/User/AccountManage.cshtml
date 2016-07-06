@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "账号管理-账号管理列表";
+    ViewBag.flgStyle = "a";
+}
+
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_AccountManage($);
+        ko.applyBindings(pageModel, $("#ko_account")[0]);
+
+    });
+</script>
+<div class="right p-w92" id="ko_account">
+    <div class="admin_name admin_zi">问卷管理 -- <span>问卷管理列表</span></div>
+    <div class="admin_frame min_h">
+        <div class="m-b30 m-t20">
+            <div class="inf_left w-80">数据查询：</div>
+            <input type="text" value=" " class="inf_text w-385 left" data-bind="value:SearchValue" />
+            <input type="submit" value="查询" class="a_red_min w-86 left m-t3 m-l20" data-bind="click:SearchAccount" />
+            <div class="clear"></div>
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
+            <tr>
+                <td class="p-w15"><b>用户ID</b></td>
+                <td class="p-w15"><b>用户名</b></td>
+                <td class="p-w15"><b>邮箱</b></td>
+                <td class="p-w15"><b>创建时间</b></td>
+                <td class="p-w15"><b>账号状态</b></td>
+                <td><b>操作</b></td>
+            </tr>
+        </table>
+        <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
+            <tbody data-bind="foreach: accountList">
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
+                    <td class="p-w15" data-bind="text:Row"> </td>
+                    <td class="p-w15" data-bind="text: am_LoginUser"></td>
+                    <td class="p-w15" data-bind="text: am_Email"></td>
+                    <td class="p-w15" data-bind="text: am_CreateTime"></td>
+                    <td class="p-w15" data-bind="text: am_Status=='y'?'正常':'禁用',style: { color: am_Status !='y' ? '#fe2525':'' }"></td>
+                    <td>
+                        <span class="ico vol_ico3 m-r20"><a data-bind="attr:{href:'/Admin/User/AccountModify?ID='+am_ID+'&loginName='+encodeURIComponent(am_LoginUser)+'&Email='+encodeURIComponent(am_Email)+''}">修改</a></span>
+                        <span class="ico_red vol_ico7 m-r20"><a href="#" data-bind="click:$root.EnableAccount">禁用</a></span>
+                        <span class="ico vol_ico8"><a href="#" data-bind="click:$root.ResetPwd">密码重置</a></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="waiks" data-bind="visible:am_TotalPage()!=0">
+        <ul class="paging">
+            <li><a  href="#" data-bind="visible:$root.am_CurrenPageIndex()!=0,click:$root.Provider">上一页</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=0,text:$root.am_CurrenPageIndex(),click:function(){$root.GotoPage($root.am_CurrenPageIndex()-1)} ">1</a></li>
+            <li><a class="a_active"   data-bind="text:$root.am_CurrenPageIndex()+1">2</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),text:$root.am_CurrenPageIndex()+2,click: function(){ $root.GotoPage($root.am_CurrenPageIndex()+1) }  ">3</a></li>
+            <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),click:$root.NextPage">下一页</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+ 
+
+@*<script language="javascript">
+    window.onload=function showtable(){
+    var tablename=document.getElementById("mytable");
+    var li=tablename.getElementsByTagName("tr");
+    for (var i=0;i<=li.length;i++){
+    if (i%2==0){
+    li[i].style.backgroundColor="#f7f8fa";
+    }else li[i].style.backgroundColor="#FFFFFF";
+    }
+    }
+    </script>*@

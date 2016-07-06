@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="wrapper wrapper-content  animated fadeInRight  " style="margin-left:100px" >
+    <div class="ibox">
+        <div>
+            <fieldset style="text-align:left">
+                <legend>上传</legend>
+                <table>
+                    <tr>
+                        <td>
+                            <form action="/Image/FileUpload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="filename" id="file1" /> <input type="submit" value="Submit" />
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>图片预览</div>
+                            <img id="img1" style="height:200px;width:160px;background-color:aqua" />
+                            <br />
+                            <span id="fn"></span>&nbsp;&nbsp;<span id="fs"></span>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <form action="/Image/MultiUpload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="filename" data-bind="value:up1" id="file1" />
+                        <input type="file" name="filename" data-bind="value:up2" id="file2" />
+                        <input type="file" name="filename" data-bind="value:up3" id="file3" />
+                        <input type="file" name="filename" data-bind="value:up4" id="file4" />
+                        <input type="submit" data-bind="click:validate" value="MulitUploadFiles" />
+                    </form>
+
+
+                    @*@using (Html.BeginForm("MultiUpload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="file" name="filename" id="file1" />
+                            <input type="file" name="filename" id="file2" />
+                            <input type="file" name="filename" id="file3" />
+                            <input type="file" name="filename" id="file4" />
+                            <input type="submit" value="MulitUploadFiles" />
+                        }*@
+                </div>
+                @*<div>
+                        @using (Html.BeginForm("FileUpload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <text>选择上传文件：</text><input name="file" type="file" id="file" />
+                            <br />
+                            <br />
+                            <input type="submit" name="Upload" value="Upload" />
+                        }
+                    </div>*@
+            </fieldset>
+        </div>
+        <br />
+
+
+    </div>
+    <div class="jqGrid_wrapper">
+        <table id="gridTable"></table>
+    </div>
+</div>

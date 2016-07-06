@@ -1,0 +1,49 @@
+﻿<fieldset>
+    <legend>显示数据</legend>
+    <div class="bs-example" data-example-id="bordered-table">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>address</th>
+                    <th>birthday</th>
+                    <th>mark</th>
+                    <th>modify</th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: UserInfos">
+
+                <tr>
+                    <th data-bind="text: $index()+1" scope="row"></th>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: age"></td>
+                    <td data-bind="text: address"></td>
+                    <td data-bind="text: birthday"></td>
+                    <td data-bind="text: mark"></td>
+                    <td data-bind="text: modify"></td>
+                    <td><input type="button" value="删除" data-bind="click:$root.DeleteUser" /></td>
+                    <td>@Html.ActionLink("查看", "AddData", "AddData")</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <div class="pageing_ul">
+            <div  >
+                <span>总记录数：</span><span  data-bind="text:$root.p_TotalRecord()"></span>
+                <span>总页数：</span><span data-bind="text:$root.p_TotalPage()"></span>
+                <span>当前第</span>&nbsp;<span data-bind="text:$root.p_CurrenPageIndex()"></span><span>&nbsp;页</span>
+            </div>
+            <ul> 
+                <li><a data-bind="visable:$root.p_CurrenPageIndex()==1 , click:$root.EndPage">末页</a></li>
+                <li><a data-bind="visable:$root.p_CurrenPageIndex()!=2,click:function(){$root.GotoPage($root.p_CurrenPageIndex())},text:$root.p_CurrenPageIndex()+2">3</a></li>
+                <li><a data-bind="visable:$root.p_CurrenPageIndex()!=1,click:function(){$root.GotoPage($root.p_CurrenPageIndex()+2)},text:$root.p_CurrenPageIndex()+1">2</a></li>
+                <li><a data-bind="visable:$root.p_CurrenPageIndex()!=1,click:function(){$root.GotoPage($root.p_CurrenPageIndex())},text:$root.p_CurrenPageIndex()">1</a></li>
+                <li><a data-bind="visable:$root.p_CurrenPageIndex()!=1,click:$root.FirstPage">首页</a></li>
+            </ul>
+        </div>
+    </div>
+</fieldset>

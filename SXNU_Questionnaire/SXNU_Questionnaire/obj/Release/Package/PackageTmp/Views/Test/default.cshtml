@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "default";
+}
+      
+    <fieldset>
+        <legend>添加数据</legend>
+
+        <h1>hello mvc bundle</h1>
+
+        <div class="float-left">
+            <p class="site-title">@Html.ActionLink("点击回到主页-header", "Index", "Test")</p>
+        </div>
+        <div class="float-right" style="margin-left:60px">
+            <nav>
+                <ul id="menu">
+                    <li>@Html.ActionLink("添加数据", "AddData", "Test")</li>
+                    <li>@Html.ActionLink("显示数据", "ShowData", "Test")</li>
+                    <li>@Html.ActionLink("联系方式", "Contact", "Test")</li>
+                    <li>@Html.ActionLink("导出数据", "DownFile", "Test")</li>
+                    <li>@Html.ActionLink("网页倒计时效果", "Countdown", "Test")</li>
+                    <li>@Html.ActionLink("验证码", "Yzm", "Test")</li>
+                    
+                </ul>
+            </nav>
+            <form action="/Test/AddData_DB" method="post">
+                <ul style="list-style:none">
+                    <li>
+                        <label>用户名：</label>
+                        <input type="text" data-bind="value:name" />
+                    </li>
+                    <li>
+                        <label>年龄：</label>
+                        <input type="text" data-bind="value:age" />
+                    </li>
+                    <li>
+                        <label>地址：</label>
+                        <input type="text" data-bind="value:address" />
+                    </li>
+                    <li>
+                        <label>生日：</label>
+                        <input type="text" data-bind="value:birthday" />
+                    </li>
+                    <li>
+                        <label>备注：</label>
+                        <input type="text" data-bind="value:mark" />
+                    </li>
+                    <li>
+                        <label>验证码：</label>
+                        <input type="text" data-bind="value:mark" />
+                        <img alt="点击刷新验证码" title="点击刷新验证码" onclick="Yzm()" id="verifyImg" src="/Test/Yzm" />
+                    </li>
+                </ul>
+
+                <button type="submit" value="提交">提交</button>
+
+            </form>
+          
+        </div>
+        <script type="text/javascript">
+            function Yzm() {
+                $("#verifyImg").attr("src", "/Test/Yzm?time=" + (new Date()).getTime());
+            }
+        </script>
+     @*<input type="button" value="导出数据" data-bind="click:$root.Add_Data" />*@</fieldset>
+ 

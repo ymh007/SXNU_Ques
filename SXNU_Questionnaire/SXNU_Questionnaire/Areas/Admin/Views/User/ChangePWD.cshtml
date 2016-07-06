@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "修改密码";
+    ViewBag.flgStyle = "a";
+}
+@Styles.Render("~/js/admin/Page/account")
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_AccountManage($);
+        ko.applyBindings(pageModel, $("#body")[0]);
+
+    });
+</script>
+<div class="right p-w92">
+    <div class="admin_name admin_zi">个人信息 -- <span>密码修改</span></div>
+    <div class="admin_frame h-400">
+        <div class="m-b15">
+            <div class="inf_left w-140"><span class="ind_red">*</span> 输入旧密码：</div>
+            <input type="" value="请输入旧密码" class="inf_text w-450 left" />
+            <div class="left m-l15 ind_wrong"><span><img src="~/Content/images/admin/wrong.jpg"></span>不能为空</div>
+            <div class="clear"></div>
+        </div>
+        <div class="m-b15">
+            <div class="inf_left w-140"><span class="ind_red">*</span> 输入新密码：</div>
+            <input type="" value="请输入新密码" class="inf_text w-450" />
+        </div>
+        <div class="m-b15">
+            <div class="inf_left w-140"><span class="ind_red">*</span> 再次输入密码：</div>
+            <input type="" value="请再次输入密码" class="inf_text w-450" />
+        </div>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="提 交" class="a_red w-120" />
+        </div>
+    </div>
+</div>

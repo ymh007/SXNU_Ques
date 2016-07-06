@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "通知管理";
+    ViewBag.flgStyle = "n";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_NoticeManage($);
+        ko.applyBindings(pageModel, $("#ko_notice")[0]);
+
+    });
+</script>
+<div class="right p-w92" id="ko_notice">
+    <div class="admin_name admin_zi">通知管理 -- <span>通知管理列表</span></div>
+    <div class="admin_frame min_h">
+        <div class="m-b30 m-t20">
+            <div class="inf_left w-80">数据查询：</div>
+            <input type="" value="请输通知标题" class="inf_text w-385 left" data-bind="value:SearchValue" />
+            <input type="submit" value="查询" class="a_red_min w-86 left m-t3 m-l20" data-bind="click:SearchNotice" />
+            <div class="clear"></div>
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
+            <tr>
+                <td><b>通知标题</b></td>
+                <td class="p-w20"><b>发布时间</b></td>
+                <td class="p-w20"><b>操作</b></td>
+            </tr>
+        </table>
+        <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list"> 
+            <tbody data-bind="foreach: NoticeList">
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
+                    <td data-bind="text: no_Title">有关员工满意度调查问卷通知</td>
+                    <td class="p-w20" data-bind="text: no_PublicTime">2016/03/08</td>
+                    <td class="p-w20">
+                        <span class="ico vol_ico3 m-r20"><a data-bind="attr:{href:'/Admin/Notice/ModifyNotice?ID='+no_ID}">修改</a></span>
+                        <span class="ico_red vol_ico4"><a href="#" data-bind="click:$root.DeleteNotice">删除</a></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="waiks">
+        <ul class="paging">
+            <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=0,click:$root.Provider">上一页</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=0,text:$root.am_CurrenPageIndex(),click:function(){$root.GotoPage($root.am_CurrenPageIndex()-1)} ">1</a></li>
+            <li><a class="a_active" data-bind="text:$root.am_CurrenPageIndex()+1">2</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),text:$root.am_CurrenPageIndex()+2,click: function(){ $root.GotoPage($root.am_CurrenPageIndex()+1) }  ">3</a></li>
+            <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),click:$root.NextPage">下一页</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>

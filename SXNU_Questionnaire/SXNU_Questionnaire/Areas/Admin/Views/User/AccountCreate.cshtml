@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutQues.cshtml";
+    ViewBag.Title = "AccountCreate";
+    ViewBag.flgStyle = "a";
+}
+ 
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_AccountManage($);
+        ko.applyBindings(pageModel, $("#ko_notice")[0]);
+    });
+</script> 
+ 
+
+<div class="right p-w92" id="ko_notice">
+    <div class="admin_name admin_zi">账号管理 -- <span>创建账号</span></div>
+    <div class="admin_frame h-400">
+        <div class="m-b15 m-t20">
+            <div class="inf_left w-100"><span class="ind_red">*</span> 用户名：</div>
+            <input type="" value="请输入用户名" class="inf_text w-450 left" data-bind="value:userName,event: { blur: $root.CheckUserIsExist }" maxlength="12" />
+            <div class="left m-l15 ind_wrong" style="display:none" data-bind="visible:userName_vis"><span ><img src="~/Content/images/admin/wrong.jpg"></span><!--ko text: userName_error_des--><!--/ko--></div>
+            <div class="clear"></div>
+        </div>
+        <div class="m-b15">
+            <div class="inf_left w-100"><span class="ind_red">*</span> 邮箱：</div>
+            <input type="" value="请输入邮箱" class="inf_text w-450 left" data-bind="value:userEmail" maxlength="30" />
+            <div class="left m-l15 ind_wrong" style="display:none" data-bind="visible:userEmail_vis"><span><img src="~/Content/images/admin/wrong.jpg"></span><!--ko text: userEmail_error_des--><!--/ko--></div>
+            <div class="clear"></div> 
+        </div>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="提 交" data-bind="click:CreateAccount" class="a_red w-120" />
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

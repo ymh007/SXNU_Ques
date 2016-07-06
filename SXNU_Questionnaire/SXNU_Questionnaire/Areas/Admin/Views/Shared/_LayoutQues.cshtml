@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>陕师大-智能测评系统</title>
+    <meta name="keywords" content="{$SEO['index_keyword']}">
+    <meta name="description" content="{$SEO['index_description']}">
+    @Styles.Render("~/Content/admin/PageCss")
+    @Styles.Render("~/Content/QuesCss")
+    
+    @Scripts.Render("~/js/Common")
+    @Scripts.Render("~/js/admin/Page/ques")
+</head>
+
+<body class="admin">
+
+    <div class="admin_header p-l35">
+        <div class="left p-t10 p-b8 "><img src="~/Content/images/admin/admin_logo1.png"></div>
+        <div class="right admin_out">
+            <ul>
+                <li><a href="/admin/User/ChangePWD"><img src="~/Content/images/admin/ico4.png"></a></li>
+                <li><a href="#"><img src="~/Content/images/admin/ico5.png"></a></li>
+            </ul>
+        </div>
+        <div class="right admin_tele m-t22 m-r25">13579246810</div>
+
+        <div class="clear"></div>
+    </div>
+    <div class="left admin_left p-w8">
+        <div class="menu">
+            <ul>
+                    <li class="menu_hover">
+                        <a class="hide p-t25 p-b25 font_18" href="#"><div class="m-b20"><img src="~/Content/images/admin/ico1.png"></div>问卷管理</a>
+                        <ul>
+                            <li><a href="/admin/Question/Step1?ID=0" title="#">创建问卷</a></li>
+                            <li><a href="/admin/Question/QuesList" title="#">问卷管理列表</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="hide p-t25 p-b25 font_18" href="/admin/User/AccountManage"><div class="m-b20"><img src="~/Content/images/admin/ico2.png"></div>账号管理</a>
+                    </li>
+                    <li>
+                        <a class="hide p-t25 p-b25 font_18" href="/admin/Notice/CreateNotice"><div class="m-b20"><img src="~/Content/images/admin/ico3.png"></div>通知管理</a>
+                    </li> 
+            </ul>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+
+</html>

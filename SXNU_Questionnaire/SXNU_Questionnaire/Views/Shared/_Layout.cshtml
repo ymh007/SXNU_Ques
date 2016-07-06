@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>陕师大-智能测评系统</title>
+        <meta name="keywords" content="{$SEO['index_keyword']}">
+        <meta name="description" content="{$SEO['index_description']}">
+        @Scripts.Render("~/js/Common")
+        @Scripts.Render("~/js/Page")
+        @Styles.Render("~/Content/PageCss")
+        <script type="text/javascript">
+                $(function () {
+                    var pageModel = new SXNU_ViewModel_Index($);
+                    ko.applyBindings(pageModel, $("#body")[0]);
+
+                });
+        </script> 
+    </head>
+    <body >
+        
+        <div class="header">
+            <div class="wrapper p-t5 p-b5"><img src="~/Content/images/logo.jpg"></div>
+        </div>
+        <div class="wrapper">
+            <div class="left w-30 m-t18"><img src="~/Content/images/home.jpg"></div>
+            <div class="left w-630 nav m-t3">
+                <ul>
+                    @if (ViewBag.flgStyle == "index")
+                    {
+                        <li><a class="nav_hover" href="/Home/Index">首页</a></li>
+                        <li><a href="/Ques/Ques">问卷中心</a></li>
+                        <li><a  href="/Notice/Notice">通知中心</a></li>
+                    }else if(ViewBag.flgStyle == "ques")
+                    {
+                        <li><a href="/Home/Index">首页</a></li>
+                        <li><a class="nav_hover" href="/Ques/Ques">问卷中心</a></li>
+                        <li><a  href="/Notice/Notice">通知中心</a></li>
+                    }else if(ViewBag.flgStyle == "note")
+                    {
+                        <li><a href="/Home/Index">首页</a></li>
+                        <li><a href="/Ques/Ques">问卷中心</a></li>
+                        <li><a  class="nav_hover" href="/Notice/Notice">通知中心</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="right search_k m-t11"><img class="left m-r10" src="~/Content/images/sec.jpg"><input class="w-270 search" value="请输入关键字"></div>
+            <div class="clear"></div>
+        </div>
+        
+         @*页面内容显示区域*@
+
+            @RenderBody()
+
+            @RenderSection("scripts", required: false)
+
+        <div class="foot_bj">
+            <div class="wrapper p-t15 p-b15">
+                <div class="left">
+                    <li><span class="p-r25">雁塔校区</span>地址：西安市雁塔区长安南路199号</li>
+                    <li><span class="p-r25">长安校区</span>地址：西安市长安区西长安街620号</li>
+                </div>
+                <div class="right cen_rig">@Html.Raw("@陕西师范大学")<br>陕ICP备05001611 总机：86-29-85308114</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </body>
+    </html>

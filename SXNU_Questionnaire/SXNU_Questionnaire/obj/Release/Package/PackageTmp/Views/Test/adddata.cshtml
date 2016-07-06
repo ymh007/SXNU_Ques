@@ -1,0 +1,31 @@
+﻿
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+<fieldset>
+    <legend>添加数据</legend>
+    <ul style="list-style:none">
+        <li>
+            <label>用户名：</label>
+            <input type="text" data-bind="value:name" />
+        </li>
+        <li>
+            <label>年龄：</label>
+            <input type="text" data-bind="value:age" />
+        </li>
+        <li>
+            <label>地址：</label>
+            <input type="text" data-bind="value:address" />
+        </li>
+        <li>
+            <label>生日：</label>
+            <input type="text" data-bind="value:birthday" />
+        </li>
+        <li>
+            <label>备注：</label>
+            <input type="text" data-bind="value:mark" />
+        </li>
+    </ul>
+    <input type="button" value="添加" data-bind="click:$root.Add_Data" />
+</fieldset>

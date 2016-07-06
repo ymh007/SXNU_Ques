@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="wrapper wrapper-content  animated fadeInRight" style="margin-left:100px">
+    <style type="text/css">
+        h1 {
+            font-family: "微软雅黑";
+            font-size: 40px;
+            margin: 20px 0;
+            border-bottom: solid 1px #ccc;
+            padding-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .time-item strong {
+            background: #C71C60;
+            color: #fff;
+            line-height: 49px;
+            font-size: 36px;
+            font-family: Arial;
+            padding: 0 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        #day_show {
+            float: left;
+            line-height: 49px;
+            color: #c71c60;
+            font-size: 32px;
+            margin: 0 10px;
+            font-family: Arial,Helvetica,sans-serif;
+        }
+
+        .item-title .unit {
+           
+            line-height: 49px;
+            font-size: 24px;
+            padding: 0 10px;
+            float: left;
+        }
+        
+    </style>
+    
+    <h2>网页上的倒计时</h2>
+    <button data-bind="click: $root.StopTime">停止计时</button>
+    <button data-bind="click: $root.StartTime">重新开始计时</button>
+    <div class="time-item">
+        <strong id="hour_show">0时</strong>
+        <strong id="minute_show">0分</strong>
+        <strong id="second_show">0秒</strong>
+    </div>
+    @*<div class="time-item">
+        <strong id="hour_show1">0时</strong>
+        <strong id="minute_show1">0分</strong>
+        <strong id="second_show1">0秒</strong>
+    </div>*@
+    <div class="ibox">
+        <div>
+            <fieldset style="text-align:left">
+                <legend>上传</legend>
+                <div>@Html.ActionLink("导出压缩附件", "Down_ZIP_File", "Test") </div><br />
+                <div>@Html.ActionLink("导出 Excel", "Down_Excle", "Test") </div><br />
+                <table>
+                    <tr>
+                        <td>
+                            <form action="/Image/FileUpload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="filename" id="file1" /> <input type="submit" value="Submit" />
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>图片预览</div>
+                            <img id="img1" style="height:200px;width:160px;background-color:aqua" />
+                            <br />
+                            <span id="fn"></span>&nbsp;&nbsp;<span id="fs"></span>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <form action="/Image/MultiUpload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="filename" data-bind="value:up1" id="file1" />
+                        <input type="file" name="filename" data-bind="value:up2" id="file2" />
+                        <input type="file" name="filename" data-bind="value:up3" id="file3" />
+                        <input type="file" name="filename" data-bind="value:up4" id="file4" />
+                        <input type="submit" data-bind="click:validate" value="MulitUploadFiles" />
+                    </form>
+                    <input type="radio" value="111" checked="checked" />
+                    <input type="checkbox" checked="checked" />
+                    <input type="text" />
+                    <a href="http://img4.imgtn.bdimg.com/it/u=4236942158,2307642402&fm=21&gp=0.jpg">点击查看视频</a><br />
+
+                    <a href="/Test/ShowData">分页</a>
+                    @*@using (Html.BeginForm("MultiUpload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="file" name="filename" id="file1" />
+                <input type="file" name="filename" id="file2" />
+                <input type="file" name="filename" id="file3" />
+                <input type="file" name="filename" id="file4" />
+                <input type="submit" value="MulitUploadFiles" />
+            }*@
+                </div>
+                @*<div>
+            @using (Html.BeginForm("FileUpload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <text>选择上传文件：</text><input name="file" type="file" id="file" />
+                <br />
+                <br />
+                <input type="submit" name="Upload" value="Upload" />
+            }
+        </div>*@
+            </fieldset>
+        </div>
+        <br />
+
+       
+    </div>
+    <div class="jqGrid_wrapper">
+        <table id="gridTable"></table>
+    </div>
+</div>

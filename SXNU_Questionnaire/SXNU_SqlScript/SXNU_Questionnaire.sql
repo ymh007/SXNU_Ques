@@ -1,0 +1,245 @@
+﻿USE [master]
+GO
+/****** Object:  Database [SXNU_Questionnaire]    Script Date: 2016/6/30 14:06:50 ******/
+CREATE DATABASE [SXNU_Questionnaire]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'SXNU_Questionnaire', FILENAME = N'G:\sqlServer2012\MSSQL11.MSSQLSERVER\MSSQL\DATA\SXNU_Questionnaire.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'SXNU_Questionnaire_log', FILENAME = N'G:\sqlServer2012\MSSQL11.MSSQLSERVER\MSSQL\DATA\SXNU_Questionnaire_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [SXNU_Questionnaire].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET RECOVERY FULL 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET  MULTI_USER 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'SXNU_Questionnaire', N'ON'
+GO
+USE [SXNU_Questionnaire]
+GO
+/****** Object:  Table [dbo].[AccountManage]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[AccountManage](
+	[am_ID] [int] IDENTITY(1,1) NOT NULL,
+	[am_LoginUser] [varchar](50) NOT NULL,
+	[am_PWD] [varchar](20) NOT NULL,
+	[am_Email] [varchar](50) NOT NULL,
+	[am_Name] [nvarchar](50) NULL,
+	[am_Phone] [varchar](11) NULL,
+	[am_Status] [varchar](10) NOT NULL,
+	[am_CreateTime] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountManage] PRIMARY KEY CLUSTERED 
+(
+	[am_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Answer]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Answer](
+	[an_ID] [int] IDENTITY(1,1) NOT NULL,
+	[an_wtID] [int] NOT NULL,
+	[an_Result] [nvarchar](500) NULL,
+ CONSTRAINT [PK_Answer] PRIMARY KEY CLUSTERED 
+(
+	[an_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[AnswerUserInfo]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AnswerUserInfo](
+	[au_ID] [int] IDENTITY(1,1) NOT NULL,
+	[au_wjID] [int] NOT NULL,
+	[au_AnswerUserInfo] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_AnswerUserInfo] PRIMARY KEY CLUSTERED 
+(
+	[au_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Notice]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Notice](
+	[no_ID] [int] IDENTITY(1,1) NOT NULL,
+	[no_Title] [nvarchar](100) NOT NULL,
+	[no_Content] [nvarchar](3000) NOT NULL,
+	[no_PublicTime] [datetime] NOT NULL,
+	[no_IsExpired] [varchar](10) NOT NULL,
+ CONSTRAINT [PK_Notice] PRIMARY KEY CLUSTERED 
+(
+	[no_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[SystemSetting]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[SystemSetting](
+	[ss_ID] [int] IDENTITY(1,1) NOT NULL,
+	[ss_Title] [nvarchar](100) NULL,
+	[ss_Value] [nvarchar](100) NULL,
+	[ss_Length] [int] NULL,
+	[ss_IsRequired] [char](5) NULL,
+	[ss_FieldType] [varchar](100) NOT NULL,
+	[ss_ModifyTime] [datetime] NOT NULL,
+	[ss_ModifyUser] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_SystemSetting] PRIMARY KEY CLUSTERED 
+(
+	[ss_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[WJ]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[WJ](
+	[wj_ID] [int] IDENTITY(1,1) NOT NULL,
+	[wj_ProjectSource] [nvarchar](100) NULL,
+	[wj_Number] [varchar](20) NOT NULL,
+	[wj_Sponsor] [varchar](50) NOT NULL,
+	[wj_Time] [varchar](5) NOT NULL,
+	[wj_Title] [nvarchar](200) NULL,
+	[wj_BeginPic] [nvarchar](50) NULL,
+	[wj_BeginBody] [nvarchar](max) NULL,
+	[wj_EndBody] [nvarchar](max) NULL,
+	[wj_PageSize] [varchar](5) NULL,
+	[wj_PublishTime] [datetime] NULL,
+	[wj_Status] [nvarchar](10) NULL,
+	[wj_ValidStart] [date] NULL,
+	[wj_ValidEnd] [date] NULL,
+	[wj_BaseInfo] [nvarchar](max) NULL,
+ CONSTRAINT [PK_WJ] PRIMARY KEY CLUSTERED 
+(
+	[wj_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[WT]    Script Date: 2016/6/30 14:06:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[WT](
+	[wt_ID] [int] IDENTITY(1,1) NOT NULL,
+	[wt_WJID] [int] NOT NULL,
+	[wt_PID] [int] NOT NULL,
+	[wt_LimitTime] [int] NULL,
+	[wt_Type] [nvarchar](20) NOT NULL,
+	[wt_Problem] [nvarchar](400) NOT NULL,
+	[wt_Options] [nvarchar](400) NULL,
+	[wt_IsAnswer] [varchar](2) NOT NULL,
+	[wt_LogicRelated] [nvarchar](100) NULL,
+ CONSTRAINT [PK_WT] PRIMARY KEY CLUSTERED 
+(
+	[wt_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+USE [master]
+GO
+ALTER DATABASE [SXNU_Questionnaire] SET  READ_WRITE 
+GO
