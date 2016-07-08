@@ -1,11 +1,11 @@
 ﻿var SXNU_ViewModel_Ques1 = function ($, currentDom) {
-    var sxnu = currentDom || this; 
+    var sxnu = currentDom || this;
     //====== 开始step2=======================
     sxnu.ControlsType = ko.observableArray(["文本框", "单选按钮", "下拉菜单"]);
-    sxnu.EnumControlsType={
-        wbk:"文本框",
-        dxan:"单选按钮",
-        xlcd:"下拉菜单"
+    sxnu.EnumControlsType = {
+        wbk: "文本框",
+        dxan: "单选按钮",
+        xlcd: "下拉菜单"
     }
     sxnu.wj_ID = ko.observable(0);
     sxnu.Temp_User = ko.observable();
@@ -42,8 +42,8 @@
         });
     }
 
-    
-   
+
+
 
     sxnu.InvaildStr = function (val) {
         var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
@@ -52,17 +52,17 @@
         }
         return false;
     }
-    sxnu.IsNumber=function(val){
+    sxnu.IsNumber = function (val) {
         var patrn = /^\+?[1-9][0-9]*$/;
         if (patrn.test(val)) {
             return true;
         }
         return false;
     }
-  
-  
 
-    
+
+
+
     sxnu.UploadImg = function () {
         $("#FrontCover").click();
     }
@@ -86,11 +86,11 @@
     }
 
 
-    sxnu.PageInit = function () { 
+    sxnu.PageInit = function () {
         $("#ValidStart").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#ValidEnd").datepicker({ dateFormat: 'yy-mm-dd' });
         sxnu.wj_ID($("#WJ_ID").val());
-        sxnu.LoadWJ(); 
+        sxnu.LoadWJ();
         sxnu.ViewImg();
     }
     sxnu.PageInit();
@@ -99,7 +99,7 @@
 }
 var SXNU_ViewModel_Ques2 = function ($, currentDom) {
     var sxnu = currentDom || this;
- 
+
 
     //====== 开始step2=======================
     sxnu.ControlsType = ko.observableArray(["文本框", "单选按钮", "下拉菜单"]);
@@ -228,9 +228,9 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
     sxnu.wj_ID = ko.observable(0);
 
-    
 
-   
+
+
 
     sxnu.InvaildStr = function (val) {
         var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
@@ -245,8 +245,8 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
             return true;
         }
         return false;
-    } 
-   
+    }
+
     sxnu.Submited_Step2 = function () {
         if (!sxnu.Validate_Step2()) {
             alert("输入内容有误！");
@@ -289,11 +289,11 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
 
     sxnu.PageInit = function () {
-   
+
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.LoadWJ();
-        
-        
+
+
     }
     sxnu.PageInit();
 
@@ -302,25 +302,24 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
 var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     var sxnu = currentDom || this;
-    sxnu.isProject_QA = ko.observable(false);
+    sxnu.wj_ID = ko.observable(0);
+    sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi"];   //视频格式：flv、mp4、avi格式，最大支持5M)
 
 
-    sxnu.userName = ko.observable();
-    sxnu.userEmail = ko.observable();
-    sxnu.userName_error_des = ko.observable();
-    sxnu.userEmail_error_des = ko.observable();
-    sxnu.userName_vis = ko.observable(false);
-    sxnu.userEmail_vis = ko.observable(false);
 
-    //====== 开始step2=======================
-    sxnu.ControlsType = ko.observableArray(["文本框", "单选按钮", "下拉菜单"]);
-    sxnu.EnumControlsType = {
-        wbk: "文本框",
-        dxan: "单选按钮",
-        xlcd: "下拉菜单"
+    sxnu.stType = {
+        dx: "单选题",
+        dux: "多选题",
+        wd: "问答题",
+        zh: "组合题",
+        bg: "表格题"
     }
 
-    sxnu.s2_DataArray = ko.observableArray();
+
+
+
+
 
     sxnu.bim = function (title, type, rule, ck) {
         this.id = "";
@@ -418,39 +417,64 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
     }
 
-    sxnu.s2_DataArray.push(new sxnu.bim("字段1111", "文本框", "11", "0"));
-    
- 
 
 
-    // ======结束step2========================
+    //================== 单选题  开始==========
+    sxnu.title_model = function (title, pic, vido) {
+        this.item = item;
+        this.pic = pic;
+        this.vido = vido;
+    }
+    sxnu.item_model = function (item, fz) {
+        this.item = ko.observable(item);
+        this.fz = ko.observable(fz);
+        this.pv = ko.observableArray();
+    }
+
+
+
+    sxnu.Title = ko.observable();
+    sxnu.Title_pic_vido = ko.observableArray();
+    sxnu.Time = ko.observable(0);
+
+    sxnu.Item = ko.observableArray();
+    sxnu.other = ko.observableArray();
+
+
+    sxnu.Save_dx = function () {
+        $.ajax("/Admin/Question/SubmitedStep3", { async: true, type: "POST", cache: false, data: { name: obj.name, fileSize: obj.size }, dataType: "json", }).then(function (result) {
+            if (result.IsSucceff) {
+                alert("ss");
+
+            } else {
+
+            }
+        }).fail(function () {
+            alert("提交失败！");
+        });
+    }
+
+    //==================单选题   结束===========
+
+
+
+    sxnu.initdx = function () {
+
+    }
 
 
 
 
 
-
-
-    sxnu.wj_ID = ko.observable(0);
 
     sxnu.Temp_User = ko.observable();
     sxnu.SearchValue = ko.observable("");
     sxnu.ValidStart = ko.observable();
     sxnu.ValidEnd = ko.observable();
 
-    
 
-  
 
-    sxnu.Submited_Step2 = function () {
-       
 
-    }
-    sxnu.Submited_Step3 = function () {
-        window.location.href = "/Admin/Question/Step4";
-    }
-
-   
 
     sxnu.ViewImg = function () {
         if (!sxnu.Validate_Step2()) {
@@ -473,7 +497,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         });
 
     }
-  
+
 
     sxnu.InvaildStr = function (val) {
         var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
@@ -489,7 +513,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         }
         return false;
     }
-     
+
     sxnu.ValidateData = function (user, email) {
         var flg = true;
         var EmailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -519,9 +543,141 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     }
 
     //  上传封面图片
-    sxnu.UploadImg = function () {
-        $("#FrontCover").click();
+    sxnu.title_upload = function () {
+
     }
+    sxnu.DelTitleFile = function (val) {
+        var filePath=sxnu.wj_ID()+"/"+val.FileName
+        $.ajax("/Admin/Question/DeleteFile", { async: true, type: "GET", cache: false, data: { FilePath: filePath }, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                //alert("删除成功");
+                sxnu.Title_pic_vido.remove(val);
+            } else {
+                alert("删除失败");
+            }
+        }) 
+
+        
+    }
+    sxnu.DelItemFile = function (val) {
+
+    }
+    sxnu.Add_Item = function () {
+        sxnu.Item.push(new sxnu.item_model("", 0));
+    }
+
+    sxnu.showTitlefj = function () {
+        $("input[name='titleUpload']").on("change", function () {
+            sxnu.Title_pic_vido.removeAll();
+            var files = this.files;
+            var fileSize = 5 * 1024 * 1024;
+
+            //$.ajax("/Admin/Question/SubmitedStep3", { async: true, type: "GET", cache: false, contentType: "multipart/form-data" }).then(function (result) {
+            //    if (result.IsSucceff) {
+
+
+            //    } else {
+
+            //    }
+            //}).fail(function () {
+            //    alert("提交失败！");
+            //});
+            for (var i = 0 ; i < files.length ; i++) {
+                if (files[i]) {
+                    var obj = files[i];
+                    fileExt = obj.name.substr(obj.name.lastIndexOf(".")).toLowerCase();
+                    if ($.inArray(fileExt, sxnu.g_picExt) != -1 && obj.size < fileSize) {
+                        sxnu.Title_pic_vido.push({ n: obj.name, t: "p" });
+                    }
+                    if ($.inArray(fileExt, sxnu.g_vidoExt) != -1 && obj.size < fileSize) {
+                        sxnu.Title_pic_vido.push({ n: obj.name, t: "v" });
+                    }
+                }
+            }
+        });
+    }
+
+
+
+    sxnu.InitUploadContron = function () {
+        var $ = jQuery,
+        $list = $('#fileList'),
+        // 优化retina, 在retina下这个值是2
+        ratio = window.devicePixelRatio || 1,
+        // Web Uploader实例
+        uploader;
+        uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            duplicate:true,
+            //chunked: true,
+            //chunkSize: 100 * 1024 * 1024,
+            //fileSizeLimit: 500 * 1024 * 1024,    // 200 M
+            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
+            disableGlobalDnd: true,
+            formData: {
+                wjID: $("#WJ_ID").val(),
+
+            },
+            // 文件接收服务端。
+            server: '/Admin/Question/SubmitedStep3',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+            //只允许选择图片
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls'
+                //mimeTypes: 'image/*'
+            }
+
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+           
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+            fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+            if ($.inArray(fileExt, sxnu.g_picExt) != -1 ) {
+                sxnu.Title_pic_vido.push({ n: file.name, t: "p",FileName:response.fileName });
+            }
+            if ($.inArray(fileExt, sxnu.g_vidoExt) != -1 ) {
+                sxnu.Title_pic_vido.push({ n: file.name, t: "v",FileName:response.fileName  });
+            }
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on('uploadError', function (file) {
+            var $li = $('#' + file.id),
+                $error = $li.find('div.error');
+            // 避免重复创建
+            if (!$error.length) {
+                $error = $('<div  ></div>').appendTo($li);
+            }
+            $error.text('上传失败');
+        });
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on('uploadComplete', function (file) {
+
+        });
+        //所有文件上传完毕
+        uploader.on("uploadFinished", function () {
+            //提交表单
+
+        });
+        
+         
+
+    }
+
 
     sxnu.LoadWJ = function () {
         if (sxnu.wj_ID() != 0) {
@@ -543,17 +699,20 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
 
     sxnu.PageInit = function () {
+        $(".type ul li").click(function () {
+            $(".type ul li").removeClass("type_hover");
+            $(this).addClass("type_hover");
+            var Index = $(this).index();
+            $(".ti").hide();
+            $(".ti:eq(" + Index + ")").show();
 
-        //获取修改数据
-        sxnu.userName($("#m_loginname").val());
-        sxnu.userEmail($("#m_email").val());
-        sxnu.Temp_User($("#m_loginname").val());
-        $("#ValidStart").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#ValidEnd").datepicker({ dateFormat: 'yy-mm-dd' });
+        })
+        sxnu.InitUploadContron();
+        sxnu.Item.push(new sxnu.item_model("", 0));
+
+        sxnu.showTitlefj();
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.LoadWJ();
-        //sxnu.GetByPageingData();
-        sxnu.ViewImg();
     }
     sxnu.PageInit();
 

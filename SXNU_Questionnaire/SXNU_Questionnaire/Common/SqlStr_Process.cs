@@ -125,16 +125,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -152,16 +152,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;

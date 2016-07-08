@@ -12,7 +12,7 @@ namespace SXNU_Questionnaire.Common
         /// <summary>
         /// 后台操作是否成功
         /// </summary>
-        public bool IsSucceff { get; set; }
+        public bool IsSuccess { get; set; }
 
         public string ErrorMsg { get; set; }
 

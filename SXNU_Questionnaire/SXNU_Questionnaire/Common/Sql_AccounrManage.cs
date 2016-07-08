@@ -33,16 +33,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -79,16 +79,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -127,16 +127,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -151,11 +151,11 @@ namespace SXNU_Questionnaire.Common
             try
             {
                 js.IsExist = SqlHelper.Exists(SqlStr, commandParameters);
-                js.IsSucceff = true;
+                js.IsSuccess = true;
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -192,16 +192,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -239,16 +239,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -264,16 +264,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -288,16 +288,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -379,18 +379,18 @@ namespace SXNU_Questionnaire.Common
                  
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                     js.ReturnADD_ID =int.Parse(commandParameters[14].Value.ToString());
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 } 
                  
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = true;
+                js.IsSuccess = true;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -443,16 +443,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;
@@ -478,16 +478,16 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSucceff = true;
+                    js.IsSuccess = true;
                 }
                 else
                 {
-                    js.IsSucceff = false;
+                    js.IsSuccess = false;
                 }
             }
             catch (SqlException ex)
             {
-                js.IsSucceff = false;
+                js.IsSuccess = false;
                 js.ErrorMsg = ex.ToString();
             }
             return js;

@@ -53,7 +53,8 @@ namespace SXNU_Questionnaire
            "~/Scripts/admin/login.js"));
             bundles.Add(new ScriptBundle("~/js/admin/Page/ques").Include(
              "~/Scripts/jquery-ui-1.8.24.js",
-             "~/Scripts/jquery.ui.datepicker.js", 
+             "~/Scripts/jquery.ui.datepicker.js",
+              "~/Scripts/webuploader.js",
             "~/Scripts/admin/ques.js"));
            // bundles.Add(new ScriptBundle("~/js/admin/Page/account").Include(
            // "~/Scripts/admin/account.js"));

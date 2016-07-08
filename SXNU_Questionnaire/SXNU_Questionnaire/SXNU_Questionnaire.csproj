@@ -143,6 +143,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Scripts\Admin\Handler1.ashx.cs">
+      <DependentUpon>Handler1.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\NoticeController.cs" />
@@ -300,7 +303,6 @@
     <Content Include="Content\widget\layer\skin\default\loading-2.gif" />
     <Content Include="Content\widget\layer\skin\layer.css" />
     <Content Include="Global.asax" />
-    <Content Include="Generate\question.doc" />
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Home.cshtml" />
@@ -319,6 +321,7 @@
     <Content Include="Areas\Admin\Views\Question\Step4.cshtml" />
     <Content Include="Areas\Admin\Views\Question\AnswerDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutQues.cshtml" />
+    <Content Include="Scripts\Admin\Handler1.ashx" />
     <None Include="Properties\PublishProfiles\ww.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\add_data.js" />
@@ -342,6 +345,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PageJS\index.js" />
+    <Content Include="Scripts\webuploader.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -368,6 +372,7 @@
     <Content Include="Views\Ques\QuesTwoStep.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Generate\" />
     <Folder Include="UploadFiles\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\SystemSetting\" />
