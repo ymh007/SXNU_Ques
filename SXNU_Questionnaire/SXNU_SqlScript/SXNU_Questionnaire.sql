@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [SXNU_Questionnaire]    Script Date: 2016/6/30 14:06:50 ******/
+/****** Object:  Database [SXNU_Questionnaire]    Script Date: 2016/7/12 16:29:45 ******/
 CREATE DATABASE [SXNU_Questionnaire]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -77,7 +77,7 @@ EXEC sys.sp_db_vardecimal_storage_format N'SXNU_Questionnaire', N'ON'
 GO
 USE [SXNU_Questionnaire]
 GO
-/****** Object:  Table [dbo].[AccountManage]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[AccountManage]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,7 +102,7 @@ CREATE TABLE [dbo].[AccountManage](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Answer]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[Answer]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -118,7 +118,7 @@ CREATE TABLE [dbo].[Answer](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AnswerUserInfo]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[AnswerUserInfo]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,7 +134,7 @@ CREATE TABLE [dbo].[AnswerUserInfo](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Notice]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[Notice]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -156,7 +156,7 @@ CREATE TABLE [dbo].[Notice](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[SystemSetting]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[SystemSetting]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +181,7 @@ CREATE TABLE [dbo].[SystemSetting](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[WJ]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[WJ]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,14 +195,14 @@ CREATE TABLE [dbo].[WJ](
 	[wj_Sponsor] [varchar](50) NOT NULL,
 	[wj_Time] [varchar](5) NOT NULL,
 	[wj_Title] [nvarchar](200) NULL,
-	[wj_BeginPic] [nvarchar](50) NULL,
+	[wj_BeginPic] [nvarchar](100) NULL,
 	[wj_BeginBody] [nvarchar](max) NULL,
 	[wj_EndBody] [nvarchar](max) NULL,
 	[wj_PageSize] [varchar](5) NULL,
 	[wj_PublishTime] [datetime] NULL,
 	[wj_Status] [nvarchar](10) NULL,
 	[wj_ValidStart] [date] NULL,
-	[wj_ValidEnd] [date] NULL,
+	[wj_ValidEnd] [date] NOT NULL,
 	[wj_BaseInfo] [nvarchar](max) NULL,
  CONSTRAINT [PK_WJ] PRIMARY KEY CLUSTERED 
 (
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[WJ](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[WT]    Script Date: 2016/6/30 14:06:51 ******/
+/****** Object:  Table [dbo].[WT]    Script Date: 2016/7/12 16:29:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -222,14 +222,15 @@ SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[WT](
 	[wt_ID] [int] IDENTITY(1,1) NOT NULL,
+	[wt_Title] [nchar](1000) NOT NULL,
 	[wt_WJID] [int] NOT NULL,
 	[wt_PID] [int] NOT NULL,
 	[wt_LimitTime] [int] NULL,
 	[wt_Type] [nvarchar](20) NOT NULL,
-	[wt_Problem] [nvarchar](400) NOT NULL,
-	[wt_Options] [nvarchar](400) NULL,
+	[wt_Problem] [nvarchar](1000) NOT NULL,
+	[wt_Options] [nvarchar](4000) NULL,
 	[wt_IsAnswer] [varchar](2) NOT NULL,
-	[wt_LogicRelated] [nvarchar](100) NULL,
+	[wt_LogicRelated] [nvarchar](2000) NULL,
  CONSTRAINT [PK_WT] PRIMARY KEY CLUSTERED 
 (
 	[wt_ID] ASC

@@ -5,7 +5,7 @@
 }
 <script type="text/javascript">
     $(function () {
-        var pageModel = new SXNU_ViewModel_Ques($);
+        var pageModel = new SXNU_ViewModel_Ques4($);
         ko.applyBindings(pageModel, $("#ko_Question")[0]);
     });
 </script>
@@ -34,23 +34,24 @@
         </table>
 
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
-            <tr>
-                <td class="p-w25">
-                    【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                    试题标题试题标题试题标题
-                </td>
-                <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
-                <td class="p-w35">
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                    <span class="ico vol_ico14 m-r20"><a href="#">添加分页</a></span>
+            <tbody data-bind="foreach:$root.s4_DataArray">
+                <tr>
+                    <td class="p-w25" data-bind="text:Title">
+                        【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
+                        试题标题试题标题试题标题
+                    </td>
+                    <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
+                    <td class="p-w35">
+                        <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
+                        <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
+                        <span class="ico vol_ico14 m-r20"><a href="#">添加分页</a></span>
 
-                    <span class="hei vol_ico9 m-r20"><a href="#">取消休息</a></span>
-                    <span class="ico vol_ico15"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialogs" data-mask="1" data-width="640px" href="#">相加关联</a></span>
-                </td>
-                <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
-            </tr>
-            <tr>
+                        <span class="hei vol_ico9 m-r20"><a href="#">取消休息</a></span>
+                        <span class="ico vol_ico15"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialogs" data-mask="1" data-width="640px" href="#">相加关联</a></span>
+                    </td>
+                    <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
+                </tr>
+                @*<tr>
                 <td class="p-w25">
                     【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
                     试题标题试题标题试题标题
@@ -105,8 +106,9 @@
                     <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
                 </td>
                 <td></td>
-            </tr>
-            <table>
+            </tr>*@
+            </tbody>
+            </table>
 
 
                 <div class="w-100 centers m-t40">

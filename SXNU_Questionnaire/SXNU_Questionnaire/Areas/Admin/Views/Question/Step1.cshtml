@@ -13,7 +13,8 @@
 <div class="right p-w92" id="ko_Question">
     <div class="admin_name admin_zi">问卷管理 -- <span>创建问卷</span></div>
     <form action="/Admin/Question/SubmitedStep1" method="post" enctype="multipart/form-data">
-        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" />
+        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
+        <input type="hidden" value="" id="WJ_fm" name="WJ_nfm" />
         <div class="admin_frame min_h">
             <div class="newly">
                 <ul>
@@ -26,7 +27,7 @@
             </div>
             <div class="clear"></div>
             <div class="m-b15 m-t20">
-                <input type="hidden" name="wj_ID" value="0">
+                
                 <div class="inf_left w-130"><span class="ind_red">*</span> 问卷标题：</div>
                 <input type="text"   name="wj_Title" class="inf_text w-450 left" />
                 <div class="clear"></div>

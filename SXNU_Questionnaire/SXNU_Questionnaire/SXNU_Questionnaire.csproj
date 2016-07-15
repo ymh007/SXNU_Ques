@@ -148,6 +148,7 @@
     <Compile Include="Areas\Admin\Controllers\NoticeController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Models\DanXuan.cs" />
     <Compile Include="Areas\Admin\Models\NoticeInfo.cs" />
     <Compile Include="Areas\Admin\Models\UserInfo.cs" />
     <Compile Include="Areas\Admin\Models\QuestionInfo.cs" />

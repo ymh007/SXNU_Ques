@@ -3,14 +3,19 @@
     ViewBag.flgStyle = "q";
     ViewBag.Title = "问卷管理-问卷管理列表";
 }
-
-<div class="right p-w92">
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_QuesList($);
+        ko.applyBindings(pageModel, $("#ko_Question")[0]);
+    });
+</script>
+<div class="right p-w92" id="ko_Question">
     <div class="admin_name admin_zi">问卷管理 -- <span>问卷管理列表</span></div>
     <div class="admin_frame min_h">
         <div class="m-b30 m-t20">
             <div class="inf_left w-80">数据查询：</div>
-            <input type="" value="请输通知标题" class="inf_text w-385 left" />
-            <input type="submit" value="查询" class="a_red_min w-86 left m-t3 m-l20" />
+            <input type="text" class="inf_text w-385 left" data-bind="value:SearchValue" />
+            <input type="button" value="查询" class="a_red_min w-86 left m-t3 m-l20" data-bind="click:$root.Search_WJ" />
             <div class="clear"></div>
         </div>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
@@ -25,21 +30,22 @@
             </tr>
         </table>
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
-            <tr>
-                <td class="p-w18"><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
-                <td class="p-w15">小学科学教程难易度的国际比较</td>
-                <td class="p-w15">2016/03/10--2016/06/12</td>
-                <td class="p-w8">张峰</td>
-                <td class="p-w8">2016/03/08</td>
-                <td class="p-w15">VNFDDFDF58552</td>
-                <td>
-                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                    <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4"><a href="#">删除</a></span>
-                </td>
-            </tr>
-            <tr>
+            <tbody data-bind="foreach:$root.WJ_List">
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
+                    <td class="p-w18"><span class="vol_red m-r5" data-bind="text:'正在处理'">进行中</span><!--ko text: wj_Title--><!--/ko--></td>
+                    <td class="p-w15" data-bind="text:wj_ProjectSource">小学科学教程难易度的国际比较</td>
+                    <td class="p-w15" data-bind="text:wj_ValidStart+'--'+wj_ValidEnd">2016/03/10--2016/06/12</td>
+                    <td class="p-w8" data-bind="text:wj_Sponsor">张峰</td>
+                    <td class="p-w8" data-bind="text:wj_PublishTime">2016/03/08</td>
+                    <td class="p-w15" data-bind="text:wj_Number">VNFDDFDF58552</td>
+                    <td>
+                        <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
+                        <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
+                        <span class="ico vol_ico3 m-r20"><a data-bind="attr: { href: '/admin/Question/Step1?ID='+wj_ID }">修改</a></span>
+                        <span class="ico_red vol_ico4"><a href="#">删除</a></span>
+                    </td>
+                </tr>
+                @*<tr>
                 <td><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
                 <td>小学科学教程难易度的国际比较</td>
                 <td>2016/03/10--2016/06/12</td>
@@ -61,7 +67,7 @@
                 <td>VNFDDFDF58552</td>
                 <td>
                     <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                    <span class="ico vol_ico5 m-r20"><a href ="/admin/Question/AnswerDetails">查看回收数据</a></span>
+                    <span class="ico vol_ico5 m-r20"><a href="/admin/Question/AnswerDetails">查看回收数据</a></span>
                     <span class="ico vol_ico6 m-r20"><a href="#">撤回</a></span>
                 </td>
             </tr>
@@ -78,22 +84,20 @@
                     <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
                     <span class="ico_red vol_ico4"><a href="#">删除</a></span>
                 </td>
-            </tr>
+            </tr>*@
+            </tbody>
         </table>
     </div>
-    <div class="waik">分页</div>
+    <div class="waik">
+        <ul class="paging">
+            <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=0,click:$root.Provider">上一页</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=0,text:$root.am_CurrenPageIndex(),click:function(){$root.GotoPage($root.am_CurrenPageIndex()-1)} ">1</a></li>
+            <li><a class="a_active" data-bind="text:$root.am_CurrenPageIndex()+1">2</a></li>
+            <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),text:$root.am_CurrenPageIndex()+2,click: function(){ $root.GotoPage($root.am_CurrenPageIndex()+1) }  ">3</a></li>
+            <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=($root.am_TotalPage()-1),click:$root.NextPage">下一页</a></li>
+        </ul>
+        <div class="clear"></div>
+
+    </div>
 </div>
-
-
-
-<script language="javascript">
-    window.onload = function showtable() {
-        var tablename = document.getElementById("mytable");
-        var li = tablename.getElementsByTagName("tr");
-        for (var i = 0; i <= li.length; i++) {
-            if (i % 2 == 0) {
-                li[i].style.backgroundColor = "#f7f8fa";
-            } else li[i].style.backgroundColor = "#FFFFFF";
-        }
-    }
-</script>
+ 

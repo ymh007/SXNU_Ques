@@ -30,7 +30,23 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             return View();
         }
-
+        public ActionResult QuesListByPage(QueryModel Q) 
+        {
+            String ResultJson = "";
+            string StrWhere = "";
+            if (!string.IsNullOrEmpty(Q.StrWhere))
+            {
+                //StrWhere = "am_LoginUser　like '%" + Q.StrWhere + "%' or am_Email like '%" + Q.StrWhere + "%'";
+                StrWhere = "wj_Title　like '%" + Q.StrWhere + "%'";
+            }
+            int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
+            int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
+            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
+            int TotalRecords = SqlStr_Process.GetTotalRecord("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere);
+            int TotalPages = TotalRecords / Q.PageSize + (TotalRecords % Q.PageSize == 0 ? 0 : 1);
+            ResultJson = "{\"Data\":" + JsonTool.DtToJson(dt) + ", \"TotalRecords\":" + TotalRecords + ",\"TotalPages\":" + TotalPages + "}";
+            return Content(ResultJson.ToString());
+        }
         public ActionResult Step1(int ID)
         {
             ViewBag.WJ_ID = ID;
@@ -87,7 +103,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
 
             QuestionInfo wj = new QuestionInfo();
-            wj.wj_ID = int.Parse(Request.Form["wj_ID"]);
+            wj.wj_ID = int.Parse(Request.Form["WJ_nID"]);
             wj.wj_Number = SXNU_Questionnaire.Common.Rand.Str(13, true);
             wj.wj_Title = Request.Form["wj_Title"];
             wj.wj_ProjectSource = Request.Form["wj_ProjectSource"];
@@ -95,12 +111,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_ValidStart = Request.Form["wj_ValidStart"];
             wj.wj_ValidEnd = Request.Form["wj_ValidEnd"];
             wj.wj_BeginBody = Request.Form["wj_BeginBody"];
-
-            wj.wj_BeginPic = "fc";
+            wj.wj_BeginPic = Request.Form["WJ_nfm"];
+            
+           
             if (Request.Files.Count > 0)
             {
                 if (Request.Files[0].ContentLength > 0)
                 {
+                    wj.wj_BeginPic = "fc";
                     var file = Request.Files[0];
                     string FileType = Path.GetExtension(file.FileName);
                     wj.wj_BeginPic = wj.wj_BeginPic + FileType;
@@ -168,7 +186,11 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
 
-
+        public ActionResult GetSTBy_WJID(int ID) 
+        {
+            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, "wt_ID", 0, 9999);
+            return Content(JsonTool.DtToJson(dt));
+        }
         public ActionResult SubmitedStep2(QuestionInfo wj)
         {
 
@@ -215,6 +237,41 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             string ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
+
+
+
+        #region =========== 保存试题=============  
+
+        /// <summary>
+        /// 保存单选题  多选
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Save_DanXuan(DanXuan dx) 
+        {
+            dx.wt_LogicRelated = "";
+            dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.Add_DXST(dx);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+        /// <summary>
+        /// 保存试题
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Save_ST(DanXuan dx)
+        {
+            dx.wt_LogicRelated = "";
+            dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.Add_DXST(dx);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        } 
+        #endregion
+
 
 
 

@@ -407,19 +407,19 @@ namespace SXNU_Questionnaire.Common
             JsMessage js = new JsMessage();
             string SqlStr = @" UPDATE [dbo].[WJ]
                            SET [wj_ProjectSource]= @wj_ProjectSource,
-                              ,[wj_Number]      =  @wj_Number,
-                              ,[wj_Sponsor]     =  @wj_Sponsor,
-                              ,[wj_Time]        =  @wj_Time,
-                              ,[wj_Title]       =  @wj_Title,
-                              ,[wj_BeginPic]    =  @wj_BeginPic,
-                              ,[wj_BeginBody]   =  @wj_BeginBody,
-                              ,[wj_EndBody]     =  @wj_EndBody,
-                              ,[wj_PageSize]    =  @wj_PageSize,
-                              ,[wj_PublishTime] =  @wj_PublishTime,
-                              ,[wj_Status]      =  @wj_Status,
-                              ,[wj_ValidStart]  =  @wj_ValidStart,
-                              ,[wj_ValidEnd]    =  @wj_ValidEnd,
-                              ,[wj_BaseInfo]    =  @wj_BaseInfo 
+                              [wj_Number]      =  @wj_Number,
+                              [wj_Sponsor]     =  @wj_Sponsor,
+                              [wj_Time]        =  @wj_Time,
+                              [wj_Title]       =  @wj_Title,
+                              [wj_BeginPic]    =  @wj_BeginPic,
+                              [wj_BeginBody]   =  @wj_BeginBody,
+                              [wj_EndBody]     =  @wj_EndBody,
+                              [wj_PageSize]    =  @wj_PageSize,
+                              [wj_PublishTime] =  @wj_PublishTime,
+                              [wj_Status]      =  @wj_Status,
+                              [wj_ValidStart]  =  @wj_ValidStart,
+                              [wj_ValidEnd]    =  @wj_ValidEnd,
+                              [wj_BaseInfo]    =  @wj_BaseInfo 
                          WHERE [wj_ID]=@wj_ID ";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@wj_ProjectSource",SqlDbType.NVarChar,100){Value=Q.wj_ProjectSource},
@@ -496,5 +496,76 @@ namespace SXNU_Questionnaire.Common
 
 
     }
+
+
+
+    /// <summary>
+    /// 试题管理
+    /// </summary>
+    public class Sql_STManage 
+    {
+
+        /// <summary>
+        /// 添加单选题
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Add_DXST(DanXuan DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" INSERT INTO [dbo].[WT]
+                               ([wt_WJID]
+                               ,[wt_Title]
+                               ,[wt_PID]
+                               ,[wt_LimitTime]
+                               ,[wt_Type]
+                               ,[wt_Problem]
+                               ,[wt_Options]
+                               ,[wt_IsAnswer]
+                               ,[wt_LogicRelated])
+                         VALUES
+                               (@wt_WJID,
+                                @wt_Title,
+                                @wt_PID,
+                                @wt_LimitTime,
+                                @wt_Type, 
+                                @wt_Problem, 
+                                @wt_Options, 
+                                @wt_IsAnswer, 
+                                @wt_LogicRelated)";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@wt_WJID",DX.wt_WJID),
+                new SqlParameter("@wt_Title",DX.wt_Title),
+                new SqlParameter("@wt_PID",DX.wt_PID),
+                new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
+                new SqlParameter("@wt_Type",DX.wt_Type),
+                new SqlParameter("@wt_Problem",SqlDbType.VarChar,400){Value=DX.wt_Problem},
+                new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
+                new SqlParameter("@wt_IsAnswer",SqlDbType.NVarChar,10){Value=DX.wt_IsAnswer},
+                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated}
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                    //js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+    }
+
 
 }

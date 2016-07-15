@@ -65,9 +65,7 @@ namespace SXNU_Questionnaire
            // bundles.Add(new ScriptBundle("~/js/admin/Page/notice").Include(
            //"~/Scripts/admin/notice.js"));
 
-
-
-
+    
             bundles.Add(new StyleBundle("~/Content/PageCss").Include(
                  "~/Content/css/css.css",
                  "~/Content/css/m-p.css",
