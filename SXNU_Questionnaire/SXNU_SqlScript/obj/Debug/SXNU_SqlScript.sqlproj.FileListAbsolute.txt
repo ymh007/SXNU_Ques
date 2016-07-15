@@ -1,0 +1,9 @@
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\bin\Debug\SXNU_SqlScript.dacpac
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\bin\Debug\SXNU_SqlScript.dll
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\bin\Debug\SXNU_SqlScript.pdb
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\Model.xml
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\refactor.xml
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\postdeploy.sql
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\predeploy.sql
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\SXNU_SqlScript.dll
+G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\SXNU_SqlScript.pdb
