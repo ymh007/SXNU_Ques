@@ -5,7 +5,7 @@
 }
 <script type="text/javascript">
     $(function () {
-        var pageModel = new SXNU_ViewModel_Ques3($);
+        var pageModel = new SXNU_ViewModel_sjSub($);
         ko.applyBindings(pageModel, $("#ko_Question")[0]);
         pageModel.InitUploadContron(pageModel.T_itmeID(), 'i');  // 初始化js 上传文件插件
         pageModel.InitUploadContron(pageModel.T_otherID(), 'o');
@@ -40,7 +40,7 @@
         pointer-events: none;
     }
 </style>
-<div class="right p-w92" >
+<div class="right p-w92">
     <div class="admin_name admin_zi">问卷管理 -- <span>创建问卷</span></div>
     <div class="admin_frame min_h p-b30" id="ko_Question">
         <div class="newly">
@@ -54,7 +54,7 @@
         </div>
         <div class="clear"></div>
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
-
+        <input type="hidden" value="@ViewBag.ParentSJ_ID" id="ParentSJ_ID"/>
         <div class="left p-w27 newly_bj">
             <h3 class="h3">添加试题</h3>
             <div class="newly_pad">
@@ -290,7 +290,7 @@
                                     <div class="left m-l5" data-bind="text:n"> </div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
-                                </li> 
+                                </li>
                                 <div class="clear"></div>
                             </ul>
                         </div>
@@ -304,9 +304,9 @@
                         <div class="new_hui m-t10">单位（秒），默认无限制</div>
                         @*<h3 class="m-t10">选项类型：</h3>*@
                         @*<select class="inf_text p-w100 m-t10">
-                            <option>文本框</option>
-                            <option>文本框2</option>
-                        </select>*@
+                                <option>文本框</option>
+                                <option>文本框2</option>
+                            </select>*@
                         <h3 class="m-t10">答题内容长度限制：</h3>
                         <input class="inf_text p-w98 left m-t10" type="text" data-bind="value:Contentlength" maxlength="3">
                         <div class="clear"></div>
@@ -348,7 +348,7 @@
                         <div class="clear"></div>
                         <div class="new_hui m-t10">单位（秒），默认无限制</div>
                         <div class="dati m-t10">点击下面“添加子试题”进行创建单选/多选/问答/表格题型内容信息</div>
-                        <div class="center"><input class="sub w-110 m-t50" type="button" data-bind="click:$root.Save_zh" value="添加子试题"></div>
+                        <div class="center"><input class="sub w-110 m-t50" type="submit" name="" value="添加子试题"></div>
                     </div>
                 </div>
                 <!--表格题-->
@@ -387,7 +387,7 @@
                             <!-- /ko -->
                             <!-- ko if: $index()!=0 -->
                             <input class="inf_text p-w85 left m-t15" type="text" data-bind="value:t"><div class="right m-t25" data-bind="click:$root.del_Title5"><img src="~/Content/images/admin/img13.png"></div>
-                            <!-- /ko -->    
+                            <!-- /ko -->
                         </div>
                         <div class="clear"></div>
                         <h3 class="m-t15 left p-w60">答案选项：</h3>

@@ -26,6 +26,12 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         }
 
 
+        public ActionResult Subsj(int ID) 
+        {
+            ViewBag.ParentSJ_ID = ID;
+            return View();
+        }
+
         public ActionResult QuesList()
         {
             return View();
@@ -267,6 +273,20 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_DXST(dx);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+        /// <summary>
+        /// 保存 组合题返回试题自增ID
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Save_ZHST(DanXuan dx)
+        {
+            dx.wt_LogicRelated = "";
+            dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.Add_ZHST(dx);
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         } 

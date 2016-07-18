@@ -565,6 +565,67 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
+
+        /// <summary>
+        /// 添加单选题
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Add_ZHST(DanXuan DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" INSERT INTO [dbo].[WT]
+                               ([wt_WJID]
+                               ,[wt_Title]
+                               ,[wt_PID]
+                               ,[wt_LimitTime]
+                               ,[wt_Type]
+                               ,[wt_Problem]
+                               ,[wt_Options]
+                               ,[wt_IsAnswer]
+                               ,[wt_LogicRelated])
+                         VALUES
+                               (@wt_WJID,
+                                @wt_Title,
+                                @wt_PID,
+                                @wt_LimitTime,
+                                @wt_Type, 
+                                @wt_Problem, 
+                                @wt_Options, 
+                                @wt_IsAnswer, 
+                                @wt_LogicRelated);SELECT @wj_ID=SCOPE_IDENTITY();";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@wt_WJID",DX.wt_WJID),
+                new SqlParameter("@wt_Title",DX.wt_Title),
+                new SqlParameter("@wt_PID",DX.wt_PID),
+                new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
+                new SqlParameter("@wt_Type",DX.wt_Type),
+                new SqlParameter("@wt_Problem",SqlDbType.VarChar,400){Value=DX.wt_Problem},
+                new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
+                new SqlParameter("@wt_IsAnswer",SqlDbType.NVarChar,10){Value=DX.wt_IsAnswer},
+                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated}
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                    js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
     }
 
 
