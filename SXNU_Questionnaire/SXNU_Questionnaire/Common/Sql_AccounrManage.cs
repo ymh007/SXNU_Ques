@@ -376,17 +376,17 @@ namespace SXNU_Questionnaire.Common
             try
             {
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
-                 
+
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID =int.Parse(commandParameters[14].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
                 }
                 else
                 {
                     js.IsSuccess = false;
-                } 
-                 
+                }
+
             }
             catch (SqlException ex)
             {
@@ -502,7 +502,7 @@ namespace SXNU_Questionnaire.Common
     /// <summary>
     /// 试题管理
     /// </summary>
-    public class Sql_STManage 
+    public class Sql_STManage
     {
 
         /// <summary>
@@ -603,7 +603,8 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wt_Problem",SqlDbType.VarChar,400){Value=DX.wt_Problem},
                 new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
                 new SqlParameter("@wt_IsAnswer",SqlDbType.NVarChar,10){Value=DX.wt_IsAnswer},
-                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated}
+                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated},
+                new SqlParameter("@wj_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
             try
             {
@@ -611,7 +612,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[9].Value.ToString());
                 }
                 else
                 {

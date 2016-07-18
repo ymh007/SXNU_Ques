@@ -35,7 +35,7 @@
 
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.s4_DataArray">
-                <tr>
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
                     <td class="p-w25" data-bind="text:Title">
                         【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
                         试题标题试题标题试题标题
@@ -117,7 +117,7 @@
     </div>
 </div>
 
-<script language="javascript">
+@*<script language="javascript">
 window.onload=function showtable(){
 var tablename=document.getElementById("mytable");
 var li=tablename.getElementsByTagName("tr");
@@ -127,7 +127,7 @@ li[i].style.backgroundColor="#f7f8fa";
 }else li[i].style.backgroundColor="#FFFFFF";
 }
 }
-</script>
+</script>*@
 
 <div id="mydialog">
     <div class="dialog">

@@ -1,4 +1,4 @@
-ï»¿using SXNU_Questionnaire.Areas.Admin.Models;
+using SXNU_Questionnaire.Areas.Admin.Models;
 using SXNU_Questionnaire.Common;
 using System;
 using System.Collections.Generic;
@@ -26,8 +26,10 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Subsj(int ID) 
+        public ActionResult Subsj(int wjID, int ID)
         {
+
+            ViewBag.WJ_ID = wjID;
             ViewBag.ParentSJ_ID = ID;
             return View();
         }
@@ -42,8 +44,8 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             string StrWhere = "";
             if (!string.IsNullOrEmpty(Q.StrWhere))
             {
-                //StrWhere = "am_LoginUserã€€like '%" + Q.StrWhere + "%' or am_Email like '%" + Q.StrWhere + "%'";
-                StrWhere = "wj_Titleã€€like '%" + Q.StrWhere + "%'";
+                //StrWhere = "am_LoginUser¡¡like '%" + Q.StrWhere + "%' or am_Email like '%" + Q.StrWhere + "%'";
+                StrWhere = "wj_Title¡¡like '%" + Q.StrWhere + "%'";
             }
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
@@ -131,7 +133,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                 }
             }
 
-            // åˆå§‹åŒ–å‚æ•°
+            // ³õÊ¼»¯²ÎÊı
             wj.wj_BaseInfo = "";
             wj.wj_EndBody = "";
             wj.wj_PageSize = "";
@@ -139,7 +141,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_Sponsor = "";
             wj.wj_PublishTime = DateTime.Now.ToString();
 
-            #region   æ·»åŠ å’Œä¿®æ”¹é—®å·
+            #region   Ìí¼ÓºÍĞŞ¸ÄÎÊ¾í
 
 
             JsMessage jm = new JsMessage();
@@ -154,7 +156,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             }
             #endregion
 
-            #region ä¸Šä¼ å°é¢å›¾ç‰‡
+            #region ÉÏ´«·âÃæÍ¼Æ¬
             string PhysicalPath = Path.Combine(Request.MapPath("~/WJ_Attachment/"), wj.wj_ID.ToString());
             if (!Directory.Exists(PhysicalPath))
             {
@@ -173,7 +175,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     }
                     catch
                     {
-                        return Content("ä¸Šä¼ å¼‚å¸¸ ï¼", "text/plain");
+                        return Content("ÉÏ´«Òì³£ £¡", "text/plain");
                     }
                 }
             }
@@ -185,7 +187,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             }
             else
             {
-                return Content("ç³»ç»Ÿå¼‚å¸¸ ï¼", "text/plain");
+                return Content("ÏµÍ³Òì³£ £¡", "text/plain");
             }
 
         }
@@ -211,7 +213,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             if (Request.Files.Count == 0)
             {
-                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "ä¿å­˜å¤±è´¥" }, id = "id" });
+                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "±£´æÊ§°Ü" }, id = "id" });
             }
             string PhysicalPath = Path.Combine(Request.MapPath("~/WJ_Attachment/"), wjID.ToString());
             if (!Directory.Exists(PhysicalPath))
@@ -246,10 +248,10 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
 
-        #region =========== ä¿å­˜è¯•é¢˜=============  
+        #region =========== ±£´æÊÔÌâ=============  
 
         /// <summary>
-        /// ä¿å­˜å•é€‰é¢˜  å¤šé€‰
+        /// ±£´æµ¥Ñ¡Ìâ  ¶àÑ¡
         /// </summary>
         /// <returns></returns>
         public ActionResult Save_DanXuan(DanXuan dx) 
@@ -263,7 +265,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return Content(ResultStr);
         }
         /// <summary>
-        /// ä¿å­˜è¯•é¢˜
+        /// ±£´æÊÔÌâ
         /// </summary>
         /// <returns></returns>
         public ActionResult Save_ST(DanXuan dx)
@@ -277,13 +279,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return Content(ResultStr);
         }
         /// <summary>
-        /// ä¿å­˜ ç»„åˆé¢˜è¿”å›è¯•é¢˜è‡ªå¢ID
+        /// ±£´æ ×éºÏÌâ·µ»ØÊÔÌâ×ÔÔöID
         /// </summary>
         /// <returns></returns>
         public ActionResult Save_ZHST(DanXuan dx)
         {
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_ZHST(dx);
@@ -297,3 +300,4 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
     }
 }
+                                                                                                                                                                                                       

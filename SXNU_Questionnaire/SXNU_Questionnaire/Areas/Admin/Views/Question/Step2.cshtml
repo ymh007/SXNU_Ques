@@ -41,7 +41,7 @@
         </table>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="newly_table">
             <tbody data-bind="foreach:$root.s2_DataArray">
-                <tr>
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
                     <td class="p-w20" data-bind="value:id = $index()"><input type="text" class="inf_text p-w100 left" data-bind="value:b1" /></td>
                     <td class="p-w20">
                         <select class="inf_text p-w100" data-bind="options: $root.ControlsType ,  value: b2 ">

@@ -908,8 +908,8 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         $.ajax("/Admin/Question/Save_ZHST", { async: true, type: "POST", cache: false, data: fromDataModel, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 alert("保存成功！");
-                sxnu.Init(DataModel.wt_Type);
-                window.location.href = "/Admin/Question/Subsj?ID=" + result.ReturnADD_ID;
+                //sxnu.Init(DataModel.wt_Type);
+                window.location.href = "/Admin/Question/Subsj?ID=" + result.ReturnADD_ID + "&wjID=" + fromDataModel.wt_WJID;
             } else {
                 alert("保存失败！");
             }
@@ -1163,7 +1163,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title(),
-            wt_PID: 0,
+            wt_PID: sxnu.ParentSJ_ID(),
             wt_LimitTime: sxnu.Time(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
@@ -1590,7 +1590,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title2(),
-            wt_PID: 0,
+            wt_PID: sxnu.ParentSJ_ID(),
             wt_LimitTime: sxnu.Time2(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
@@ -1659,7 +1659,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title3(),
-            wt_PID: 0,
+            wt_PID: sxnu.ParentSJ_ID(),
             wt_LimitTime: sxnu.Time3(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
@@ -1683,46 +1683,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     }
     //==================问答题   结束===========
 
-    //==================组合题   开始=========== 
-
-    sxnu.Title4 = ko.observable("");
-    sxnu.Time4 = ko.observable(0);
-    sxnu.Title_pic_vido4 = ko.observableArray();
-
-    sxnu.Save_zh = function () {
-        sxnu.ST_Type(4);
-        var fromDataModel = {
-            wt_WJID: $("#WJ_ID").val(),
-            wt_Title: sxnu.Title4(),
-            wt_PID: 0,
-            wt_LimitTime: sxnu.Time4(),
-            wt_Type: sxnu.ST_Type(),
-            wt_Problem: "",
-            wt_Options: "",
-            wt_IsAnswer: "y",
-            wt_LogicRelated: ""
-        }
-        var baseInfo = new Array();
-        baseInfo.length = 0;
-        $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
-        });
-        fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
-        if (!sxnu.Title4().trim() || !sxnu.IsFZandTime(sxnu.Time4())) {
-            alert("输入信息有误！");
-            return false;
-        }
-        sxnu.Save_Ajax(fromDataModel);
-    }
-
-
-
-
-
-    //==================组合题   结束=========== 
-
-
-
+   
 
     //==================表格题   开始=========== 
 
@@ -1758,7 +1719,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title5(),
-            wt_PID: 0,
+            wt_PID: sxnu.ParentSJ_ID(),
             wt_LimitTime: sxnu.Time5(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
@@ -1815,7 +1776,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
 
     // commmon  ======
 
-
+    sxnu.ParentSJ_ID = ko.observable(0);
     sxnu.Init = function (tx) {
         switch (tx) {
             case 1:
@@ -1900,8 +1861,8 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         })
         sxnu.Init(1);
         sxnu.wj_ID($("#WJ_ID").val());
-
-
+        sxnu.ParentSJ_ID($("#ParentSJ_ID").val());
+        
 
     }
     sxnu.PageInit();

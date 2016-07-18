@@ -64,7 +64,7 @@
                         <li class="type_hover"><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(1)}">单选题</a></li>
                         <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(2)}">多选题</a></li>
                         <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(3)}">问答题</a></li>
-                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(4)}">组合题</a></li>
+                        @*<li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(4)}">组合题</a></li>*@
                         <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(5)}">表格题</a></li>
                     </ul>
                     <div class="clear"></div>
@@ -319,38 +319,6 @@
                     </div>
                 </div>
                 <!--组合题-->
-                <div class="test1 test m-t20 ti" style="display:none">
-                    <div class="newd">
-                        <h3>试题标题：</h3>
-                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title4">请输内容描述</textarea>
-                        <div class="clear"></div>
-                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido4().length>0">
-                            <ul data-bind="foreach:$root.Title_pic_vido4">
-                                <li data-bind="if: t=='p'">
-                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
-                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
-                                    <div class="clear"></div>
-                                </li>
-                                <li data-bind="if: t=='v'">
-                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"> </div>
-                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
-                                    <div class="clear"></div>
-                                </li>
-                                <div class="clear"></div>
-                            </ul>
-                        </div>
-                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker4">点此添加图片或视频，一次可上传多个</div></div>
-                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
-                        <h3 class="m-t10">整题答题时间：</h3>
-                        <input class="inf_text p-w98 left m-t10" maxlength="4" type="text" data-bind="value:Time4">
-                        <div class="clear"></div>
-                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
-                        <div class="dati m-t10">点击下面“添加子试题”进行创建单选/多选/问答/表格题型内容信息</div>
-                        <div class="center"><input class="sub w-110 m-t50" type="submit" name="" value="添加子试题"></div>
-                    </div>
-                </div>
                 <!--表格题-->
                 <div class="test1 test m-t20 ti" style="display:none">
                     <div class="newd">
