@@ -61,6 +61,12 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult Modst(int sjid,int wjid) 
+        {
+            ViewBag.SJ_ID = sjid;
+            ViewBag.WJ_ID = wjid;
+            return View();
+        }
         public ActionResult Step2(int ID)
         {
             if (ID > 0)
@@ -78,7 +84,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             if (ID > 0)
             {
-                ViewBag.WJ_ID = ID;
+                ViewBag.WJ_ID = ID; 
                 return View();
             }
             else
@@ -194,9 +200,26 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
 
+        /// <summary>
+        /// 根据问卷id 获取试题
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+
         public ActionResult GetSTBy_WJID(int ID) 
         {
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, "wt_ID", 0, 9999);
+            return Content(JsonTool.DtToJson(dt));
+        }
+
+        /// <summary>
+        /// 根据试题id 获取试题
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public ActionResult GetSTBy_STID(int ID)
+        {
+            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WT]", "wt_ID=" + ID, "wt_ID", 0, 2);
             return Content(JsonTool.DtToJson(dt));
         }
         public ActionResult SubmitedStep2(QuestionInfo wj)
@@ -249,6 +272,34 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
         #region =========== 保存试题=============  
+        /// <summary>
+        /// 保存单选题  多选
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Delete_SJ(int ID)
+        {
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.Delete_SJ(ID);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
+        /// <summary>
+        /// 修改试题
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Modeify_ST(DanXuan dx)
+        {
+            dx.wt_LogicRelated = "";
+            dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.Add_DXST(dx);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
 
         /// <summary>
         /// 保存单选题  多选
@@ -258,6 +309,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_DXST(dx);

@@ -320,6 +320,7 @@
     <Content Include="Areas\Admin\Views\Question\AnswerDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutQues.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Subsj.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Modst.cshtml" />
     <None Include="Properties\PublishProfiles\ww.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\add_data.js" />

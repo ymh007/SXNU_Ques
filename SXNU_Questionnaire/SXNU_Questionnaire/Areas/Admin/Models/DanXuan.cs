@@ -8,7 +8,6 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
     public class DanXuan
     {
         public int wt_ID { get; set; }
-
         public int wt_WJID { get; set; }
         public int wt_PID { get; set; }
         public int  wt_LimitTime { get; set; }

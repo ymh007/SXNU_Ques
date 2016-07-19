@@ -505,6 +505,38 @@ namespace SXNU_Questionnaire.Common
     public class Sql_STManage
     {
 
+
+
+        /// <summary>
+        /// 删除试题
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static JsMessage Delete_SJ(int ID) 
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = "DELETE FROM [dbo].[WT]  WHERE  [wt_ID]=@wt_ID";
+            SqlParameter[] commandParameters = new SqlParameter[] { new SqlParameter("@wt_ID", ID) };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
         /// <summary>
         /// 添加单选题
         /// </summary>
@@ -565,7 +597,48 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
+        /// <summary>
+        /// 修改试题
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Modify_ST(DanXuan DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WT]
+                              SET  [wt_Title] = @wt_Title,
+                                   [wt_LimitTime]=@wt_LimitTime,
+                                   [wt_Type]=@wt_Type,
+                                   [wt_Problem]=@wt_Problem,
+                                   [wt_Options]= @wt_Options  WHERE [wt_ID]=@wt_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@wt_Title",DX.wt_Title),
+                new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
+                new SqlParameter("@wt_Type",DX.wt_Type),
+                new SqlParameter("@wt_Problem",SqlDbType.VarChar,400){Value=DX.wt_Problem},
+                new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
+                new SqlParameter("@wt_ID",DX.wt_ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true; 
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
 
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
         /// <summary>
         /// 添加单选题
         /// </summary>

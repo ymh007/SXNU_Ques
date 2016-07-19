@@ -30,8 +30,7 @@ namespace SXNU_Questionnaire.Common
             SqlParameter[] commandParameters = new SqlParameter[] { };
             return SqlHelper.GetTable(CommandType.Text, strSql.ToString(), commandParameters)[0];
         }
-
-
+         
  
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16
