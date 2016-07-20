@@ -1,4 +1,5 @@
-﻿var SXNU_ViewModel_Ques1 = function ($, currentDom) {
+﻿ 
+var SXNU_ViewModel_Ques1 = function ($, currentDom) {
     var sxnu = currentDom || this;
     //====== 开始step2=======================
     sxnu.ControlsType = ko.observableArray(["文本框", "单选按钮", "下拉菜单"]);
@@ -300,6 +301,9 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
 
 }
+///  类型3 说明  {"cl":"123","o":"1","c":"1","u":"1"}  
+// cl 内容长度   o 是否在线   c 是否自定义答案条数   u 是否可以上传附件 
+// 2016-07-19
 var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     var sxnu = currentDom || this;
     sxnu.wj_ID = ko.observable(0);
@@ -365,7 +369,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
@@ -375,7 +379,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -385,7 +389,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -453,7 +457,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item(), function (i, item) {
                         $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item()[i].pv.remove(val);
                                 return false;
                             }
@@ -463,7 +467,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other(), function (i, item) {
                         $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other()[i].pv.remove(val);
                                 return false;
                             }
@@ -478,7 +482,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item2(), function (i, item) {
                         $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item2()[i].pv.remove(val);
                                 return false;
                             }
@@ -488,7 +492,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other2(), function (i, item) {
                         $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other2()[i].pv.remove(val);
                                 return false;
                             }
@@ -510,7 +514,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     }
 
     sxnu.DeleteFileByServer = function (val, type) {
-        var filePath = sxnu.wj_ID() + "/" + val.FileName
+        var filePath = sxnu.wj_ID() + "/" + val.n
         $.ajax("/Admin/Question/DeleteFile", { async: true, type: "GET", cache: false, data: { FilePath: filePath }, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 sxnu.DeleteKOFile(val, type)
@@ -638,20 +642,20 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 case 1:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "p"});
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "v"});
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "p"});
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "v"});
                                 }
                                 return false;
                             }
@@ -661,10 +665,10 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                         $.each(sxnu.other(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "p"});
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "v"});
                                 }
                                 return false;
                             }
@@ -674,20 +678,20 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 case 2:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "p"});
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "v"});
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "p"});
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "v"});
                                 }
                                 return false;
                             }
@@ -697,10 +701,10 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                         $.each(sxnu.other2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "p"});
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "v"});
                                 }
                                 return false;
                             }
@@ -709,26 +713,26 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                     break;
                 case 3:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "p"});
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "v"});
                     }
                     break;
                 case 4:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "p"});
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "v"});
                     }
                     break;
                 case 5:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "p"});
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "v"});
                     }
                     break;
             }
@@ -792,7 +796,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido2(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
@@ -802,7 +806,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -812,7 +816,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -861,7 +865,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var temp = { cl: sxnu.Contentlength(), o: sxnu.IsOnline(), c: sxnu.Customize(), u: sxnu.IsUpload() };  // 问答题辅助信息添加
@@ -896,7 +900,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         if (!sxnu.Title4().trim() || !sxnu.IsFZandTime(sxnu.Time4())) {
@@ -908,7 +912,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             if (result.IsSuccess) {
                 alert("保存成功！");
                 //sxnu.Init(DataModel.wt_Type);
-                window.location.href = "/Admin/Question/Subsj?ID=" + result.ReturnADD_ID + "&wjID=" + fromDataModel.wt_WJID;
+                window.location.href = "/Admin/Question/Subst?ID=" + result.ReturnADD_ID + "&wjID=" + fromDataModel.wt_WJID;
             } else {
                 alert("保存失败！");
             }
@@ -968,7 +972,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido5(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
 
@@ -1014,7 +1018,10 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
     // commmon  ======
 
-
+    sxnu.ViewImg = function (val) {
+        var imgpath = "/WJ_Attachment/" + sxnu.wj_ID() + "/" + val.n;
+        window.open(imgpath);
+    }
     sxnu.Init = function (tx) {
         switch (tx) {
             case 1:
@@ -1170,7 +1177,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
@@ -1180,7 +1187,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -1190,7 +1197,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -1258,7 +1265,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item(), function (i, item) {
                         $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item()[i].pv.remove(val);
                                 return false;
                             }
@@ -1268,7 +1275,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other(), function (i, item) {
                         $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other()[i].pv.remove(val);
                                 return false;
                             }
@@ -1283,7 +1290,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item2(), function (i, item) {
                         $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item2()[i].pv.remove(val);
                                 return false;
                             }
@@ -1293,7 +1300,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other2(), function (i, item) {
                         $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other2()[i].pv.remove(val);
                                 return false;
                             }
@@ -1315,7 +1322,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     }
 
     sxnu.DeleteFileByServer = function (val, type) {
-        var filePath = sxnu.wj_ID() + "/" + val.FileName
+        var filePath = sxnu.wj_ID() + "/" + val.n
         $.ajax("/Admin/Question/DeleteFile", { async: true, type: "GET", cache: false, data: { FilePath: filePath }, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 sxnu.DeleteKOFile(val, type)
@@ -1443,20 +1450,20 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 case 1:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "p" });
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "v" });
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -1466,10 +1473,10 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                         $.each(sxnu.other(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -1479,20 +1486,20 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 case 2:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "p" });
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "v" });
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -1502,10 +1509,10 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                         $.each(sxnu.other2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -1514,26 +1521,26 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                     break;
                 case 3:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "v" });
                     }
                     break;
                 case 4:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "v" });
                     }
                     break;
                 case 5:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "v" });
                     }
                     break;
             }
@@ -1597,7 +1604,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido2(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
@@ -1607,7 +1614,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -1617,7 +1624,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -1666,7 +1673,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var temp = { cl: sxnu.Contentlength(), o: sxnu.IsOnline(), c: sxnu.Customize(), u: sxnu.IsUpload() };  // 问答题辅助信息添加
@@ -1726,7 +1733,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido5(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
 
@@ -1771,7 +1778,10 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
 
 
     // commmon  ======
-
+    sxnu.ViewImg = function (val) {
+        var imgpath = "/WJ_Attachment/" + sxnu.wj_ID() + "/" + val.n;
+        window.open(imgpath);
+    }
     sxnu.ParentSJ_ID = ko.observable(0);
     sxnu.Init = function (tx) {
         switch (tx) {
@@ -2059,74 +2069,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.Item = ko.observableArray();
     sxnu.other = ko.observableArray();
 
-
-
-
-    sxnu.Save_dx = function () {
-        var flag = true;
-        sxnu.ST_Type(1);
-        var fromDataModel = {
-            wt_ID: sxnu.sj_ID(),
-            wt_WJID: $("#WJ_ID").val(),
-            wt_Title: sxnu.Title(),
-            wt_LimitTime: sxnu.Time(),
-            wt_Type: sxnu.ST_Type(),
-            wt_Problem: "",
-            wt_Options: ""
-
-        }
-        var baseInfo = new Array();
-        baseInfo.length = 0;
-        $.each(sxnu.Title_pic_vido(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
-        });
-        fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
-        var ItemArray = new Array();
-        $.each(sxnu.Item(), function (i, item) {
-            var Temp = { t: item.item(), f: item.fz(), pv: [] };
-            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
-                flag = false;
-            }
-            $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
-            });
-            ItemArray.push(Temp);
-        });
-        $.each(sxnu.other(), function (i, item) {
-            var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [] };
-            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
-                flag = false;
-            }
-            $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
-            });
-            ItemArray.push(Temp);
-        });
-        fromDataModel.wt_Options = JSON.stringify(ItemArray);
-        if (!flag) {
-            alert("输入信息有误！");
-            return false;
-        }
-        if (!sxnu.Title().trim() || sxnu.Item().length < 1 || !sxnu.IsFZandTime(sxnu.Time())) {
-            alert("输入信息有误！");
-            return false;
-        }
-        sxnu.Save_Ajax(fromDataModel);
-
-    }
-    sxnu.Save_Ajax = function (DataModel) {
-        $.ajax("/Admin/Question/Modeify_ST", { async: true, type: "POST", cache: false, data: DataModel, dataType: "json", }).then(function (result) {
-            if (result.IsSuccess) {
-                alert("修改成功！");
-                window.location.href = "/Admin/Question/Step4?ID=" + DataModel.wj_ID;
-            } else {
-                alert("修改失败！");
-            }
-        }).fail(function () {
-            alert("请求失败！");
-        });
-    }
-
+     
     sxnu.IsShow_pv = function (val) {
         if (val.hs_pv()) {
             val.hs_pv(false);
@@ -2166,7 +2109,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item(), function (i, item) {
                         $.each(sxnu.Item()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item()[i].pv.remove(val);
                                 return false;
                             }
@@ -2176,7 +2119,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other(), function (i, item) {
                         $.each(sxnu.other()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other()[i].pv.remove(val);
                                 return false;
                             }
@@ -2191,7 +2134,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 if (type == "i") {
                     $.each(sxnu.Item2(), function (i, item) {
                         $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.Item2()[i].pv.remove(val);
                                 return false;
                             }
@@ -2201,7 +2144,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 if (type == "o") {
                     $.each(sxnu.other2(), function (i, item) {
                         $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                            if (val.FileName == item1.FileName) {
+                            if (val.n == item1.n) {
                                 sxnu.other2()[i].pv.remove(val);
                                 return false;
                             }
@@ -2223,7 +2166,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     }
 
     sxnu.DeleteFileByServer = function (val, type) {
-        var filePath = sxnu.wj_ID() + "/" + val.FileName
+        var filePath = sxnu.wj_ID() + "/" + val.n
         $.ajax("/Admin/Question/DeleteFile", { async: true, type: "GET", cache: false, data: { FilePath: filePath }, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 sxnu.DeleteKOFile(val, type)
@@ -2351,20 +2294,20 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 case 1:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "p" });
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido.push({ n: response.fileName, t: "v" });
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -2374,10 +2317,10 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                         $.each(sxnu.other(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -2387,20 +2330,20 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 case 2:
                     if (type == "t") {
                         if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "p", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "p" });
                         }
                         if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                            sxnu.Title_pic_vido2.push({ n: file.name, t: "v", FileName: response.fileName });
+                            sxnu.Title_pic_vido2.push({ n: response.fileName, t: "v" });
                         }
                     }
                     if (type == "i") {
                         $.each(sxnu.Item2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.Item2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.Item2()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -2410,10 +2353,10 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                         $.each(sxnu.other2(), function (i, item) {
                             if (item.id() == sxnu.SaveTM().id()) {
                                 if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "p", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "p" });
                                 }
                                 if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                                    sxnu.other2()[i].pv.push({ n: file.name, t: "v", FileName: response.fileName });
+                                    sxnu.other2()[i].pv.push({ n: response.fileName, t: "v" });
                                 }
                                 return false;
                             }
@@ -2422,26 +2365,26 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                     break;
                 case 3:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido3.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido3.push({ n: response.fileName, t: "v" });
                     }
                     break;
                 case 4:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido4.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido4.push({ n: response.fileName, t: "v" });
                     }
                     break;
                 case 5:
                     if ($.inArray(fileExt, sxnu.g_picExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "p", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "p" });
                     }
                     if ($.inArray(fileExt, sxnu.g_vidoExt) != -1) {
-                        sxnu.Title_pic_vido5.push({ n: file.name, t: "v", FileName: response.fileName });
+                        sxnu.Title_pic_vido5.push({ n: response.fileName, t: "v" });
                     }
                     break;
             }
@@ -2475,6 +2418,72 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             });
         }
     }
+
+
+    sxnu.Save_dx = function () {
+        var flag = true;
+        sxnu.ST_Type(1);
+        var fromDataModel = {
+            wt_ID: sxnu.sj_ID(),
+            wt_WJID: $("#WJ_ID").val(),
+            wt_Title: sxnu.Title(),
+            wt_LimitTime: sxnu.Time(),
+            wt_Type: sxnu.ST_Type(),
+            wt_Problem: "",
+            wt_Options: ""
+
+        }
+        var baseInfo = new Array();
+        baseInfo.length = 0;
+        $.each(sxnu.Title_pic_vido(), function (index, item) {
+            baseInfo.push({ n: item.n, t: item.t });
+        });
+        fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
+        var ItemArray = new Array();
+        $.each(sxnu.Item(), function (i, item) {
+            var Temp = { t: item.item(), f: item.fz(), pv: [] };
+            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
+                flag = false;
+            }
+            $.each(sxnu.Item()[i].pv(), function (ii, item1) {
+                Temp.pv.push({ n: item1.n, t: item1.t });
+            });
+            ItemArray.push(Temp);
+        });
+        $.each(sxnu.other(), function (i, item) {
+            var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [] };
+            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
+                flag = false;
+            }
+            $.each(sxnu.other()[i].pv(), function (ii, item1) {
+                Temp.pv.push({ n: item1.n, t: item1.t });
+            });
+            ItemArray.push(Temp);
+        });
+        fromDataModel.wt_Options = JSON.stringify(ItemArray);
+        if (!flag) {
+            alert("输入信息有误！");
+            return false;
+        }
+        if (!sxnu.Title().trim() || sxnu.Item().length < 1 || !sxnu.IsFZandTime(sxnu.Time())) {
+            alert("输入信息有误！");
+            return false;
+        }
+        sxnu.Save_Ajax(fromDataModel);
+
+    }
+    sxnu.Save_Ajax = function (DataModel) {
+        $.ajax("/Admin/Question/Modeify_ST", { async: true, type: "POST", cache: false, data: DataModel, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("修改成功！");
+                window.location.href = "/Admin/Question/Step4?ID=" + DataModel.wt_WJID;
+            } else {
+                alert("修改失败！");
+            }
+        }).fail(function () {
+            alert("请求失败！");
+        });
+    }
     //==================单选题   结束===========
 
 
@@ -2495,18 +2504,19 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             wt_ID: sxnu.sj_ID(),
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title2(),
-            wt_PID: 0,
+            //wt_PID: 0,
             wt_LimitTime: sxnu.Time2(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
-            wt_Options: "",
-            wt_IsAnswer: "y",
-            wt_LogicRelated: ""
+            wt_Options: ""
+            //wt_IsAnswer: "y",
+            //wt_LogicRelated: ""
         }
+        
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido2(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
@@ -2516,7 +2526,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -2526,7 +2536,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 flag = false;
             }
             $.each(sxnu.other2()[i].pv(), function (ii, item1) {
-                Temp.pv.push({ n: item1.FileName, t: item1.t });
+                Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
         });
@@ -2565,18 +2575,19 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             wt_ID: sxnu.sj_ID(),
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title3(),
-            wt_PID: 0,
+            //wt_PID: 0,
             wt_LimitTime: sxnu.Time3(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
-            wt_Options: "",
-            wt_IsAnswer: "y",
-            wt_LogicRelated: ""
+            wt_Options: ""
+            //wt_IsAnswer: "y",
+            //wt_LogicRelated: ""
         }
+       
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var temp = { cl: sxnu.Contentlength(), o: sxnu.IsOnline(), c: sxnu.Customize(), u: sxnu.IsUpload() };  // 问答题辅助信息添加
@@ -2601,18 +2612,18 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             wt_ID: sxnu.sj_ID(),
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title4(),
-            wt_PID: 0,
+            //wt_PID: 0,
             wt_LimitTime: sxnu.Time4(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
-            wt_Options: "",
-            wt_IsAnswer: "y",
-            wt_LogicRelated: ""
+            wt_Options: ""
+            //wt_IsAnswer: "y",
+            //wt_LogicRelated: ""
         }
         var baseInfo = new Array();
         baseInfo.length = 0;
-        $.each(sxnu.Title_pic_vido3(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+        $.each(sxnu.Title_pic_vido4(), function (index, item) {
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         if (!sxnu.Title4().trim() || !sxnu.IsFZandTime(sxnu.Time4())) {
@@ -2640,15 +2651,14 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
 
     //==================表格题   开始=========== 
-
-    sxnu.m_t_5 = function () {
-        this.t = ko.observable("");
+     
+    sxnu.m_t_5 = function (t) {
+        this.t = ko.observable(t);
     }
-    sxnu.m_a_5 = function () {
-        this.a = ko.observable("");
-        this.f = ko.observable(0);
+    sxnu.m_a_5 = function (a, f) {
+        this.a = ko.observable(a);
+        this.f = ko.observable(f);
     }
-
     sxnu.Title5 = ko.observable("");
     sxnu.Time5 = ko.observable(0);
     sxnu.Title_pic_vido5 = ko.observableArray();
@@ -2656,14 +2666,14 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.AnswerList = ko.observableArray();
 
     sxnu.add_Title5 = function () {
-        sxnu.TitleLsit.push(new sxnu.m_t_5());
+        sxnu.TitleLsit.push(new sxnu.m_t_5(""));
     }
     sxnu.del_Title5 = function (val) {
         sxnu.TitleLsit.remove(val);
     }
 
     sxnu.add_Answer5 = function () {
-        sxnu.AnswerList.push(new sxnu.m_a_5());
+        sxnu.AnswerList.push(new sxnu.m_a_5("",0));
     }
     sxnu.del_Answer5 = function (val) {
         sxnu.AnswerList.remove(val);
@@ -2674,18 +2684,18 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             wt_ID: sxnu.sj_ID(),
             wt_WJID: $("#WJ_ID").val(),
             wt_Title: sxnu.Title5(),
-            wt_PID: 0,
+            //wt_PID: 0,
             wt_LimitTime: sxnu.Time5(),
             wt_Type: sxnu.ST_Type(),
             wt_Problem: "",
-            wt_Options: "",
-            wt_IsAnswer: "y",
-            wt_LogicRelated: ""
+            wt_Options: ""
+            //wt_IsAnswer: "y",
+            //wt_LogicRelated: ""
         }
         var baseInfo = new Array();
         baseInfo.length = 0;
         $.each(sxnu.Title_pic_vido5(), function (index, item) {
-            baseInfo.push({ n: item.FileName, t: item.t });
+            baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
 
@@ -2731,90 +2741,101 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
     // commmon  ======
     sxnu.ViewImg = function (val) {
-        var imgpath = "/WJ_Attachment/" + sxnu.wj_ID() + "/" + val;
+        var imgpath = "/WJ_Attachment/" + sxnu.wj_ID() + "/" + val.n;
         window.open(imgpath);
     }
 
     sxnu.Init = function (STM) {
-        sxnu.ST_Type(st_m.wt_Type);
-         
-        switch (STM.wt_Type) {
+        sxnu.ST_Type(parseInt(STM.wt_Type));
+        var t = parseInt(STM.wt_Type);
+        STM.wt_Problem = STM.wt_Problem == "" ? "[]" : STM.wt_Problem;
+        switch (t) {
             case 1:
-               
                 sxnu.Title(STM.wt_Title);
                 sxnu.Time(STM.wt_LimitTime);
-
-
-                sxnu.Title_pic_vido.removeAll();
-                sxnu.Item.removeAll();
-                sxnu.other.removeAll();
-
-
                 var tpv = JSON.parse(STM.wt_Problem);
                 $.each(tpv, function (i, val) {
-                    sxnu.Title_pic_vido.push(new topDom.RawMaterialList(0, false, val.Material, val.MW, val.Weight, val.Moles, val.eq, val.Ratio, val.Density, val.MaterialCode));
+                    sxnu.Title_pic_vido.push({ n: val.n, t: val.t });
                 });
-
                 var item = JSON.parse(STM.wt_Options);
-
                 $.each(item, function (i, val) {
-                    sxnu.Item.push(new topDom.RawMaterialList(0, false, val.Material, val.MW, val.Weight, val.Moles, val.eq, val.Ratio, val.Density, val.MaterialCode));
+                    var temp = new sxnu.item_model(val.t, val.f);
+                    $.each(val.pv, function (i1, val1) {
+                        temp.pv.push(val1);
+                    });
+                    sxnu.T_itmeID(temp.id());
+                    if ('o' in val) {
+                        sxnu.other.push(temp);
+                        sxnu.InitUploadContron(temp.id(), "o");
+                    } else {
+                        sxnu.Item.push(temp);
+                        sxnu.InitUploadContron(temp.id(), "i");
+                    }
                 });
-
-                
-
-
-
-
-
-
-
-
-
-
-              
-                 
                 sxnu.InitUploadContron("filePicker1", "t");
                 break;
             case 2:
-                
-                sxnu.Title2("");
-                sxnu.Time2(0);
-                sxnu.Title_pic_vido2.removeAll();
-                sxnu.Item2.removeAll();
-                sxnu.other2.removeAll();
-                sxnu.Add_Item();
-                sxnu.Add_Other();
+                sxnu.Title2(STM.wt_Title);
+                sxnu.Time2(STM.wt_LimitTime);
+                var tpv = JSON.parse(STM.wt_Problem);
+                $.each(tpv, function (i, val) {
+                    sxnu.Title_pic_vido2.push({ n: val.n, t: val.t });
+                });
+                var item = JSON.parse(STM.wt_Options);
+                $.each(item, function (i, val) {
+                    var temp = new sxnu.item_model(val.t, val.f);
+                    $.each(val.pv, function (i1, val1) {
+                        temp.pv.push(val1);
+                    });
+                    sxnu.T_itmeID(temp.id());
+                    if ('o' in val) {
+                        sxnu.other2.push(temp);
+                        sxnu.InitUploadContron(temp.id(), "o");
+                    } else {
+                        sxnu.Item2.push(temp);
+                        sxnu.InitUploadContron(temp.id(), "i");
+                    } 
+                });
                 sxnu.InitUploadContron("filePicker2", "t");
                 break;
             case 3:
-                 
-                sxnu.Title3("");
-                sxnu.Time3(0);
-                sxnu.Contentlength(0);
-                sxnu.IsOnline(0);
-                sxnu.Customize(0);
-                sxnu.IsUpload(0);
-                sxnu.Title_pic_vido3.removeAll();
+                sxnu.Title3(STM.wt_Title);
+                sxnu.Time3(STM.wt_LimitTime);
+                var item3 = JSON.parse(STM.wt_Options);  // cl 内容长度   o 是否在线   c 是否自定义答案条数   u 是否可以上传附件 
+                sxnu.Contentlength(item3.cl);
+                sxnu.IsOnline(item3.o);
+                sxnu.Customize(item3.c);
+                sxnu.IsUpload(item3.u);
+                var tpv = JSON.parse(STM.wt_Problem);
+                $.each(tpv, function (i, val) {
+                    sxnu.Title_pic_vido2.push({ n: val.n, t: val.t });
+                });
                 sxnu.InitUploadContron("filePicker3", "t");
                 break;
             case 4:
-                
-                sxnu.Title4("");
-                sxnu.Time4(0);
-                sxnu.Title_pic_vido4.removeAll();
+                sxnu.Title4(STM.wt_Title);
+                sxnu.Time4(STM.wt_LimitTime);
+                var tpv = JSON.parse(STM.wt_Problem);
+                $.each(tpv, function (i, val) {
+                    sxnu.Title_pic_vido4.push({ n: val.n, t: val.t });
+                }); 
                 sxnu.InitUploadContron("filePicker4", "t");
                 break;
             case 5:
+                sxnu.Title5(STM.wt_Title);
+                sxnu.Time5(STM.wt_LimitTime);
+                var tpv = JSON.parse(STM.wt_Problem);
+                $.each(tpv, function (i, val) {
+                    sxnu.Title_pic_vido5.push({ n: val.n, t: val.t });
+                });
                 
-                sxnu.Title5("");
-                sxnu.Time5(0);
-                sxnu.Title_pic_vido5.removeAll();
-                sxnu.TitleLsit.removeAll();
-                sxnu.AnswerList.removeAll();
-                sxnu.add_Title5();
-                sxnu.add_Answer5();
-
+                var item_at = JSON.parse(STM.wt_Options);    // 选项和答案的对象内部存储为俩个数组属性
+                $.each(item_at.t, function (i,val) {
+                    sxnu.TitleLsit.push(new sxnu.m_t_5(val));
+                });
+                $.each(item_at.a, function (i, val) {
+                    sxnu.AnswerList.push(new sxnu.m_a_5(val.t,val.f));
+                });
                 sxnu.InitUploadContron("filePicker5", "t");
                 break;
         }
@@ -2824,8 +2845,8 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.LoadST_Model = function () {
         if (sxnu.sj_ID() != 0) {
             $.ajax("/Admin/Question/GetSTBy_STID", { async: true, type: "GET", cache: true, data: { ID: sxnu.sj_ID() }, dataType: "json", }).then(function (result) {
-                if (resultl.length==1) {
-                    sxnu.Init(resultl[0]);
+                if (result.length==1) {
+                    sxnu.Init(result[0]);
                 }
             }).fail(function () {
                 alert("系统异常！");
@@ -2836,16 +2857,8 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.PageInit = function () {
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.sj_ID($("#sj_ID").val());
+        $(".type ul li").addClass("type_hover");
         sxnu.LoadST_Model();
-        $(".type ul li").click(function () {
-            $(".type ul li").removeClass("type_hover");
-            $(this).addClass("type_hover");
-            var Index = $(this).index();
-            $(".ti").hide();
-            $(".ti:eq(" + Index + ")").show();
-        })
-        sxnu.InitUploadContron("filePicker1", "t");
-        sxnu.InitUploadContron("filePicker1", "t");
     }
     sxnu.PageInit();
 
