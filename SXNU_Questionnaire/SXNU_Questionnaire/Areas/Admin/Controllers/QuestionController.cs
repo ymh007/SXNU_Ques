@@ -26,7 +26,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Subsj(int wjID, int ID)
+        public ActionResult Subst(int wjID, int ID)
         {
 
             ViewBag.WJ_ID = wjID;
@@ -296,7 +296,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
-            jm = Sql_STManage.Add_DXST(dx);
+            jm = Sql_STManage.Modify_ST(dx);
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }

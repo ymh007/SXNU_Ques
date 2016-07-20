@@ -56,21 +56,22 @@
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
         <input type="hidden" value="@ViewBag.SJ_ID" id="sj_ID" name="sj_nID" />
         <div class="left p-w27 newly_bj">
-            <h3 class="h3">添加试题</h3>
+            <h3 class="h3">修改试题</h3>
             <div class="newly_pad">
                 <h3>试题类型：</h3>
                 <div class="type m-t10">
                     <ul>
-                        <li class="type_hover"><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(1)}">单选题</a></li>
-                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(2)}">多选题</a></li>
-                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(3)}">问答题</a></li>
-                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(4)}">组合题</a></li>
-                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(5)}">表格题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==1 "><a href="javascript:void(0)">单选题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==2 "><a href="javascript:void(0)">多选题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==3 "><a href="javascript:void(0)">问答题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==4 "><a href="javascript:void(0)">组合题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==4 "><a href="/Admin/Question/Subst?ID=@ViewBag.SJ_ID&wjID=@ViewBag.WJ_ID">添加子试题</a></li>
+                        <li data-bind="visible:$root.ST_Type()==5 "><a href="javascript:void(0)">表格题</a></li>
                     </ul>
                     <div class="clear"></div>
                 </div>
                 <!--单选题-->
-                <div class="test1 test m-t20 ti">
+                <div class="test1 test m-t20 ti" data-bind="visible:$root.ST_Type()==1">
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title">请输内容描述</textarea>
@@ -85,7 +86,7 @@
                                 </li>
                                 <li data-bind="if: t=='v'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
@@ -117,13 +118,13 @@
                                     <ul data-bind="foreach:pv">
                                         <li data-bind="if: t=='p'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
                                         <li data-bind="if: t=='v'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
@@ -150,13 +151,13 @@
                                     <ul data-bind="foreach:pv">
                                         <li data-bind="if: t=='p'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
                                         <li data-bind="if: t=='v'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
@@ -171,7 +172,7 @@
                     </div>
                 </div>
                 <!--多选题-->
-                <div class="test1 test m-t20 ti" style="display:none">
+                <div class="test1 test m-t20 ti" data-bind="visible:$root.ST_Type()==2">
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title2">请输内容描述</textarea>
@@ -180,13 +181,13 @@
                             <ul data-bind="foreach:$root.Title_pic_vido2">
                                 <li data-bind="if: t=='p'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
                                 <li data-bind="if: t=='v'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
@@ -218,13 +219,13 @@
                                     <ul data-bind="foreach:pv">
                                         <li data-bind="if: t=='p'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
                                         <li data-bind="if: t=='v'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
@@ -251,13 +252,13 @@
                                     <ul data-bind="foreach:pv">
                                         <li data-bind="if: t=='p'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
                                         <li data-bind="if: t=='v'">
                                             <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                            <div class="left m-l5" data-bind="text:n"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                             <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                             <div class="clear"></div>
                                         </li>
@@ -272,7 +273,7 @@
                     </div>
                 </div>
                 <!--问答题-->
-                <div class="test1 test m-t20 ti" style="display:none">
+                <div class="test1 test m-t20 ti" data-bind="visible:$root.ST_Type()==3">
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title3">请输内容描述</textarea>
@@ -281,13 +282,13 @@
                             <ul data-bind="foreach:$root.Title_pic_vido3">
                                 <li data-bind="if: t=='p'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
                                 <li data-bind="if: t=='v'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"> </div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"> </div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
@@ -319,7 +320,7 @@
                     </div>
                 </div>
                 <!--组合题-->
-                <div class="test1 test m-t20 ti" style="display:none">
+                <div class="test1 test m-t20 ti" data-bind="visible:$root.ST_Type()==4">
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title4">请输内容描述</textarea>
@@ -328,13 +329,13 @@
                             <ul data-bind="foreach:$root.Title_pic_vido4">
                                 <li data-bind="if: t=='p'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
                                 <li data-bind="if: t=='v'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"> </div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"> </div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
@@ -348,11 +349,11 @@
                         <div class="clear"></div>
                         <div class="new_hui m-t10">单位（秒），默认无限制</div>
                         <div class="dati m-t10">点击下面“添加子试题”进行创建单选/多选/问答/表格题型内容信息</div>
-                        <div class="center"><input class="sub w-110 m-t50" type="button" data-bind="click:$root.Save_zh" value="添加子试题"></div>
+                        <div class="center"><input class="sub w-110 m-t50" type="button"  value="保存" data-bind="click:$root.Save_zh"> </div>
                     </div>
                 </div>
                 <!--表格题-->
-                <div class="test1 test m-t20 ti" style="display:none">
+                <div class="test1 test m-t20 ti" data-bind="visible:$root.ST_Type()==5">
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title5">请输内容描述</textarea>
@@ -361,13 +362,13 @@
                             <ul data-bind="foreach:$root.Title_pic_vido5">
                                 <li data-bind="if: t=='p'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
                                 <li data-bind="if: t=='v'">
                                     <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"> </div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"> </div>
                                     <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
                                     <div class="clear"></div>
                                 </li>
