@@ -41,6 +41,23 @@ namespace SXNU_Questionnaire.Controllers
             }
             string ResultStr = string.Empty;
             JsMessage jm = SqlStr_Process.Add_Userinfo(ui);
+
+
+
+
+
+
+           
+
+
+
+
+
+
+
+
+
+
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }

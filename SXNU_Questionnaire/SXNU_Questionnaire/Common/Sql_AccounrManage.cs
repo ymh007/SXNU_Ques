@@ -512,7 +512,7 @@ namespace SXNU_Questionnaire.Common
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static JsMessage Delete_SJ(int ID) 
+        public static JsMessage Delete_SJ(int ID)
         {
             JsMessage js = new JsMessage();
             string SqlStr = "DELETE FROM [dbo].[WT]  WHERE  [wt_ID]=@wt_ID";
@@ -538,7 +538,7 @@ namespace SXNU_Questionnaire.Common
         }
 
         /// <summary>
-        /// 添加单选题
+        /// 添加试题
         /// </summary>
         /// <param name="Q"></param>
         /// <returns></returns>
@@ -547,6 +547,7 @@ namespace SXNU_Questionnaire.Common
             JsMessage js = new JsMessage();
             string SqlStr = @" INSERT INTO [dbo].[WT]
                                ([wt_WJID]
+                               ,[wt_OrderNum]
                                ,[wt_Title]
                                ,[wt_PID]
                                ,[wt_LimitTime]
@@ -557,6 +558,7 @@ namespace SXNU_Questionnaire.Common
                                ,[wt_LogicRelated])
                          VALUES
                                (@wt_WJID,
+                                @wt_OrderNum,
                                 @wt_Title,
                                 @wt_PID,
                                 @wt_LimitTime,
@@ -564,9 +566,10 @@ namespace SXNU_Questionnaire.Common
                                 @wt_Problem, 
                                 @wt_Options, 
                                 @wt_IsAnswer, 
-                                @wt_LogicRelated)";
+                                @wt_LogicRelated);SELECT @wt_ID=SCOPE_IDENTITY();";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@wt_WJID",DX.wt_WJID),
+                new SqlParameter("@wt_OrderNum",DX.wt_OrderNum),
                 new SqlParameter("@wt_Title",DX.wt_Title),
                 new SqlParameter("@wt_PID",DX.wt_PID),
                 new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
@@ -574,7 +577,8 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wt_Problem",SqlDbType.VarChar,400){Value=DX.wt_Problem},
                 new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
                 new SqlParameter("@wt_IsAnswer",SqlDbType.NVarChar,10){Value=DX.wt_IsAnswer},
-                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated}
+                new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated},
+                new SqlParameter("@wt_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
             try
             {
@@ -582,7 +586,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    //js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[10].Value.ToString());
                 }
                 else
                 {
@@ -624,7 +628,7 @@ namespace SXNU_Questionnaire.Common
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
                 if (flg == 1)
                 {
-                    js.IsSuccess = true; 
+                    js.IsSuccess = true;
                 }
                 else
                 {
@@ -640,7 +644,7 @@ namespace SXNU_Questionnaire.Common
             return js;
         }
         /// <summary>
-        /// 添加单选题
+        /// 添加组合题
         /// </summary>
         /// <param name="Q"></param>
         /// <returns></returns>
@@ -649,6 +653,7 @@ namespace SXNU_Questionnaire.Common
             JsMessage js = new JsMessage();
             string SqlStr = @" INSERT INTO [dbo].[WT]
                                ([wt_WJID]
+                               ,[wt_OrderNum]
                                ,[wt_Title]
                                ,[wt_PID]
                                ,[wt_LimitTime]
@@ -659,6 +664,7 @@ namespace SXNU_Questionnaire.Common
                                ,[wt_LogicRelated])
                          VALUES
                                (@wt_WJID,
+                                @wt_OrderNum,
                                 @wt_Title,
                                 @wt_PID,
                                 @wt_LimitTime,
@@ -666,9 +672,10 @@ namespace SXNU_Questionnaire.Common
                                 @wt_Problem, 
                                 @wt_Options, 
                                 @wt_IsAnswer, 
-                                @wt_LogicRelated);SELECT @wj_ID=SCOPE_IDENTITY();";
+                                @wt_LogicRelated);SELECT @wt_ID=SCOPE_IDENTITY();";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@wt_WJID",DX.wt_WJID),
+                new SqlParameter("@wt_OrderNum",DX.wt_OrderNum),
                 new SqlParameter("@wt_Title",DX.wt_Title),
                 new SqlParameter("@wt_PID",DX.wt_PID),
                 new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
@@ -677,7 +684,7 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wt_Options",SqlDbType.VarChar,4000){Value=DX.wt_Options},
                 new SqlParameter("@wt_IsAnswer",SqlDbType.NVarChar,10){Value=DX.wt_IsAnswer},
                 new SqlParameter("@wt_LogicRelated",SqlDbType.NVarChar,2000){Value=DX.wt_LogicRelated},
-                new SqlParameter("@wj_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
+                new SqlParameter("@wt_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
             try
             {
@@ -685,7 +692,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[9].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[10].Value.ToString());
                 }
                 else
                 {

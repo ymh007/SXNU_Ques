@@ -412,18 +412,32 @@
         </div>
         <div class="right wly m-l30 p-w70">
             <div class="wly_name">已创建的试题编号：</div>
-            <div class="wly_menber">
-                <ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a class="wly_menber_hov" href="#">3</a></li>
-                    <ul class="wly_ber">
-                        <li><a href="#">3.1</a></li>
-                        <li><a href="#">3.2</a></li>
-                        <li><a href="#">3.3</a></li>
+            <div class="wly_menber" >
+                <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
+                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:id},click:$root.ShowSTByLoccation">1</a></li>
+                    <!-- ko if:  type()==4 -->
+                    <ul class="wly_ber" data-bind="foreach:subNum">
+                        <li><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:id},click:$root.ShowSTByLoccation">1.1</a></li>
                     </ul>
-                    <li><a href="#">4</a></li>
-                </ul><div class="clear"></div>
+                    <!-- /ko -->
+                </ul>
+
+
+                @*<ul>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a class="wly_menber_hov" href="#">3</a></li>
+                <ul class="wly_ber">
+                    <li><a href="#">3.1</a></li>
+                    <li><a href="#">3.2</a></li>
+                    <li><a href="#">3.3</a></li>
+                </ul>
+                <li><a href="#">4</a></li>
+            </ul>*@
+
+
+
+                <div class="clear"></div>
             </div>
             <div class="wly_yl">试题预览</div>
             <h3 class="vol_col">1、您的专业方向是什么？请选择最贴近您实际的一项：<span class="vol">本题剩余时间：<span class="wly_red">00:00</span></span> <span class="vol vol_red" style="display:none">对不起，您已超时，该题作废</span></h3>

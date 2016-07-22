@@ -208,7 +208,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
         public ActionResult GetSTBy_WJID(int ID) 
         {
-            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, "wt_ID", 0, 9999);
+            DataTable dt = SqlStr_Process.GetListByPage_Calc("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, 0, 9999);
             return Content(JsonTool.DtToJson(dt));
         }
 
@@ -301,21 +301,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return Content(ResultStr);
         }
 
-        /// <summary>
-        /// 保存单选题  多选
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Save_DanXuan(DanXuan dx) 
-        {
-            dx.wt_LogicRelated = "";
-            dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
-            dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
-            JsMessage jm = new JsMessage();
-            string ResultStr = string.Empty;
-            jm = Sql_STManage.Add_DXST(dx);
-            ResultStr = JsonTool.ObjToJson(jm);
-            return Content(ResultStr);
-        }
+        
         /// <summary>
         /// 保存试题
         /// </summary>

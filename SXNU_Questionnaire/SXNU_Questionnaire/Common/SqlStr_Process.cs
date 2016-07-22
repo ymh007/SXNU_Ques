@@ -30,7 +30,25 @@ namespace SXNU_Questionnaire.Common
             SqlParameter[] commandParameters = new SqlParameter[] { };
             return SqlHelper.GetTable(CommandType.Text, strSql.ToString(), commandParameters)[0];
         }
-         
+
+        /// <summary>
+        /// 分页获取数据列表 排序列需要做计算 试题排序专用
+        /// </summary>
+        public static DataTable GetListByPage_Calc(string tablename, string strWhere, int BeginIndex, int EndIndex)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("SELECT * FROM ( SELECT ROW_NUMBER() OVER (");
+            strSql.Append("order by  cast(T.wt_OrderNum as float)");
+            strSql.AppendFormat(")AS Row, T.*  from {0} T ", tablename);
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(" ) TT");
+            strSql.AppendFormat(" WHERE TT.Row between {0} and {1} ", BeginIndex, EndIndex);
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            return SqlHelper.GetTable(CommandType.Text, strSql.ToString(), commandParameters)[0];
+        }
  
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16

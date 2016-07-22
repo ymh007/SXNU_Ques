@@ -413,8 +413,24 @@
         </div>
         <div class="right wly m-l30 p-w70">
             <div class="wly_name">已创建的试题编号：</div>
-            <div class="wly_menber">
-                <ul>
+            <div class="wly_menber" id="st_numLisr">
+                <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
+                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum, click:$root.ShowSTByLoccation">1</a></li>
+                    <!-- ko if:  type()==4 -->
+                    <ul class="wly_ber" data-bind="foreach:subNum">
+                        <li><a href="javascript:void(0)" data-bind="text:ShowNum , click:$root.ShowSTByLoccation">1.1</a></li>
+                    </ul>
+                    <!-- /ko -->
+                </ul>
+                @*<ul data-bind="foreach:$root.ST_NumList">
+                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum ,click:$root.ShowSTByLoccation">1</a></li>
+                    <!-- ko if:  type()==4 -->
+                    <ul class="wly_ber" data-bind="foreach:subNum">
+                        <li><a href="javascript:void(0)" data-bind="text:ShowNum ,click:$root.ShowSTByLoccation">1.1</a></li>
+                    </ul>
+                    <!-- /ko -->
+                </ul>*@
+                @*<ul>
                     <li><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
                     <li><a class="wly_menber_hov" href="#">3</a></li>
@@ -424,7 +440,8 @@
                         <li><a href="#">3.3</a></li>
                     </ul>
                     <li><a href="#">4</a></li>
-                </ul><div class="clear"></div>
+                </ul>*@
+                <div class="clear"></div>
             </div>
             <div class="wly_yl">试题预览</div>
             <h3>1、实习中面临的主要困难是：</h3>

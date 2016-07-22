@@ -9,8 +9,10 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
     {
         public int wt_ID { get; set; }
         public int wt_WJID { get; set; }
+
+        public string wt_OrderNum { get; set; }
         public int wt_PID { get; set; }
-        public int  wt_LimitTime { get; set; }
+        public int wt_LimitTime { get; set; }
         public string wt_Title { get; set; }
         public string wt_Type { get; set; }
         public string wt_Problem { get; set; }

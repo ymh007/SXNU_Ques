@@ -153,7 +153,7 @@
 
     sxnu.EnableAccount = function (val) {
         $.ajax("/Admin/User/EnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
+            if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.GetByPageingData();
             } 
@@ -163,7 +163,7 @@
     }
     sxnu.ResetPwd = function (val) {
         $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
+            if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.BackUserList();
             }  
@@ -192,7 +192,7 @@
         if (sxnu.ValidateData(sxnu.userName(), sxnu.userEmail())) {
             $.ajax("/Admin/User/AddAccount", { async: true, type: "POST", cache: false, data: UserModel, dataType: "json", }).then(function (result) {
                 if (result) {
-                    if (result.IsSucceff) {
+                    if (result.IsSuccess) {
                         alert(flg == "C" ? "创建成功！" : "修改成功！");
                         window.location.href = "/Admin/User/AccountManage";
                     } else {
@@ -316,7 +316,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         if (!val.no_ID) { return false; }
         if (confirm("你确定要删除吗?")) {
             $.ajax("/Admin/Notice/DeleteNotice", { async: true, type: "GET", data: { ID: val.no_ID }, dataType: "json", }).then(function (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert("操作成功");
                     sxnu.GetByPageingData();
                 }
@@ -357,7 +357,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         if (!sxnu.IsCanSubmitNotice()) return false;
         $.ajax("/Admin/Notice/Add_Notice", { async: true, type: "POST", data: noticeMoel, dataType: "json", }).then(function (result) {
             if (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert(flg == "C" ? "创建成功！" : "修改成功！");
                     window.location.href = "/Admin/Notice/NoticeList";
                 } else {
