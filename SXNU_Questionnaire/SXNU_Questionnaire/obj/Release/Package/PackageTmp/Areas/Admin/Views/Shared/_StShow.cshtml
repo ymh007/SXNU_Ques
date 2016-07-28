@@ -1,0 +1,127 @@
+﻿<div class="right wly m-l30 p-w70">
+    <div class="wly_name">已创建的试题编号：</div>
+    <div class="wly_menber">
+        <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
+            <li><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation">1</a></li>
+            <!-- ko if:  type()==4 -->
+            <ul class="wly_ber" data-bind="foreach:subNum">
+                <li><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:'dbid_'+dbID},click:$root.ShowSTByLoccation">1.1</a></li>
+            </ul>
+            <!-- /ko -->
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="wly_yl">试题预览</div>
+    <div data-bind="foreach:$root.ShowSTInfo">
+
+        <!-- 视频图片绑定模板-->
+        <script type="text/html" id="pv_temp">
+            <li data-bind="if: pvp.t=='v'">
+                <video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+            </li>
+            <li data-bind="if: pvp.t=='p'">
+                <div class="left"></div><img data-bind="attr:{src:$root.pv_Path()+pvp.n}">
+            </li>
+        </script>
+
+
+        <!-- ko if:  type()==1 -->
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <div class="wly_volume vol_col">
+            <ul data-bind="foreach:wt_Options">
+                <li><input type="radio" value=" " data-bind="attr:{name:'dxst_'+$parent.dbID()}" /><!--ko text: item--><!--/ko--></li>
+                <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+            </ul>
+            <ul data-bind="foreach:wt_OtherItem">
+                <li><input type="radio" name="" value="" data-bind="attr:{name:'dxst_'+$parent.dbID()}"><!--ko text: item--><!--/ko-->  <input class="vol_inp w-330" value=""></li>
+                <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+            </ul>
+        </div>
+        <!-- /ko -->
+        <!-- ko if:  type()==2 -->
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <div class="wly_volume vol_col">
+            <ul data-bind="foreach:wt_Options">
+                <li><input type="checkbox" /><!--ko text:item--><!--/ko--></li>
+
+                <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+            </ul>
+            <ul data-bind="foreach:wt_OtherItem">
+                <li><input type="checkbox"> <!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></li>
+                <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+            </ul>
+        </div>
+        <!-- /ko -->
+        <!-- ko if:  type()==31 -->
+        <h3>2、您的专业方向是什么？请选择最贴近您实际的一项：</h3>
+        <div class="volume_img m-t10">
+            <ul>
+                <li>
+                    <div class="left m-r10"><input checked="checked" type="radio" name="" value="male" /> </div>
+                    <video width="130" height="130" controls>
+                        <source src="~/WJ_Attachment/1/20160720095626589.mp4" type="video/mp4">
+                    </video>
+                </li>
+                <li><div class="left"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img6.jpg"></li>
+
+            </ul><div class="clear"></div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if:  type()==3 -->
+        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        <!-- ko if :Customize()=="1" -->
+        <div data-bind="foreach:inputArray">
+            <div class="m-t15">
+                <input class="inf_text p-w83 left" maxlength="255" type="text" data-bind="value:txt">
+                <div class="right m-t8"><img src="~/Content/images/admin/img16.png"></div>
+                <div class="right m-t8 m-r10"><img src="~/Content/images/admin/img13.png" data-bind="click :$root.Del_wdSTItem"></div>
+                <div class="right m-t8 m-r10 m-l10"><img src="~/Content/images/admin/img12.png" data-bind="click:$root.Add_wdSTItem"> </div>
+                @*<div class="m-t15"><div class="a_red  vol_ico12" id="filePicker1">点此添加图片或视频，一次可上传多个</div></div>*@
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!-- /ko -->
+        <div data-bind="if :(IsOnline()=='1')&&(Customize()=='0')">
+            <div class="volume_kuang m-t15 m-r15">
+                <textarea clos="20" rows="3" data-bind="value:Ansure_Content "> </textarea>
+                <div class="cen_rig m-t10"><!--ko text:Clac_Len --><!--/ko-->/<!--ko text:Contentlength --><!--/ko--></div>
+            </div>
+        </div>
+        <!-- /ko -->
+        
+
+        <!-- ko if:  type()==4 -->
+        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        <div class="m-l25" data-bind="text:st_GaiYao"> </div>
+        <!-- /ko -->
+        <!-- ko if:  type()==5 -->
+        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t15 bige">
+            <tr>
+                <!-- ko foreach:AnswerList -->
+                <!-- ko if: $index()==0 -->
+                <td align="center" bgcolor=#ecf0f5 data-bind="text:a"> </td>
+                <!-- /ko -->
+                <!-- ko if:  $index()!=0 -->
+                <td align="center" bgcolor=#ecf0f5 class="p-w10" data-bind="text:a"> </td>
+                <!-- /ko -->
+                <!-- /ko -->
+            </tr>
+        </table>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="biges">
+            <tbody data-bind="foreach:TitleLsit">
+                <tr>
+                    <td data-bind="text:t"></td>
+                    <!-- ko foreach:$parent.AnswerList -->
+                    <!-- ko if:  $index()!=0 -->
+                    <td align="center" class="p-w10"><input value="male" data-bind="attr:{name: $parent.name}" type="radio"></td>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+
+    </div>
+</div>

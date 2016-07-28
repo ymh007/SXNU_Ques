@@ -1,0 +1,380 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutQues.cshtml";
+    ViewBag.flgStyle = "q";
+    ViewBag.Title = "问卷管理-问卷管理列表";
+}
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_sjSub($);
+        ko.applyBindings(pageModel, $("#ko_Question")[0]);
+        pageModel.InitUploadContron(pageModel.T_itmeID(), 'i');  // 初始化js 上传文件插件
+        pageModel.InitUploadContron(pageModel.T_otherID(), 'o');
+    });
+</script>
+<style>
+    .webuploader-container {
+        position: relative;
+    }
+
+    .webuploader-element-invisible {
+        position: absolute !important;
+        clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+        clip: rect(1px,1px,1px,1px);
+    }
+
+    .webuploader-pick {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        text-align: center;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .webuploader-pick-disable {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+</style>
+<div class="right p-w92">
+    <div class="admin_name admin_zi">问卷管理 -- <span>创建问卷</span></div>
+    <div class="admin_frame min_h p-b30" id="ko_Question">
+        <div class="newly">
+            <ul>
+                <li><a href="/admin/Question/Step1?ID=@ViewBag.WJ_ID">1.填写问卷基本信息</a></li>
+                <li><a href="/admin/Question/Step2?ID=@ViewBag.WJ_ID">2.答卷人信息设置</a></li>
+                <li><a class="newly_hover" href="/admin/Question/Step3?ID=@ViewBag.WJ_ID">3.添加试题</a></li>
+                <li><a href="/admin/Question/Step4?ID=@ViewBag.WJ_ID">4.规则设置</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
+        <input type="hidden" value="@ViewBag.ParentSJ_ID" id="ParentSJ_ID"/>
+        <div class="left p-w27 newly_bj">
+            <h3 class="h3">添加试题</h3>
+            <div class="newly_pad">
+                <h3>试题类型：</h3>
+                <div class="type m-t10">
+                    <ul>
+                        <li class="type_hover"><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(1)}">单选题</a></li>
+                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(2)}">多选题</a></li>
+                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(3)}">问答题</a></li>
+                        @*<li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(4)}">组合题</a></li>*@
+                        <li><a href="javascript:void(0)" data-bind="click:function(){ $root.Init(5)}">表格题</a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <!--单选题-->
+                <div class="test1 test m-t20 ti">
+                    <div class="newd">
+                        <h3>试题标题：</h3>
+                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title">请输内容描述</textarea>
+                        <div class="clear"></div>
+                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido().length>0">
+                            <ul data-bind="foreach:$root.Title_pic_vido">
+                                <li data-bind="if: t=='p'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li data-bind="if: t=='v'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+
+                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker1">点此添加图片或视频，一次可上传多个</div></div>
+                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                        <h3 class="m-t10">答题时间：</h3>
+                        <input maxlength="3" class="inf_text p-w98 left m-t10" data-bind="value:Time" type="text" />
+                        <div class="clear"></div>
+                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
+                        <div id="fileList"></div>
+                        <div data-bind="foreach:$root.Item">
+                            <h3 class="m-t10 left">选项：</h3>
+                            <span class="right m-t10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Other">添加其它</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Delete_Item">移除选项</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Item">添加选项</a></span>
+                            <div class="clear"></div>
+                            <input value="" class="inf_text p-w85 left m-t15" type="text" data-bind="value:item"><div class="right m-t25"><img data-bind="click:$root.IsShow_pv" src="~/Content/images/admin/img16.png"></div>
+                            <div class="clear"></div>
+                            <div class="m-t10" data-bind="visible:hs_pv" style="display:none">
+                                <h3>分值：</h3>
+                                <input value="" class="inf_text p-w98 left m-t10" maxlength="3" type="text" data-bind="value:fz">
+                                <div class="clear"></div>
+                                <h3 class="m-t10">附件：</h3>
+                                <div class="new_img m-t15" data-bind="visible:pv().length>0">
+                                    <ul data-bind="foreach:pv">
+                                        <li data-bind="if: t=='p'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <li data-bind="if: t=='v'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                                <div class="a_red  vol_ico13" data-bind="click:$root.SaveTempModel,attr: { id:id }">点此添加图片或视频，一次可上传多个</div>
+                                <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                            </div>
+                        </div>
+                        <div data-bind="foreach:$root.other">
+                            <h3 class="m-t10 left">选项：</h3>
+                            <span class="right m-t10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Other">添加其它</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Delete_OtherItem">移除其它</a></span>
+                            <div class="clear"></div>
+                            <input value="" class="inf_text p-w85 left m-t15" type="text" data-bind="value:item"><div class="right m-t25"><img data-bind="click:$root.IsShow_pv" src="~/Content/images/admin/img16.png"></div>
+                            <div class="clear"></div>
+                            <div class="m-t10" data-bind="visible:hs_pv" style="display:none">
+                                <h3>分值：</h3>
+                                <input value="" class="inf_text p-w98 left m-t10" type="text" maxlength="3" data-bind="value:fz">
+                                <div class="clear"></div>
+                                <h3 class="m-t10">附件：</h3>
+                                <div class="new_img m-t15" data-bind="visible:pv().length>0">
+                                    <ul data-bind="foreach:pv">
+                                        <li data-bind="if: t=='p'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <li data-bind="if: t=='v'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                                <div class="m-t15"><div class="a_red  vol_ico13" data-bind="click:$root.SaveTempModel,attr: { id:id }">点此添加图片或视频，一次可上传多个</div></div>
+                                <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                            </div>
+                        </div>
+                        <div class="center"><input class="sub w-110 m-t50" type="button" value="保存" data-bind="click:$root.Save_dx"></div>
+                    </div>
+                </div>
+                <!--多选题-->
+                <div class="test1 test m-t20 ti" style="display:none">
+                    <div class="newd">
+                        <h3>试题标题：</h3>
+                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title2">请输内容描述</textarea>
+                        <div class="clear"></div>
+                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido2().length>0">
+                            <ul data-bind="foreach:$root.Title_pic_vido2">
+                                <li data-bind="if: t=='p'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li data-bind="if: t=='v'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+
+                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker2">点此添加图片或视频，一次可上传多个</div></div>
+                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                        <h3 class="m-t10">答题时间：</h3>
+                        <input maxlength="3" class="inf_text p-w98 left m-t10" data-bind="value:Time2" type="text" />
+                        <div class="clear"></div>
+                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
+                        <div id="fileList"></div>
+                        <div data-bind="foreach:$root.Item2">
+                            <h3 class="m-t10 left">选项：</h3>
+                            <span class="right m-t10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Other">添加其它</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Delete_Item">移除选项</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Item">添加选项</a></span>
+                            <div class="clear"></div>
+                            <input value="" class="inf_text p-w85 left m-t15" type="text" data-bind="value:item"><div class="right m-t25"><img data-bind="click:$root.IsShow_pv" src="~/Content/images/admin/img16.png"></div>
+                            <div class="clear"></div>
+                            <div class="m-t10" data-bind="visible:hs_pv" style="display:none">
+                                <h3>分值：</h3>
+                                <input value="" class="inf_text p-w98 left m-t10" maxlength="3" type="text" data-bind="value:fz">
+                                <div class="clear"></div>
+                                <h3 class="m-t10">附件：</h3>
+                                <div class="new_img m-t15" data-bind="visible:pv().length>0">
+                                    <ul data-bind="foreach:pv">
+                                        <li data-bind="if: t=='p'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <li data-bind="if: t=='v'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelItemFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                                <div class="a_red  vol_ico13" data-bind="click:$root.SaveTempModel,attr: { id:id }">点此添加图片或视频，一次可上传多个</div>
+                                <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                            </div>
+                        </div>
+                        <div data-bind="foreach:$root.other2">
+                            <h3 class="m-t10 left">选项：</h3>
+                            <span class="right m-t10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Add_Other">添加其它</a></span>
+                            <span class="right m-t10 m-r10 new_lan"><a href="javascript:void(0)" data-bind="click:$root.Delete_OtherItem">移除其它</a></span>
+                            <div class="clear"></div>
+                            <input value="" class="inf_text p-w85 left m-t15" type="text" data-bind="value:item"><div class="right m-t25"><img data-bind="click:$root.IsShow_pv" src="~/Content/images/admin/img16.png"></div>
+                            <div class="clear"></div>
+                            <div class="m-t10" data-bind="visible:hs_pv" style="display:none">
+                                <h3>分值：</h3>
+                                <input value="" class="inf_text p-w98 left m-t10" type="text" maxlength="3" data-bind="value:fz">
+                                <div class="clear"></div>
+                                <h3 class="m-t10">附件：</h3>
+                                <div class="new_img m-t15" data-bind="visible:pv().length>0">
+                                    <ul data-bind="foreach:pv">
+                                        <li data-bind="if: t=='p'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <li data-bind="if: t=='v'">
+                                            <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                            <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                            <div class="right m-t4" data-bind="click:$root.DelOtherFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                            <div class="clear"></div>
+                                        </li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                                <div class="m-t15"><div class="a_red  vol_ico13" data-bind="click:$root.SaveTempModel,attr: { id:id }">点此添加图片或视频，一次可上传多个</div></div>
+                                <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                            </div>
+                        </div>
+                        <div class="center"><input class="sub w-110 m-t50" type="button" value="保存" data-bind="click:$root.Save_duox"></div>
+                    </div>
+                </div>
+                <!--问答题-->
+                <div class="test1 test m-t20 ti" style="display:none">
+                    <div class="newd">
+                        <h3>试题标题：</h3>
+                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title3">请输内容描述</textarea>
+                        <div class="clear"></div>
+                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido3().length>0">
+                            <ul data-bind="foreach:$root.Title_pic_vido3">
+                                <li data-bind="if: t=='p'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li data-bind="if: t=='v'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"> </div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker3">点此添加图片或视频，一次可上传多个</div></div>
+                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                        <h3 class="m-t10 m-b10">是否允许在线作答：</h3>
+                        <input checked="checked" type="radio" name="IsOnline" value="1" data-bind="checked: IsOnline" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="IsOnline" value="0" data-bind="checked: IsOnline" /> 否
+                        <h3 class="m-t10">答题时间：</h3>
+                        <input class="inf_text p-w98 left m-t10" type="text" maxlength="3" data-bind="value:Time3">
+                        <div class="clear"></div>
+                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
+                        
+                        <h3 class="m-t10">答题内容长度限制：</h3>
+                        <input class="inf_text p-w98 left m-t10" type="text" data-bind="value:Contentlength" maxlength="3">
+                        <div class="clear"></div>
+                        <div class="new_hui m-t10">默认无限制</div>
+                        <h3 class="m-t10 m-b10">是否允许自定义答案条数：</h3>
+                        <input checked="checked" type="radio" name="Customize" value="1" data-bind="checked: Customize" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="Customize" value="0" data-bind="checked: Customize" /> 否
+                        <h3 class="m-t10 m-b10">是否允许上传图片附件：</h3>
+                        <input checked="checked" type="radio" name="IsUpload" value="1" data-bind="checked: IsUpload" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="IsUpload" value="0" data-bind="checked: IsUpload" /> 否
+                        <div class="center"><input class="sub w-110 m-t50" type="button" name="" value="保存" data-bind="click:$root.Save_wd"></div>
+                    </div>
+                </div> 
+                <!--表格题-->
+                <div class="test1 test m-t20 ti" style="display:none">
+                    <div class="newd">
+                        <h3>试题标题：</h3>
+                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title5">请输内容描述</textarea>
+                        <div class="clear"></div>
+                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido5().length>0">
+                            <ul data-bind="foreach:$root.Title_pic_vido5">
+                                <li data-bind="if: t=='p'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"></div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li data-bind="if: t=='v'">
+                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
+                                    <div class="left m-l5" data-bind="text:n,click:$root.ViewImg"> </div>
+                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
+                                    <div class="clear"></div>
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker5">点此添加图片或视频，一次可上传多个</div></div>
+                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
+                        <h3 class="m-t10">答题时间：</h3>
+                        <input class="inf_text p-w98 left m-t10" type="text" maxlength="4" data-bind="value:Time5">
+                        <div class="clear"></div>
+                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
+                        <h3 class="m-t10">内容标题：</h3>
+                        <div data-bind="foreach :$root.TitleLsit">
+                            <!-- ko if:  $index()==0 -->
+                            <input class="inf_text p-w85 left m-t15" type="text" data-bind="value:t"><div class="right m-t25" data-bind="click:$root.add_Title5"><img src="~/Content/images/admin/img12.png"></div>
+                            <!-- /ko -->
+                            <!-- ko if: $index()!=0 -->
+                            <input class="inf_text p-w85 left m-t15" type="text" data-bind="value:t"><div class="right m-t25" data-bind="click:$root.del_Title5"><img src="~/Content/images/admin/img13.png"></div>
+                            <!-- /ko -->
+                        </div>
+                        <div class="clear"></div>
+                        <h3 class="m-t15 left p-w60">答案选项：</h3>
+                        <h3 class="m-t15 left">对应分值：</h3>
+                        <div class="clear"></div>
+                        <div data-bind="foreach:$root.AnswerList">
+                            <div class="m-t10" data-bind="if: $index()==0">
+                                <input class="inf_text p-w55 left m-r10" type="text" data-bind="value:a"><input maxlength="2" class="inf_text p-w25 left" type="text" data-bind="value:f">
+                                <div class="right m-t10" data-bind="click:$root.add_Answer5"><img src="~/Content/images/admin/img12.png"></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="m-t10" data-bind="if: $index()!=0">
+                                <input class="inf_text p-w55 left m-r10" type="text" data-bind="value:a"><input class="inf_text p-w25 left" type="text" maxlength="2" data-bind="value:f">
+                                <div class="right m-t10" data-bind="click:$root.del_Answer5"><img src="~/Content/images/admin/img13.png"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="center"><input class="sub w-110 m-t50" type="button" name="" value="保存" data-bind="click:$root.Save_bg"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        @RenderPage("~/Areas/Admin/Views/Shared/_StShow.cshtml")
+        <div class="clear"></div>
+    </div>
+</div>
