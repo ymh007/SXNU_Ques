@@ -153,7 +153,7 @@
 
     sxnu.EnableAccount = function (val) {
         $.ajax("/Admin/User/EnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
+            if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.GetByPageingData();
             } 
@@ -163,7 +163,7 @@
     }
     sxnu.ResetPwd = function (val) {
         $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
-            if (result.IsSucceff) {
+            if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.BackUserList();
             }  
@@ -192,7 +192,7 @@
         if (sxnu.ValidateData(sxnu.userName(), sxnu.userEmail())) {
             $.ajax("/Admin/User/AddAccount", { async: true, type: "POST", cache: false, data: UserModel, dataType: "json", }).then(function (result) {
                 if (result) {
-                    if (result.IsSucceff) {
+                    if (result.IsSuccess) {
                         alert(flg == "C" ? "创建成功！" : "修改成功！");
                         window.location.href = "/Admin/User/AccountManage";
                     } else {
@@ -246,7 +246,6 @@
     
 
 }
-
 
 var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
     var sxnu = currentDom || this;
@@ -317,7 +316,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         if (!val.no_ID) { return false; }
         if (confirm("你确定要删除吗?")) {
             $.ajax("/Admin/Notice/DeleteNotice", { async: true, type: "GET", data: { ID: val.no_ID }, dataType: "json", }).then(function (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert("操作成功");
                     sxnu.GetByPageingData();
                 }
@@ -358,7 +357,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         if (!sxnu.IsCanSubmitNotice()) return false;
         $.ajax("/Admin/Notice/Add_Notice", { async: true, type: "POST", data: noticeMoel, dataType: "json", }).then(function (result) {
             if (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert(flg == "C" ? "创建成功！" : "修改成功！");
                     window.location.href = "/Admin/Notice/NoticeList";
                 } else {
@@ -401,4 +400,197 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
 
 }
 
- 
+var SXNU_ViewModel_QuesList = function ($, currentDom) {
+    var sxnu = currentDom || this;
+     
+     
+
+    sxnu.wj_ID = ko.observable(0);
+    sxnu.SearchValue = ko.observable("");
+    //==============分页 开始==============
+    sxnu.WJ_List = ko.observableArray();
+
+    sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
+    sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
+    sxnu.am_TotalPage = ko.observable(1); // 页总数
+    sxnu.am_TotalRecord = ko.observable();//总记录数
+    sxnu.UserIsExits = ko.observable(false);
+
+    sxnu.Search_WJ = function () {
+        sxnu.am_CurrenPageIndex(0);
+        sxnu.am_TotalPage(1);
+        sxnu.GetByPageingData();
+    }
+    sxnu.Provider = function () {
+        if (sxnu.am_CurrenPageIndex() > 0) {
+            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
+            sxnu.GetByPageingData();
+        }
+    }
+    sxnu.NextPage = function () {
+        if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
+        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() + 1);
+        sxnu.GetByPageingData();
+    }
+
+    sxnu.GotoPage = function (index) {
+        if (index < 0 || index > (sxnu.am_TotalPage() - 1)) {
+            return;
+        };
+        sxnu.am_CurrenPageIndex(index);
+        sxnu.GetByPageingData();
+    }
+
+    sxnu.GetByPageingData = function () {
+        var parmentMode = {
+            StrWhere: sxnu.SearchValue().trim(),
+            CurrenPageIndex: sxnu.am_CurrenPageIndex(),
+            PageSize: sxnu.am_PageSize()
+        }
+        sxnu.WJ_List.removeAll();
+        $.ajax("/Admin/Question/QuesListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
+            if (result) {
+                sxnu.WJ_List(result.Data);
+                sxnu.am_TotalPage(result.TotalPages);
+                sxnu.am_TotalRecord(result.TotalRecords);
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+    //==============分页 结束===============
+
+
+    sxnu.CheckUserIsExist = function () {
+        if (sxnu.userName()) {
+            $.ajax("/Admin/User/CheckUserIsExist", { async: true, type: "GET", data: { LoginName: sxnu.userName() }, dataType: "json" }).then(function (result) {
+                if (result.IsExist) {
+                    sxnu.userName_vis(true);
+                    sxnu.UserIsExits(true);
+                    sxnu.userName_error_des("用户名已存在");
+                } else {
+                    sxnu.userName_vis(false);
+                    sxnu.UserIsExits(false);
+                }
+            }).fail(function () {
+                alert("系统异常！");
+            });
+        }
+    }
+
+    sxnu.M_CheckUserIsExist = function () {
+        if (sxnu.Temp_User() == sxnu.userName().trim()) {
+            return false;
+        }
+        if (sxnu.userName()) {
+            $.ajax("/Admin/User/CheckUserIsExist", { async: true, cache: false, type: "GET", data: { LoginName: sxnu.userName() }, dataType: "json", }).then(function (result) {
+                if (result.IsExist) {
+                    sxnu.userName_vis(true);
+                    sxnu.UserIsExits(true);
+                    sxnu.userName_error_des("用户名已存在");
+                } else {
+                    sxnu.userName_vis(false);
+                    sxnu.UserIsExits(false);
+                }
+            }).fail(function () {
+                alert("系统异常！");
+            });
+        }
+    }
+
+
+    sxnu.CreateAccount = function () {
+        var userModel = {
+            U_ID: 0,
+            U_LoginName: sxnu.userName(),
+            U_PWD: "123456",
+            U_Name: "",
+            U_Email: sxnu.userEmail(),
+            U_Phone: "",
+            U_Status: "y",
+            CreateTime: ""
+        };
+        sxnu.AddAndModify(userModel, "C");
+    }
+
+
+    sxnu.EnableAccount = function (val) {
+        $.ajax("/Admin/User/EnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("操作成功");
+                sxnu.GetByPageingData();
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+    sxnu.ResetPwd = function (val) {
+        $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("操作成功");
+                sxnu.BackUserList();
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+
+
+    sxnu.ModifyAccount = function () {
+        var userModel = {
+            U_ID: $("#m_id").val(),
+            U_LoginName: sxnu.userName(),
+            U_PWD: "123456",
+            U_Name: "",
+            U_Email: sxnu.userEmail(),
+            U_Phone: "",
+            U_Status: "y",
+            CreateTime: ""
+        };
+        sxnu.AddAndModify(userModel, "M");
+    }
+
+    sxnu.AddAndModify = function (UserModel, flg) {
+        if (sxnu.UserIsExits()) { return false };
+        if (sxnu.ValidateData(sxnu.userName(), sxnu.userEmail())) {
+            $.ajax("/Admin/User/AddAccount", { async: true, type: "POST", cache: false, data: UserModel, dataType: "json", }).then(function (result) {
+                if (result) {
+                    if (result.IsSuccess) {
+                        alert(flg == "C" ? "创建成功！" : "修改成功！");
+                        window.location.href = "/Admin/User/AccountManage";
+                    } else {
+                        alert(flg == "C" ? "创建失败！" : "修改失败！");
+                    }
+                }
+            }).fail(function () {
+                alert(flg == "C" ? "创建失败！" : "修改失败！");
+            });
+        }
+    }
+
+    sxnu.LoadWJ = function () {
+        if (sxnu.wj_ID() != 0) {
+            $.ajax("/Admin/Question/GetWJByID", { async: true, type: "GET", cache: true, data: { ID: sxnu.wj_ID() }, dataType: "json", }).then(function (result) {
+                if (result) {
+                    $('input[name="wj_Title"]').val(result[0].wj_Title);
+                    $('input[name="wj_ProjectSource"]').val(result[0].wj_ProjectSource);
+                    $('input[name="wj_Time"]').val(result[0].wj_Time);
+                    sxnu.ValidStart(result[0].wj_ValidStart);
+                    sxnu.ValidEnd(result[0].wj_ValidEnd);
+                    $('textarea[name="wj_BeginBody"]').html(result[0].wj_BeginBody);
+                    $("#front_cover_view").attr('src', ("/WJ_Attachment/" + sxnu.wj_ID() + "/" + result[0].wj_BeginPic));
+                }
+            }).fail(function () {
+                alert("系统异常！");
+            });
+        }
+    }
+
+
+    sxnu.PageInit = function () {
+        sxnu.GetByPageingData();
+    }
+    sxnu.PageInit();
+
+
+}

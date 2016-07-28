@@ -26,6 +26,7 @@
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tr>
+                <td ></td>
                 <td class="p-w25"><b>试题信息</b></td>
                 <td class="p-w20"><b>移动</b></td>
                 <td class="p-w35"><b>操作</b></td>
@@ -36,6 +37,7 @@
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.s4_DataArray">
                 <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
+                    <td data-bind="text:ID"> </td>
                     <td class="p-w25" data-bind="text:Title">
                         【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
                         试题标题试题标题试题标题

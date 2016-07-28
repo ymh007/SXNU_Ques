@@ -302,11 +302,7 @@
                         <input class="inf_text p-w98 left m-t10" type="text" maxlength="3" data-bind="value:Time3">
                         <div class="clear"></div>
                         <div class="new_hui m-t10">单位（秒），默认无限制</div>
-                        @*<h3 class="m-t10">选项类型：</h3>*@
-                        @*<select class="inf_text p-w100 m-t10">
-                                <option>文本框</option>
-                                <option>文本框2</option>
-                            </select>*@
+                        
                         <h3 class="m-t10">答题内容长度限制：</h3>
                         <input class="inf_text p-w98 left m-t10" type="text" data-bind="value:Contentlength" maxlength="3">
                         <div class="clear"></div>
@@ -317,40 +313,7 @@
                         <input checked="checked" type="radio" name="IsUpload" value="1" data-bind="checked: IsUpload" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="IsUpload" value="0" data-bind="checked: IsUpload" /> 否
                         <div class="center"><input class="sub w-110 m-t50" type="button" name="" value="保存" data-bind="click:$root.Save_wd"></div>
                     </div>
-                </div>
-                <!--组合题-->
-                @*<div class="test1 test m-t20 ti" style="display:none">
-                    <div class="newd">
-                        <h3>试题标题：</h3>
-                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title4">请输内容描述</textarea>
-                        <div class="clear"></div>
-                        <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido4().length>0">
-                            <ul data-bind="foreach:$root.Title_pic_vido4">
-                                <li data-bind="if: t=='p'">
-                                    <div class="left m-t4"><img src="~/Content/images/admin/img1.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"></div>
-                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
-                                    <div class="clear"></div>
-                                </li>
-                                <li data-bind="if: t=='v'">
-                                    <div class="left m-t4"><img src="~/Content/images/admin/img2.jpg"></div>
-                                    <div class="left m-l5" data-bind="text:n"> </div>
-                                    <div class="right m-t4" data-bind="click:$root.DelTitleFile"><img src="~/Content/images/admin/img3.jpg"></div>
-                                    <div class="clear"></div>
-                                </li>
-                                <div class="clear"></div>
-                            </ul>
-                        </div>
-                        <div class="m-t15"><div class="a_red  vol_ico12" id="filePicker4">点此添加图片或视频，一次可上传多个</div></div>
-                        <div class="new_hui m-t10">(图片格式：jpg、png、gif格式，最佳尺寸130*130;视频格式：flv、mp4、avi格式，最大支持5M)</div>
-                        <h3 class="m-t10">整题答题时间：</h3>
-                        <input class="inf_text p-w98 left m-t10" maxlength="4" type="text" data-bind="value:Time4">
-                        <div class="clear"></div>
-                        <div class="new_hui m-t10">单位（秒），默认无限制</div>
-                        <div class="dati m-t10">点击下面“添加子试题”进行创建单选/多选/问答/表格题型内容信息</div>
-                        <div class="center"><input class="sub w-110 m-t50" type="button" data-bind="click:$root.Save_zh" value="添加子试题"></div>
-                    </div>
-                </div>*@
+                </div> 
                 <!--表格题-->
                 <div class="test1 test m-t20 ti" style="display:none">
                     <div class="newd">
@@ -411,52 +374,7 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <div class="right wly m-l30 p-w70">
-            <div class="wly_name">已创建的试题编号：</div>
-            <div class="wly_menber" id="st_numLisr">
-                <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
-                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum, click:$root.ShowSTByLoccation">1</a></li>
-                    <!-- ko if:  type()==4 -->
-                    <ul class="wly_ber" data-bind="foreach:subNum">
-                        <li><a href="javascript:void(0)" data-bind="text:ShowNum , click:$root.ShowSTByLoccation">1.1</a></li>
-                    </ul>
-                    <!-- /ko -->
-                </ul>
-                @*<ul data-bind="foreach:$root.ST_NumList">
-                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum ,click:$root.ShowSTByLoccation">1</a></li>
-                    <!-- ko if:  type()==4 -->
-                    <ul class="wly_ber" data-bind="foreach:subNum">
-                        <li><a href="javascript:void(0)" data-bind="text:ShowNum ,click:$root.ShowSTByLoccation">1.1</a></li>
-                    </ul>
-                    <!-- /ko -->
-                </ul>*@
-                @*<ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a class="wly_menber_hov" href="#">3</a></li>
-                    <ul class="wly_ber">
-                        <li><a href="#">3.1</a></li>
-                        <li><a href="#">3.2</a></li>
-                        <li><a href="#">3.3</a></li>
-                    </ul>
-                    <li><a href="#">4</a></li>
-                </ul>*@
-                <div class="clear"></div>
-            </div>
-            <div class="wly_yl">试题预览</div>
-            <h3>1、实习中面临的主要困难是：</h3>
-            <div class="m-l25">
-                厄瓜多尔外交部在推特上援引纪尧姆·朗的话称：“我召回了我们驻巴西的大使进行磋商，我将与其进行会晤，讨论该国的政治局势。”因此，厄瓜多尔成为了第三个在罗塞夫被停职后召回本国驻巴西外交代表的拉美国家。此前委内瑞拉和萨尔瓦多已经采取了该措施。此前巴西联邦参议院(议会上院)以55票对22票通过继续推进对总统迪尔玛·罗塞夫的弹劾程序。这意味着，罗塞夫被停职180天，她的职务将由副总统米歇尔∙特梅尔履行，后者已经组建了新的政府。
-                <h3>1.1、请分析该案例（不能超过1000字）：</h3>
-                <div class="volume_kuang m-t15 m-r15">
-                    <textarea name="yj" clos="20" rows="3">请将主要困难输入此区域</textarea>
-                    <div class="cen_rig m-t10">0/1000</div>
-                </div>
-                <h3>1.2、请分析该案例：</h3>
-                <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2">请输内容描述</textarea>
-            </div>
-
-        </div>
+        @RenderPage("~/Areas/Admin/Views/Shared/_StShow.cshtml")
         <div class="clear"></div>
     </div>
 </div>

@@ -321,6 +321,7 @@
     <Content Include="Areas\Admin\Views\Shared\_LayoutQues.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Subst.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Modst.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_StShow.cshtml" />
     <None Include="Properties\PublishProfiles\ww.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\add_data.js" />
@@ -344,6 +345,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PageJS\index.js" />
+    <Content Include="Scripts\uploader.swf" />
     <Content Include="Scripts\webuploader.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

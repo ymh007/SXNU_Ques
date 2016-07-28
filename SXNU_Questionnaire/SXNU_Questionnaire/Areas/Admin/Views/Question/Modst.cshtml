@@ -324,6 +324,8 @@
                     <div class="newd">
                         <h3>试题标题：</h3>
                         <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: Title4">请输内容描述</textarea>
+                        <h3>试题概要：</h3>
+                        <textarea class="inf_textarea p-w98 left m-t10" name="" cols="20" rows="2" data-bind="value: st_GaiYao">请输入试题概要</textarea>
                         <div class="clear"></div>
                         <div class="new_img m-t15" data-bind="visible:$root.Title_pic_vido4().length>0">
                             <ul data-bind="foreach:$root.Title_pic_vido4">
@@ -412,99 +414,7 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <div class="right wly m-l30 p-w70">
-            <div class="wly_name">已创建的试题编号：</div>
-            <div class="wly_menber">
-                <ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a class="wly_menber_hov" href="#">3</a></li>
-                    <ul class="wly_ber">
-                        <li><a href="#">3.1</a></li>
-                        <li><a href="#">3.2</a></li>
-                        <li><a href="#">3.3</a></li>
-                    </ul>
-                    <li><a href="#">4</a></li>
-                </ul><div class="clear"></div>
-            </div>
-            <div class="wly_yl">试题预览</div>
-            <h3 class="vol_col">1、您的专业方向是什么？请选择最贴近您实际的一项：<span class="vol">本题剩余时间：<span class="wly_red">00:00</span></span> <span class="vol vol_red" style="display:none">对不起，您已超时，该题作废</span></h3>
-            <div class="wly_volume vol_col">
-                <ul>
-                    <li><input type="radio" checked="checked" name="" value="male" /> 艺术与文化（例如：设计、文艺、音乐等）</li>
-                    <li><input type="radio" name="" value="male" /> 人文科学（例如：历史学、哲学、语言学等）</li>
-                    <li><input type="radio" name="" value="male" /> 经济与社会科学（例如：经济学、心理学、教育学等）</li>
-                    <li><input type="radio" name="" value="male" /> 物理与工程科学（例如：物理学、化学、工程学、计算机科学等）</li>
-                    <li><input type="radio" name="" value="male" /> 其它科学 请注明：<input class="vol_inp w-330" value=""></li>
-                </ul>
-            </div>
-            <h3>2、您的专业方向是什么？请选择最贴近您实际的一项：</h3>
-            <div class="volume_img m-t10">
-                <ul>
-                    <li><div class="left m-r10"><input checked="checked" type="radio" name="" value="male" /></div><img src="~/Content/images/img5.jpg"></li>
-                    <li><div class="left"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img6.jpg"></li>
-                    <li><div class="left m-r10"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img5.jpg"></li>
-                    <li><div class="left"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img6.jpg"></li>
-                </ul><div class="clear"></div>
-            </div>
-            <h3>3、实习中面临的主要困难是（每项不超过100字）：</h3>
-            <div class="m-t15">
-                <input value="请输入选项内容" class="inf_text p-w83 left" type="">
-                <div class="right m-t8"><img src="~/Content/images/admin/img16.png"></div>
-                <div class="right m-t8 m-r10"><img src="~/Content/images/admin/img13.png"></div>
-                <div class="right m-t8 m-r10 m-l10"><img src="~/Content/images/admin/img12.png"></div>
-                <div class="clear"></div>
-            </div>
-            <div class="m-t15">
-                <input value="请输入选项内容" class="inf_text p-w83 left" type="">
-                <div class="right m-t8"><img src="~/Content/images/admin/img16.png"></div>
-                <div class="right m-t8 m-r10"><img src="~/Content/images/admin/img13.png"></div>
-                <div class="right m-t8 m-r10 m-l10"><img src="~/Content/images/admin/img12.png"></div>
-                <div class="clear"></div>
-            </div>
-            <h3>4、实习中面临的主要困难是：</h3>
-            <div>厄瓜多尔外交部在推特上援引纪尧姆·朗的话称：“我召回了我们驻巴西的大使进行磋商，我将与其进行会晤，讨论该国的政治局势。”因此，厄瓜多尔成为了第三个在罗塞夫被停职后召回本国驻巴西外交代表的拉美国家。此前委内瑞拉和萨尔瓦多已经采取了该措施。此前巴西联邦参议院(议会上院)以55票对22票通过继续推进对总统迪尔玛·罗塞夫的弹劾程序。这意味着，罗塞夫被停职180天，她的职务将由副总统米歇尔∙特梅尔履行，后者已经组建了新的政府。</div>
-            <h3>5、关于您目前写日记的水平，请在您认为正确的选项上做出选择：</h3>
-            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t15 bige">
-                <tr>
-                    <td align="center" bgcolor=#ecf0f5>内容项</td>
-                    <td align="center" bgcolor=#ecf0f5 class="p-w10">很低</td>
-                    <td align="center" bgcolor=#ecf0f5 class="p-w10">低</td>
-                    <td align="center" bgcolor=#ecf0f5 class="p-w10">高</td>
-                    <td align="center" bgcolor=#ecf0f5 class="p-w10">很高</td>
-                </tr>
-            </table>
-            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="biges">
-                <tr>
-                    <td>（1）.与我的同学相比，我写日记的水平是</td>
-                    <td align="center" class="p-w10"><input checked="checked" name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                </tr>
-                <tr>
-                    <td>（2）.与我理想中的状态相比，我写日记的水平</td>
-                    <td align="center" class="p-w10"><input checked="checked" name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                </tr>
-                <tr>
-                    <td>（3）.不写日记，我各方面能力提高的可能性</td>
-                    <td align="center" class="p-w10"><input checked="checked" name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                </tr>
-                <tr>
-                    <td>（4）.我写日记的频率</td>
-                    <td align="center" class="p-w10"><input checked="checked" name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                    <td align="center" class="p-w10"><input name="" value="male" type="radio"></td>
-                </tr>
-            </table>
-        </div>
+         @RenderPage("~/Areas/Admin/Views/Shared/_StShow.cshtml")
         <div class="clear"></div>
     </div>
 </div>

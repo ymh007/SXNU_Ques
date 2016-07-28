@@ -36,7 +36,7 @@
         var UserID=rowdata.id;
         $.ajax("/Test/DeleteUser?ID=" + UserID, { async: true, type: "GET", data: { Id: UserID }, dataType: "json", }).then(function (result) {
             if (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert("删除成功！");
                     window.location.href = "/Test/ShowData";
                 } else {
@@ -58,7 +58,7 @@
         }
         $.ajax("/Test/AddData_DB", { async: true, type: "POST", data: add_model, dataType: "json", }).then(function (result) {
             if (result) {
-                if (result.IsSucceff) {
+                if (result.IsSuccess) {
                     alert("添加成功！");
                     window.location.href = "/Test/ShowData";
                 } else {

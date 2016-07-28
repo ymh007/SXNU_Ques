@@ -23,9 +23,10 @@
             </ul>
         </div>
         <div class="clear"></div>
-        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" />
+        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tr>
+                <td ></td>
                 <td class="p-w25"><b>试题信息</b></td>
                 <td class="p-w20"><b>移动</b></td>
                 <td class="p-w35"><b>操作</b></td>
@@ -35,19 +36,20 @@
 
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.s4_DataArray">
-                <tr>
+                <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
+                    <td data-bind="text:ID"> </td>
                     <td class="p-w25" data-bind="text:Title">
                         【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
                         试题标题试题标题试题标题
                     </td>
                     <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
                     <td class="p-w35">
-                        <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                        <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                        <span class="ico vol_ico14 m-r20"><a href="#">添加分页</a></span>
+                        <span class="ico vol_ico3 m-r20"><a href="javascript:void(0)" data-bind="attr: { href:'/Admin/Question/Modst?sjid='+ID+'&wjid='+wj_ID }">修改</a></span>
+                        <span class="ico_red vol_ico4 m-r20"><a href="javascript:void(0)" data-bind="click:$root.Delete_SJ">删除</a></span>
+                        <span class="ico vol_ico14 m-r20"><a href="javascript:void(0)" >添加分页</a></span>
 
-                        <span class="hei vol_ico9 m-r20"><a href="#">取消休息</a></span>
-                        <span class="ico vol_ico15"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialogs" data-mask="1" data-width="640px" href="#">相加关联</a></span>
+                        <span class="hei vol_ico9 m-r20"><a href="javascript:void(0)">取消休息</a></span>
+                        <span class="ico vol_ico15"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialogs" data-mask="1" data-width="640px" href="javascript:void(0)">相加关联</a></span>
                     </td>
                     <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
                 </tr>
@@ -117,7 +119,7 @@
     </div>
 </div>
 
-<script language="javascript">
+@*<script language="javascript">
 window.onload=function showtable(){
 var tablename=document.getElementById("mytable");
 var li=tablename.getElementsByTagName("tr");
@@ -127,7 +129,7 @@ li[i].style.backgroundColor="#f7f8fa";
 }else li[i].style.backgroundColor="#FFFFFF";
 }
 }
-</script>
+</script>*@
 
 <div id="mydialog">
     <div class="dialog">
