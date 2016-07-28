@@ -325,6 +325,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
             dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
+
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_ZHST(dx);

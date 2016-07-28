@@ -41,6 +41,7 @@ namespace SXNU_Questionnaire
             //  公共脚本
             bundles.Add(new ScriptBundle("~/js/Common").Include(
            "~/Scripts/jquery-{version}.js",
+           "~/Scripts/jquery.loadmask.js",
            "~/Scripts/knockout-2.2.0.js"));
 
 
@@ -65,12 +66,18 @@ namespace SXNU_Questionnaire
            // bundles.Add(new ScriptBundle("~/js/admin/Page/notice").Include(
            //"~/Scripts/admin/notice.js"));
 
-    
+             //  前台页面
             bundles.Add(new StyleBundle("~/Content/PageCss").Include(
                  "~/Content/css/css.css",
                  "~/Content/css/m-p.css",
                  "~/Content/css/w-h.css"));
+
+
+
+
             bundles.Add(new StyleBundle("~/Content/admin/PageCss").Include(
+               "~/Content/themes/base/jquery-ui.css",
+               "~/Content/themes/base/jquery.loadmask.css",
                "~/Content/css/admin.css",
                "~/Content/css/m-p.css",
                "~/Content/css/w-h.css"));
@@ -79,8 +86,9 @@ namespace SXNU_Questionnaire
 
 
 
-            bundles.Add(new StyleBundle("~/Content/QuesCss").Include(
-                 "~/Content/themes/base/jquery-ui.css"));
+            //bundles.Add(new StyleBundle("~/Content/QuesCss").Include(
+            //     "~/Content/themes/base/jquery-ui.css",
+            //     "~/Content/themes/base/jquery.loadmask.css"));
 
         }
     }

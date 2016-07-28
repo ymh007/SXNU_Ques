@@ -9,6 +9,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
     {
         public int wj_ID { get; set; }
         public string wj_ProjectSource { get; set; }
+       
         public string wj_Number { get; set; }
         public string wj_Sponsor { get; set; }
         public string wj_Time { get; set; }

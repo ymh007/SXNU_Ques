@@ -1312,6 +1312,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.subNumList = ko.observableArray();
     sxnu.Globle_STList = ko.observableArray(); 
     sxnu.Load_ST_List = function () {
+        $("#MaskMain").mask("正在加载.......");
         if (sxnu.wj_ID() != 0) {
             $.ajax("/Admin/Question/GetSTBy_WJID", { async: true, type: "GET", cache: true, data: { ID: sxnu.wj_ID() }, dataType: "json", }).then(function (result) {
                 if (result) { 
@@ -1339,6 +1340,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                             num = 1;
                         }
                     });
+                    //$("#MaskMain").unmask();
 
                 }
             }).fail(function () {
@@ -2158,6 +2160,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
 
     sxnu.Load_ST_List = function (model) {
         if (sxnu.wj_ID() != 0) {
+            $("#MaskMain").mask("正在加载.......");
             sxnu.Globle_STList.removeAll();
             sxnu.subNumList.removeAll();
             sxnu.ST_NumList.removeAll();
@@ -2196,6 +2199,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                     if (model) {
                         sxnu.ShowSTByLoccation(model);
                     }
+                    //$("#MaskMain").unmask();
                 }
             }).fail(function () {
                 alert("系统异常！");

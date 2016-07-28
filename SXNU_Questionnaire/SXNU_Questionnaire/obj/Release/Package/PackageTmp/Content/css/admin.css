@@ -308,12 +308,12 @@ img {
 
 .wly_yl{ background: #e4e7ea; color: #333; font-size: 18px; font-weight: bold; padding: 10px 0px 15px 15px;}
 .wly_menber{ margin-bottom: 20px;}
-.wly_menber ul li{ border:1px solid #841c21; width: 34px; height: 34px; line-height: 34px; float: left; text-align: center; margin-right: 10px; border-radius: 3px; font-size: 18px; font-weight: bold;}
+.wly_menber ul li{ border:1px solid #841c21; width: 34px; height: 34px; line-height: 34px; float: left; text-align: center; margin-right: 10px; border-radius: 3px; font-size: 18px; font-weight: bold;margin-bottom:10px;}
 .wly_menber ul li:hover{ background: #841c21}
 .wly_menber ul li a{ color: #333; display: block;}
 .wly_menber ul li a:hover{ color: #fff}
 .wly_menber ul li .wly_menber_hov{ background: #841c21; color: #fff}
-.wly_menber ul .wly_ber li{ font-size: 14px; font-weight: normal; width: 38px; height: 28px; line-height: 28px; margin-top: 5px;}
+.wly_menber ul .wly_ber li{ font-size: 14px; font-weight: normal; width: 38px; height: 29px; line-height: 29px; margin-top: 5px;}
 .dati{ background: #d7dce0; font-size: 12px; color: #666; line-height: 20px; padding: 15px 10px;}
 
 .bige{ border:1px solid #d6d6d6; border-right:none;}
