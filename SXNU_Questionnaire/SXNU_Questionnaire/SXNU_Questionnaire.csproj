@@ -180,7 +180,6 @@
     <Content Include="App_Data\ICSharpCode.SharpZipLib.dll" />
     <Content Include="App_Data\NPOI.dll" />
     <Content Include="Content\css\admin.css" />
-    <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\images\admin\1.jpg" />
     <Content Include="Content\images\admin\admin_logo.png" />
     <Content Include="Content\images\admin\admin_logo1.png" />
@@ -239,6 +238,7 @@
     <Content Include="Content\images\vol_heng.jpg" />
     <Content Include="Content\themes\base\bootstrap.css" />
     <Content Include="Content\themes\base\bootstrap.min.css" />
+    <Content Include="Content\themes\base\images\loading.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />

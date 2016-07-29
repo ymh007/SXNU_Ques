@@ -310,6 +310,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
+            dx.wt_Pageing = "n";
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_DXST(dx);
@@ -325,7 +326,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
             dx.wt_Options = dx.wt_Options == null ? "" : dx.wt_Options;
-
+            dx.wt_Pageing = "n";
             JsMessage jm = new JsMessage();
             string ResultStr = string.Empty;
             jm = Sql_STManage.Add_ZHST(dx);
@@ -336,6 +337,23 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
 
+
+        public ActionResult Set_Sleep(DanXuan dx) 
+        {
+            dx.wt_Sleep = dx.wt_Sleep == null ? "" : dx.wt_Sleep;
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_STManage.SetST_Sleep(dx);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
+        public ActionResult Set_Pageing(DanXuan dx)
+        {
+            JsMessage jm = new JsMessage();
+            jm = Sql_STManage.SetST_Pageing(dx);
+            return Content(JsonTool.ObjToJson(jm));
+        }
 
     }
 }

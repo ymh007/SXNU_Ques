@@ -19,5 +19,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
         public string wt_Options { get; set; }
         public string wt_IsAnswer { get; set; }
         public string wt_LogicRelated { get; set; }
+        public string wt_Pageing { get; set; }
     }
+     
 }

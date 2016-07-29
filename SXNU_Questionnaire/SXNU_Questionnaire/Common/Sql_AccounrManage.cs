@@ -549,6 +549,7 @@ namespace SXNU_Questionnaire.Common
                                ([wt_WJID]
                                ,[wt_OrderNum]
                                ,[wt_Title]
+                               ,[wt_Pageing]
                                ,[wt_PID]
                                ,[wt_LimitTime]
                                ,[wt_Type]
@@ -560,6 +561,7 @@ namespace SXNU_Questionnaire.Common
                                (@wt_WJID,
                                 @wt_OrderNum,
                                 @wt_Title,
+                                @wt_Pageing,
                                 @wt_PID,
                                 @wt_LimitTime,
                                 @wt_Type, 
@@ -571,6 +573,7 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wt_WJID",DX.wt_WJID),
                 new SqlParameter("@wt_OrderNum",DX.wt_OrderNum),
                 new SqlParameter("@wt_Title",DX.wt_Title),
+                new SqlParameter("@wt_Pageing",DX.wt_Pageing),
                 new SqlParameter("@wt_PID",DX.wt_PID),
                 new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
                 new SqlParameter("@wt_Type",DX.wt_Type),
@@ -586,7 +589,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[10].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[11].Value.ToString());
                 }
                 else
                 {
@@ -643,6 +646,77 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
+
+
+        /// <summary>
+        /// 设置试题休息
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage SetST_Sleep(DanXuan DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WT]
+                              SET  [wt_Sleep] = @wt_Sleep   WHERE [wt_ID]=@wt_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{  
+                new SqlParameter("@wt_Sleep",SqlDbType.VarChar,1000){Value=DX.wt_Sleep},
+                new SqlParameter("@wt_ID",DX.wt_ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
+
+        /// <summary>
+        /// 设置试题分页
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage SetST_Pageing(DanXuan DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WT]
+                              SET  [wt_Pageing] = @wt_Pageing   WHERE [wt_ID]=@wt_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{  
+                new SqlParameter("@wt_Pageing",DX.wt_Pageing),
+                new SqlParameter("@wt_ID",DX.wt_ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
         /// <summary>
         /// 添加组合题
         /// </summary>
@@ -655,6 +729,7 @@ namespace SXNU_Questionnaire.Common
                                ([wt_WJID]
                                ,[wt_OrderNum]
                                ,[wt_Title]
+                               ,[wt_Pageing]
                                ,[wt_PID]
                                ,[wt_LimitTime]
                                ,[wt_Type]
@@ -666,6 +741,7 @@ namespace SXNU_Questionnaire.Common
                                (@wt_WJID,
                                 @wt_OrderNum,
                                 @wt_Title,
+                                @wt_Pageing,
                                 @wt_PID,
                                 @wt_LimitTime,
                                 @wt_Type, 
@@ -677,6 +753,7 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wt_WJID",DX.wt_WJID),
                 new SqlParameter("@wt_OrderNum",DX.wt_OrderNum),
                 new SqlParameter("@wt_Title",DX.wt_Title),
+                new SqlParameter("@wt_Pageing",DX.wt_Pageing),
                 new SqlParameter("@wt_PID",DX.wt_PID),
                 new SqlParameter("@wt_LimitTime",DX.wt_LimitTime), 
                 new SqlParameter("@wt_Type",DX.wt_Type),
@@ -692,7 +769,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[10].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[11].Value.ToString());
                 }
                 else
                 {

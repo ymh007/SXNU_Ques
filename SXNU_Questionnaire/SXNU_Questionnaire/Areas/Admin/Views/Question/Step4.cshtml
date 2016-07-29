@@ -26,7 +26,7 @@
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tr>
-                <td ></td>
+                @*<td>题号</td>*@
                 <td class="p-w25"><b>试题信息</b></td>
                 <td class="p-w20"><b>移动</b></td>
                 <td class="p-w35"><b>操作</b></td>
@@ -37,133 +37,65 @@
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.s4_DataArray">
                 <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
-                    <td data-bind="text:ID"> </td>
-                    <td class="p-w25" data-bind="text:Title">
-                        【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                        试题标题试题标题试题标题
-                    </td>
+                    @*<td data-bind="text:ID"> </td>*@
+                    <td class="p-w25" data-bind="text:Title"> </td>
                     <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
                     <td class="p-w35">
                         <span class="ico vol_ico3 m-r20"><a href="javascript:void(0)" data-bind="attr: { href:'/Admin/Question/Modst?sjid='+ID+'&wjid='+wj_ID }">修改</a></span>
                         <span class="ico_red vol_ico4 m-r20"><a href="javascript:void(0)" data-bind="click:$root.Delete_SJ">删除</a></span>
-                        <span class="ico vol_ico14 m-r20"><a href="javascript:void(0)" >添加分页</a></span>
 
-                        <span class="hei vol_ico9 m-r20"><a href="javascript:void(0)">取消休息</a></span>
-                        <span class="ico vol_ico15"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialogs" data-mask="1" data-width="640px" href="javascript:void(0)">相加关联</a></span>
+                        <span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="javascript:void(0)" data-bind="click:function(){ $root.Set_Pageing(this)}">添加分页</a></span>
+                        <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="#" data-bind="click:function(){ $root.Set_Pageing(this)}">取消分页</a></span>
+
+                        @*<span class="ico vol_ico14 m-r20" data-bind="visible:paging=='y'"><a href="javascript:void(0)" data-bind="click: $root.Add_pagging">添加分页</a></span>
+                        <span class="hei vol_ico14 m-r20" data-bind="visible:paging=='n'"><a href="#" data-bind="click: $root.Cancel_pagging">取消分页</a></span>*@
+
+
+                        <span class="hei vol_ico9 m-r20" data-bind="visible:!IsShowSl"><a href="javascript:void(0)" data-bind="click:$root.Cancel_Sleep">取消休息</a></span>
+                        <span class="ico vol_ico9 m-r20" data-bind="visible:IsShowSl"><a class=" button button-big bg-main dialogs" data-bind="click:$root.Set_Sleep" href="#">设置休息</a></span>
+
+
+
+                        <span class="ico vol_ico15" data-bind="visible:IsShowRe"><a class="button button-big bg-main dialogs" data-bind="click:$root.Set_Relation" href="#">相加关联</a></span>
+                        <span class="ico_red vol_ico15" data-bind="visible:!IsShowRe"><a href="#">删除关联</a></span>
                     </td>
                     <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
-                </tr>
-                @*<tr>
-                <td class="p-w25">
-                    【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                    试题标题试题标题试题标题
-                </td>
-                <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
-                <td class="p-w35">
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                    <span class="hei vol_ico14 m-r20"><a href="#">取消分页</a></span>
-
-                    <span class="ico vol_ico9 m-r20"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="640px" href="#">设置休息</a></span>
-                    <span class="ico_red vol_ico15"><a href="#">删除关联</a></span>
-                </td>
-                <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
-            </tr>
-            <tr>
-                <td class="p-w25">
-                    【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                    试题标题试题标题试题标题
-                </td>
-                <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
-                <td class="p-w35">
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                    <span class="hei vol_ico14 m-r20"><a href="#">取消分页</a></span>
-
-                    <span class="ico vol_ico9 m-r20"><a class="button button-big bg-main dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="640px" href="#">设置休息</a></span>
-                    <span class="ico vol_ico15"><a href="#">删除关联</a></span>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="p-w25">
-                    【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                    试题标题试题标题试题标题
-                </td>
-                <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
-                <td class="p-w35">
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="p-w25">
-                    【单选题】试题标题试题标题试题标题试题标题试题标题试题标题试题标题试题
-                    试题标题试题标题试题标题
-                </td>
-                <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
-                <td class="p-w35">
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4 m-r20"><a href="#">删除</a></span>
-                </td>
-                <td></td>
-            </tr>*@
+                </tr> 
             </tbody>
-            </table>
+        </table>
 
 
-                <div class="w-100 centers m-t40">
-                    <input type="submit" value="保存问卷" class="a_red w-120" />
-                </div>
-    </div>
-</div>
-
-@*<script language="javascript">
-window.onload=function showtable(){
-var tablename=document.getElementById("mytable");
-var li=tablename.getElementsByTagName("tr");
-for (var i=0;i<=li.length;i++){
-if (i%2==0){
-li[i].style.backgroundColor="#f7f8fa";
-}else li[i].style.backgroundColor="#FFFFFF";
-}
-}
-</script>*@
-
-<div id="mydialog">
-    <div class="dialog">
-        <div class="dialog-head">
-            <strong>设置休息</strong><span class="close rotate-hover"></span>
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="保存问卷" class="a_red w-120" />
         </div>
+    </div>
 
+
+
+
+    <div class="dialog" id="s4_sleep" title="设置休息">
         <div class="dialog-body m-t10 m-b10">
             <div class="m-l25" style="font-size: 15px;">提示：设置后，系统将在该题答完后进入答卷休息状态。</div>
             <div class="m-t15">
                 <div class="inf_left w-100"><span class="ind_red">*</span> 提示文字：</div>
-                <textarea class="inf_textarea w-460 left" name="" cols="20" rows="3">请输入休息提示文字</textarea>
+                <textarea class="inf_textarea w-460 left" name="" cols="20" rows="3" data-bind="value:Sleep_Notify"></textarea>
                 <div class="clear"></div>
             </div>
             <div class="m-t15">
                 <div class="inf_left w-100"><span class="ind_red">*</span> 休息时间：</div>
-                <input value="请输休息时间" class="inf_text w-300 left" type="">
+                <input value="" class="inf_text w-300 left" type="text" maxlength="2" data-bind="value:Sleep_Time">
                 <div class="left m-l10 m-t8">秒</div>
                 <div class="clear"></div>
             </div>
             <div class="w-100 centers m-t40">
-                <input value="提 交" class="a_red w-120" type="submit">
+                <input value="提 交" class="a_red w-120" type="button" data-bind="click:submit_Sleep">
             </div>
         </div>
-
     </div>
-</div>
 
-<div id="mydialogs">
-    <div class="dialog">
-        <div class="dialog-head">
-            <strong>添加关联</strong><span class="close rotate-hover"></span>
-        </div>
 
+    @*@RenderPage("~/Areas/Admin/Views/Shared/_StShow.cshtml")*@
+    <div class="dialog" id="s4_relation" title="添加关联">
         <div class="dialog-body m-t10 m-b10">
             <span class="vol">本题剩余时间：<span class="wly_red">00:00</span></span>
             <div class="newly_gl">
@@ -186,8 +118,10 @@ li[i].style.backgroundColor="#f7f8fa";
                 </div>
             </div>
             <div class="w-100 centers m-t40">
-                <input value="提 交" class="a_red w-120" type="submit">
+                <input value="提 交" class="a_red w-120" type="button">
             </div>
         </div>
     </div>
-</div>
+
+</div> 
+

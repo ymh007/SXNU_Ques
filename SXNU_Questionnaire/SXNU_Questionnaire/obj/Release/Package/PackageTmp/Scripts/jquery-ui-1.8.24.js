@@ -8862,7 +8862,8 @@ $.widget("ui.dialog", {
 			uiDialogTitlebar = (self.uiDialogTitlebar = $('<div></div>'))
 				.addClass(
 					'ui-dialog-titlebar ' +
-					'ui-widget-header ' +
+					//'ui-widget-header ' +
+                    //'dialog-head'+
 					'ui-corner-all ' +
 					'ui-helper-clearfix'
 				)
