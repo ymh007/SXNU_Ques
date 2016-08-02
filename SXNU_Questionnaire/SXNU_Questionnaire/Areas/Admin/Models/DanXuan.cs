@@ -21,5 +21,21 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
         public string wt_LogicRelated { get; set; }
         public string wt_Pageing { get; set; }
     }
+    public class Up_Down 
+    {
+        public int Pro_ID { get; set; }
+
+        public string Pro_Num { get; set; }
+
+        public int Pro_PID { get; set; }
+
+        public int Next_ID { get; set; }
+
+        public string Next_Num { get; set; }
+
+        public int Next_PID { get; set; }
+
+
+    }
      
 }

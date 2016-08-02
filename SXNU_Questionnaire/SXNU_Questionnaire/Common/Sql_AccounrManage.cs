@@ -716,6 +716,74 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
+        /// <summary>
+        /// 设置试题排序号码
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage SetST_UD(Up_Down UD)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WT]  SET  [wt_OrderNum] ='" + UD.Pro_Num + "'  WHERE [wt_ID]=" + UD.Pro_ID + " ; UPDATE [dbo].[WT]  SET  [wt_OrderNum] = '" + UD.Next_Num + "'   WHERE [wt_ID]=" + UD.Next_ID;
+            //string SqlStr = @" UPDATE [dbo].[WT]  SET  [wt_PID]="+UD.Pro_PID+", [wt_OrderNum] ='" + UD.Pro_Num + "'  WHERE [wt_ID]=" + UD.Pro_ID + " ; UPDATE [dbo].[WT]  SET  [wt_PID]="+UD.Next_PID+", [wt_OrderNum] = '" + UD.Next_Num + "'   WHERE [wt_ID]=" + UD.Next_ID;
+            //SqlParameter[] commandParameters = new SqlParameter[]{  };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, null);
+                if (flg == 2)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
+
+
+        /// <summary>
+        /// 设置试题逻辑关系
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Set_Relation(DanXuan dx)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WT]  SET  [wt_Options] = @wt_Options ,[wt_LogicRelated]=@wt_LogicRelated  WHERE [wt_ID]=@wt_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{  
+                new SqlParameter("@wt_Options",SqlDbType.VarChar,6000){Value=dx.wt_Options},
+                new SqlParameter("@wt_LogicRelated",SqlDbType.VarChar,10){Value=dx.wt_LogicRelated},
+                new SqlParameter("@wt_ID",dx.wt_ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
+
 
         /// <summary>
         /// 添加组合题

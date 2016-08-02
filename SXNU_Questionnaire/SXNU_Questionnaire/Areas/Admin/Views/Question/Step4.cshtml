@@ -26,7 +26,7 @@
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tr>
-                @*<td>题号</td>*@
+                <td>题号</td>
                 <td class="p-w25"><b>试题信息</b></td>
                 <td class="p-w20"><b>移动</b></td>
                 <td class="p-w35"><b>操作</b></td>
@@ -37,30 +37,31 @@
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.s4_DataArray">
                 <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
-                    @*<td data-bind="text:ID"> </td>*@
+                    <td data-bind="text:showNumber"> </td>
                     <td class="p-w25" data-bind="text:Title"> </td>
-                    <td class="p-w20"><span class="vol_ico10 newly_span">上移</span><span class="vol_ico11 newly_span">下移</span></td>
+                    <td class="p-w20" data-bind="value:index = $index()"><span class="vol_ico10 newly_span" data-bind="click:$root.ST_up">上移</span><span class="vol_ico11 newly_span" data-bind="click:$root.ST_down">下移</span></td>
                     <td class="p-w35">
                         <span class="ico vol_ico3 m-r20"><a href="javascript:void(0)" data-bind="attr: { href:'/Admin/Question/Modst?sjid='+ID+'&wjid='+wj_ID }">修改</a></span>
                         <span class="ico_red vol_ico4 m-r20"><a href="javascript:void(0)" data-bind="click:$root.Delete_SJ">删除</a></span>
 
-                        <span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="javascript:void(0)" data-bind="click:function(){ $root.Set_Pageing(this)}">添加分页</a></span>
-                        <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="#" data-bind="click:function(){ $root.Set_Pageing(this)}">取消分页</a></span>
+                        @*<span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="javascript:void(0)" data-bind="click:function(){ $root.Set_Pageing(this)}">添加分页</a></span>
+                            <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="#" data-bind="click:function(){ $root.Set_Pageing(this)}">取消分页</a></span>*@
 
-                        @*<span class="ico vol_ico14 m-r20" data-bind="visible:paging=='y'"><a href="javascript:void(0)" data-bind="click: $root.Add_pagging">添加分页</a></span>
-                        <span class="hei vol_ico14 m-r20" data-bind="visible:paging=='n'"><a href="#" data-bind="click: $root.Cancel_pagging">取消分页</a></span>*@
-
-
+                        <!-- ko if:  pID==0 -->
+                        <span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="javascript:void(0)" data-bind="click: $root.Set_Pageing">添加分页</a></span>
+                        <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="#" data-bind="click: $root.Set_Pageing">取消分页</a></span>
+                        <!-- /ko -->
+                        <!-- ko if:  pID==0 -->
                         <span class="hei vol_ico9 m-r20" data-bind="visible:!IsShowSl"><a href="javascript:void(0)" data-bind="click:$root.Cancel_Sleep">取消休息</a></span>
                         <span class="ico vol_ico9 m-r20" data-bind="visible:IsShowSl"><a class=" button button-big bg-main dialogs" data-bind="click:$root.Set_Sleep" href="#">设置休息</a></span>
-
-
-
+                        <!-- /ko -->
+                        <!-- ko if: type==1 || type==2 -->
                         <span class="ico vol_ico15" data-bind="visible:IsShowRe"><a class="button button-big bg-main dialogs" data-bind="click:$root.Set_Relation" href="#">相加关联</a></span>
-                        <span class="ico_red vol_ico15" data-bind="visible:!IsShowRe"><a href="#">删除关联</a></span>
+                        <span class="ico_red vol_ico15" data-bind="visible:!IsShowRe"><a href="#" data-bind="click:$root.Del_Relation">删除关联</a></span>
+                        <!-- /ko -->
                     </td>
                     <td>选A跳转至第3题，选B跳转至第3题，选C跳转至第3题，选D跳转至第3题</td>
-                </tr> 
+                </tr>
             </tbody>
         </table>
 
@@ -94,34 +95,103 @@
     </div>
 
 
-    @*@RenderPage("~/Areas/Admin/Views/Shared/_StShow.cshtml")*@
+
     <div class="dialog" id="s4_relation" title="添加关联">
         <div class="dialog-body m-t10 m-b10">
-            <span class="vol">本题剩余时间：<span class="wly_red">00:00</span></span>
-            <div class="newly_gl">
-                <h3>1、您的专业方向是什么？请选择最贴近您实际的一项：<div class="right m-t4"><img src="~/Content/images/admin/img16.png"></div></h3>
+            @*<span class="vol">本题剩余时间：<span class="wly_red">00:00</span></span>*@
+            <div class="newly_gl " data-bind="foreach:$root.ShowSTInfo">
+                <!-- 视频图片绑定模板-->
+                <script type="text/html" id="pv_temp">
+                    <li data-bind="if: pvp.t=='v'">
+                        <video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                    </li>
+                    <li data-bind="if: pvp.t=='p'">
+                        <div class="left"></div><img data-bind="attr:{src:$root.pv_Path()+pvp.n}">
+                    </li>
+                </script>
+
+
+                <!-- ko if:  type()==1 -->
+                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
                 <div class="lume_img m-t10">
-                    <ul>
-                        <li><img src="~/Content/images/img5.jpg"></li>
-                        <li><img src="~/Content/images/img6.jpg"></li>
-                        <li><img src="~/Content/images/img5.jpg"></li>
-                    </ul><div class="clear"></div>
+                    <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                    <div class="clear"></div>
                 </div>
-                <div class="lume_list">
-                    <ul>
-                        <li><div class="w-390 left"><input checked="checked" name="" value="male" type="radio"> 艺术与文化（例如：设计、文艺、音乐等）</div><div class="right">跳转至 <input class="inf_textxx w-40" value=""> 题</div></li>
-                        <li><div class="w-390 left"><input name="" value="male" type="radio"> 人文科学（例如：历史学、哲学、语言学等）</div><div class="right">跳转至 <input class="inf_textxx w-40" value=""> 题</div></li>
-                        <li><div class="w-390 left"><input name="" value="male" type="radio"> 经济与社会科学（例如：经济学、心理学、教育学等）</div><div class="right">跳转至 <input class="inf_textxx w-40" value=""> 题</div></li>
-                        <li><div class="w-390 left"><input name="" value="male" type="radio"> 物理与工程科学（例如：物理学、化学、工程学、计...</div><div class="right">跳转至 <input class="inf_textxx w-40" value=""> 题</div></li>
-                        <li><div class="w-390 left"><input name="" value="male" type="radio"> 其它科学</div><div class="right">跳转至 <input class="inf_textxx w-40" value=""> 题</div></li>
+                <div class="wly_volume vol_col">
+                    <ul data-bind="foreach:wt_Options">
+                        <li>
+                            <div class="w-390 left"><input type="radio" value=" " data-bind="attr:{name:'dxst_'+$parent.dbID()}" /><!--ko text: item--><!--/ko--></div>
+                            <div class="right">
+                                跳转至
+                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                    <option  value="">请选择</option>
+                                    <!-- ko foreach:$root.Relation_NumList -->
+                                    <option data-bind="value:ID,text: showNumber"></option> <!-- /ko -->
+                                </select> 题
+                            </div>
+                        </li>
+                        <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                    </ul>
+                    <ul data-bind="foreach:wt_OtherItem">
+                        <li>
+                            <div class="w-390 left"><input type="radio" name="" value="" data-bind="attr:{name:'dxst_'+$parent.dbID()}"><!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></div>
+                            <div class="right">
+                                跳转至
+                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                    <option value="">请选择</option>
+                                    <!-- ko foreach:$root.Relation_NumList -->
+                                    <option data-bind="value:ID,text :showNumber"></option> <!-- /ko -->
+                                </select> 题
+                            </div>
+                        </li>
+                        <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                     </ul>
                 </div>
+                <!-- /ko -->
+                <!-- ko if:  type()==2 -->
+                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+                <div class="lume_img m-t10">
+                    <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="wly_volume vol_col">
+                    <ul data-bind="foreach:wt_Options">
+                        <li>
+                            <div class="w-390 left"><input type="checkbox" /><!--ko text:item--><!--/ko--></div>
+                            <div class="right">
+                                跳转至
+                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                    <option value="">请选择</option>
+                                    <!-- ko foreach:$root.Relation_NumList -->
+                                    <option data-bind="value:ID, text:showNumber"></option> <!-- /ko -->
+                                </select> 题
+                            </div>
+                        </li>
+                        <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                    </ul>
+                    <ul data-bind="foreach:wt_OtherItem">
+                        <li>
+                            <div class="w-390 left"><input type="checkbox"> <!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></div>
+                            <div class="right">
+                                跳转至
+                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                    <option  value="">请选择</option>
+                                    <!-- ko foreach:$root.Relation_NumList -->
+                                    <option data-bind="value:ID,text: showNumber"></option> <!-- /ko -->
+                                </select> 题
+                            </div>
+                        </li>
+                        <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                    </ul>
+                </div>
+                <!-- /ko -->
+
             </div>
+            <div class="clear"></div>
             <div class="w-100 centers m-t40">
-                <input value="提 交" class="a_red w-120" type="button">
+                <input value="提 交" class="a_red w-120" type="button" data-bind="click:$root.Submited_Relation">
             </div>
         </div>
     </div>
-
-</div> 
+</div>
 

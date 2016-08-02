@@ -22,11 +22,13 @@
             <li data-bind="if: pvp.t=='p'">
                 <div class="left"></div><img data-bind="attr:{src:$root.pv_Path()+pvp.n}">
             </li>
-        </script>
-
-
+        </script> 
         <!-- ko if:  type()==1 -->
         <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <div class="lume_img m-t10">
+            <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+            <div class="clear"></div>
+        </div>
         <div class="wly_volume vol_col">
             <ul data-bind="foreach:wt_Options">
                 <li><input type="radio" value=" " data-bind="attr:{name:'dxst_'+$parent.dbID()}" /><!--ko text: item--><!--/ko--></li>
@@ -40,6 +42,10 @@
         <!-- /ko -->
         <!-- ko if:  type()==2 -->
         <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <div class="lume_img m-t10">
+            <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+            <div class="clear"></div>
+        </div>
         <div class="wly_volume vol_col">
             <ul data-bind="foreach:wt_Options">
                 <li><input type="checkbox" /><!--ko text:item--><!--/ko--></li>
@@ -52,8 +58,10 @@
             </ul>
         </div>
         <!-- /ko -->
-        <!-- ko if:  type()==31 -->
-        <h3>2、您的专业方向是什么？请选择最贴近您实际的一项：</h3>
+
+
+        
+        @*<h3>2、您的专业方向是什么？请选择最贴近您实际的一项：</h3>
         <div class="volume_img m-t10">
             <ul>
                 <li>
@@ -65,11 +73,16 @@
                 <li><div class="left"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img6.jpg"></li>
 
             </ul><div class="clear"></div>
-        </div>
-        <!-- /ko -->
+        </div>*@
+         
 
         <!-- ko if:  type()==3 -->
-        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+        <div class="lume_img m-t10">
+            <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+            <div class="clear"></div>
+        </div>
         <!-- ko if :Customize()=="1" -->
         <div data-bind="foreach:inputArray">
             <div class="m-t15">
@@ -92,11 +105,23 @@
         
 
         <!-- ko if:  type()==4 -->
-        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+        <div class="lume_img m-t10">
+            <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+            <div class="clear"></div>
+        </div>
         <div class="m-l25" data-bind="text:st_GaiYao"> </div>
         <!-- /ko -->
+
+
         <!-- ko if:  type()==5 -->
-        <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>
+        @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+        <div class="lume_img m-t10">
+            <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+            <div class="clear"></div>
+        </div>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t15 bige">
             <tr>
                 <!-- ko foreach:AnswerList -->

@@ -355,6 +355,28 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return Content(JsonTool.ObjToJson(jm));
         }
 
+        public ActionResult Set_UP_Down(Up_Down UD)
+        {
+            JsMessage jm = new JsMessage();
+            jm = Sql_STManage.SetST_UD(UD);
+            return Content(JsonTool.ObjToJson(jm));
+        }
+
+        public ActionResult Set_Relation(DanXuan dx)
+        {
+            JsMessage jm = new JsMessage();
+            if (dx.wt_LogicRelated.Length != 0)
+            {
+                dx.wt_LogicRelated = "y";
+                jm = Sql_STManage.Set_Relation(dx);
+            }
+            else {
+                dx.wt_LogicRelated = "";
+                jm = Sql_STManage.Set_Relation(dx);
+            }
+            return Content(JsonTool.ObjToJson(jm));
+        }
+
     }
 }
                                                                                                                                                                                                        
