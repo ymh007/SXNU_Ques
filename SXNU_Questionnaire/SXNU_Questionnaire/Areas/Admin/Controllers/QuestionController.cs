@@ -38,7 +38,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             return View();
         }
-        public ActionResult QuesListByPage(QueryModel Q) 
+        public ActionResult QuesListByPage(QueryModel Q)
         {
             String ResultJson = "";
             string StrWhere = "";
@@ -50,6 +50,25 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
+
+            if (dt != null)
+            {
+                dt.Columns.Add("IsExpire");
+                DateTime NowDate = DateTime.Now;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    //DateTime start = DateTime.Parse(dt.Rows[i]["wj_ValidStart"].ToString());
+                    DateTime end = DateTime.Parse(dt.Rows[i]["wj_ValidEnd"].ToString());
+                    if (NowDate > end)
+                    {
+                        dt.Rows[i]["IsExpire"] = "y";
+                    }
+                    else
+                    {
+                        dt.Rows[i]["IsExpire"] = "n";
+                    }
+                }
+            }
             int TotalRecords = SqlStr_Process.GetTotalRecord("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere);
             int TotalPages = TotalRecords / Q.PageSize + (TotalRecords % Q.PageSize == 0 ? 0 : 1);
             ResultJson = "{\"Data\":" + JsonTool.DtToJson(dt) + ", \"TotalRecords\":" + TotalRecords + ",\"TotalPages\":" + TotalPages + "}";
@@ -61,7 +80,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Modst(int sjid,int wjid) 
+        public ActionResult Modst(int sjid, int wjid)
         {
             ViewBag.SJ_ID = sjid;
             ViewBag.WJ_ID = wjid;
@@ -84,7 +103,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             if (ID > 0)
             {
-                ViewBag.WJ_ID = ID; 
+                ViewBag.WJ_ID = ID;
                 return View();
             }
             else
@@ -126,8 +145,8 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_ValidEnd = Request.Form["wj_ValidEnd"];
             wj.wj_BeginBody = Request.Form["wj_BeginBody"];
             wj.wj_BeginPic = Request.Form["WJ_nfm"];
-            
-           
+
+
             if (Request.Files.Count > 0)
             {
                 if (Request.Files[0].ContentLength > 0)
@@ -143,7 +162,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_BaseInfo = "";
             wj.wj_EndBody = "";
             wj.wj_PageSize = "";
-            wj.wj_Status = "C";
+            wj.wj_Status = "n";
             wj.wj_Sponsor = "";
             wj.wj_PublishTime = DateTime.Now.ToString();
 
@@ -206,7 +225,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
 
-        public ActionResult GetSTBy_WJID(int ID) 
+        public ActionResult GetSTBy_WJID(int ID)
         {
             DataTable dt = SqlStr_Process.GetListByPage_Calc("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, 0, 9999);
             return Content(JsonTool.DtToJson(dt));
@@ -248,7 +267,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             filePathName = DateTime.Now.ToString("yyyyMMddhhmmss") + DateTime.Now.Millisecond.ToString() + ex;
             file.SaveAs(Path.Combine(PhysicalPath, filePathName));
             return Json(new
-            { 
+            {
                 id = id,
                 fileName = filePathName
             });
@@ -271,7 +290,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
 
 
-        #region =========== 保存试题=============  
+        #region =========== 保存试题=============
         /// <summary>
         /// 保存单选题  多选
         /// </summary>
@@ -301,7 +320,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return Content(ResultStr);
         }
 
-        
+
         /// <summary>
         /// 保存试题
         /// </summary>
@@ -332,13 +351,13 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             jm = Sql_STManage.Add_ZHST(dx);
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
-        } 
+        }
         #endregion
 
 
 
 
-        public ActionResult Set_Sleep(DanXuan dx) 
+        public ActionResult Set_Sleep(DanXuan dx)
         {
             dx.wt_Sleep = dx.wt_Sleep == null ? "" : dx.wt_Sleep;
             JsMessage jm = new JsMessage();
@@ -370,13 +389,42 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                 dx.wt_LogicRelated = "y";
                 jm = Sql_STManage.Set_Relation(dx);
             }
-            else {
+            else
+            {
                 dx.wt_LogicRelated = "";
                 jm = Sql_STManage.Set_Relation(dx);
             }
             return Content(JsonTool.ObjToJson(jm));
         }
 
+
+
+
+        public ActionResult Del_WJ(QuestionInfo Q)
+        {
+            JsMessage jm = new JsMessage();
+            jm = Sql_QuestionManage.Del_WJ(Q);
+            try
+            {
+                string PhysicalPath = Path.Combine(Request.MapPath("~/WJ_Attachment/"), Q.wj_ID.ToString());
+                if (Directory.Exists(PhysicalPath))
+                {
+                   System.IO.Directory.Delete(PhysicalPath, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                jm.ErrorMsg = ex.ToString();
+            }
+            return Content(JsonTool.ObjToJson(jm));
+        }
+        public ActionResult publishWJ(QuestionInfo Q)
+        {
+            JsMessage jm = new JsMessage();
+            jm = Sql_QuestionManage.PublishWJ(Q);
+            return Content(JsonTool.ObjToJson(jm));
+        }
+         
+ 
     }
 }
-                                                                                                                                                                                                       

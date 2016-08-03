@@ -495,6 +495,68 @@ namespace SXNU_Questionnaire.Common
 
 
 
+        /// <summary>
+        /// 删除问卷
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
+        public static JsMessage Del_WJ(QuestionInfo q)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = "DELETE FROM [dbo].[WJ]  WHERE  [wj_ID]=" + q.wj_ID + " ;  DELETE FROM [dbo].[WT]  WHERE  [wt_WJID]=" + q.wj_ID ;
+            //SqlParameter[] commandParameters = new SqlParameter[] { new SqlParameter("@wt_ID", ID) };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, null);
+                if (flg != 0)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+       
+
+
+        public static JsMessage PublishWJ(QuestionInfo Q)
+        {
+            Q.wj_PublishTime =Q.wj_Status=="y"? DateTime.Now.ToString():"";
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[WJ] SET  [wj_Status] = @wj_Status ,[wj_PublishTime]=@wj_PublishTime  WHERE [wj_ID]=@wj_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{  
+                new SqlParameter("@wj_Status",Q.wj_Status),
+                new SqlParameter("@wj_PublishTime",Q.wj_PublishTime),
+                new SqlParameter("@wj_ID",Q.wj_ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
     }
 
 
@@ -852,6 +914,17 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

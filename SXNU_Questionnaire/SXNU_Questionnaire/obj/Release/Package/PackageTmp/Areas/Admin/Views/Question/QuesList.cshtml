@@ -32,59 +32,21 @@
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:$root.WJ_List">
                 <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
-                    <td class="p-w18"><span class="vol_red m-r5" data-bind="text:'正在处理'">进行中</span><!--ko text: wj_Title--><!--/ko--></td>
+                    <td class="p-w18"><span  data-bind="text:IsExpire=='y'?'已过期':'正在进行',attr:{ class :IsExpire=='y'?'vol_ash m-r5':'vol_red m-r5'}"></span><!--ko text: wj_Title--><!--/ko--></td>
                     <td class="p-w15" data-bind="text:wj_ProjectSource">小学科学教程难易度的国际比较</td>
                     <td class="p-w15" data-bind="text:wj_ValidStart+'--'+wj_ValidEnd">2016/03/10--2016/06/12</td>
                     <td class="p-w8" data-bind="text:wj_Sponsor">张峰</td>
                     <td class="p-w8" data-bind="text:wj_PublishTime">2016/03/08</td>
                     <td class="p-w15" data-bind="text:wj_Number">VNFDDFDF58552</td>
                     <td>
-                        <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                        <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
+                        @*<span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>*@
+                        <span class="ico vol_ico2 m-r20" data-bind="visible:wj_Status=='n'"><a href="#" data-bind="click:$root.publishWJ">发布</a></span>
+                        <span class="ico vol_ico6 m-r20" data-bind="visible:wj_Status=='y'"><a href="#" data-bind="click:$root.recall_WJ">撤回</a></span>
+                        <span class="ico vol_ico5 m-r20" data-bind="visible:wj_Status=='y'"><a href="/admin/Question/AnswerDetails">查看回收数据</a></span>
                         <span class="ico vol_ico3 m-r20"><a data-bind="attr: { href: '/admin/Question/Step1?ID='+wj_ID }">修改</a></span>
-                        <span class="ico_red vol_ico4"><a href="#">删除</a></span>
+                        <span class="ico_red vol_ico4"><a href="#" data-bind="click:$root.Del_WJ">删除</a></span>
                     </td>
-                </tr>
-                @*<tr>
-                <td><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
-                <td>小学科学教程难易度的国际比较</td>
-                <td>2016/03/10--2016/06/12</td>
-                <td>张峰</td>
-                <td>2016/03/08</td>
-                <td>VNFDDFDF58552</td>
-                <td>
-                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                    <span class="ico vol_ico5 m-r20"><a href="/admin/Question/AnswerDetails">查看回收数据</a></span>
-                    <span class="ico vol_ico6 m-r20"><a href="#">撤回</a></span>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="vol_ash m-r5">进行中</span>企业员工满意度调查问卷</td>
-                <td>小学科学教程难易度的国际比较</td>
-                <td>2016/03/10--2016/06/12</td>
-                <td>张峰</td>
-                <td>2016/03/08</td>
-                <td>VNFDDFDF58552</td>
-                <td>
-                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                    <span class="ico vol_ico5 m-r20"><a href="/admin/Question/AnswerDetails">查看回收数据</a></span>
-                    <span class="ico vol_ico6 m-r20"><a href="#">撤回</a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="p-w18"><span class="vol_red m-r5">进行中</span>企业员工满意度调查问卷</td>
-                <td class="p-w15">小学科学教程难易度的国际比较</td>
-                <td class="p-w15">2016/03/10--2016/06/12</td>
-                <td class="p-w8">张峰</td>
-                <td class="p-w8">2016/03/08</td>
-                <td class="p-w15">VNFDDFDF58552</td>
-                <td>
-                    <span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>
-                    <span class="ico vol_ico2 m-r20"><a href="#">发布</a></span>
-                    <span class="ico vol_ico3 m-r20"><a href="#">修改</a></span>
-                    <span class="ico_red vol_ico4"><a href="#">删除</a></span>
-                </td>
-            </tr>*@
+                </tr> 
             </tbody>
         </table>
     </div>

@@ -13,10 +13,10 @@
     sxnu.Temp_User = ko.observable();
     sxnu.SearchValue = ko.observable("");
 
-     
+
     //==============分页 开始==============
     sxnu.accountList = ko.observableArray();
-     
+
     sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
     sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
     sxnu.am_TotalPage = ko.observable(1); // 页总数
@@ -31,7 +31,7 @@
         }
     }
     sxnu.NextPage = function () {
-        if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return  ;}
+        if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
         sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() + 1);
         sxnu.GetByPageingData();
     }
@@ -67,7 +67,7 @@
     //    window.location.href = "/Admin/User/AccountModify?ID=" + val.am_ID + "&loginName=" + encodeURIComponent(val.am_LoginUser) + "&Email=" + encodeURIComponent( val.am_Email) + "";
     //}
 
-    sxnu.InvaildStr = function (val) { 
+    sxnu.InvaildStr = function (val) {
         var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
         if (patrn.test(val)) {
             return true;
@@ -91,7 +91,7 @@
         window.location.href = "/Admin/Home/Home";
     }
 
-   
+
 
 
     sxnu.CheckUserIsExist = function () {
@@ -134,29 +134,29 @@
 
     sxnu.CreateAccount = function () {
         var userModel = {
-            U_ID:0,
+            U_ID: 0,
             U_LoginName: sxnu.userName(),
-            U_PWD:"123456",
+            U_PWD: "123456",
             U_Name: "",
             U_Email: sxnu.userEmail(),
             U_Phone: "",
             U_Status: "y",
             CreateTime: ""
-        }; 
+        };
         sxnu.AddAndModify(userModel, "C");
     }
 
     sxnu.BackUserList = function () {
         window.location.href = "/Admin/User/AccountManage";
     }
-   
+
 
     sxnu.EnableAccount = function (val) {
         $.ajax("/Admin/User/EnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.GetByPageingData();
-            } 
+            }
         }).fail(function () {
             alert("系统异常！");
         });
@@ -166,7 +166,7 @@
             if (result.IsSuccess) {
                 alert("操作成功");
                 sxnu.BackUserList();
-            }  
+            }
         }).fail(function () {
             alert("系统异常！");
         });
@@ -215,7 +215,7 @@
             sxnu.userName_vis(false);
             flg = true;
         }
-         
+
         //if (!email) {
         //    sxnu.userEmail_vis(true);
         //    sxnu.userEmail_error_des("邮箱不能为空");
@@ -228,7 +228,7 @@
         } else {
             sxnu.userEmail_vis(false);
             flg = true;
-        } 
+        }
         return flg;
     }
 
@@ -241,9 +241,9 @@
         sxnu.userEmail($("#m_email").val()),
         sxnu.Temp_User($("#m_loginname").val());
         sxnu.GetByPageingData();
-    } 
+    }
     sxnu.PageInit();
-    
+
 
 }
 
@@ -254,7 +254,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
 
     sxnu.no_title = ko.observable("");
     sxnu.no_content = ko.observable("");
-    
+
     sxnu.noTitle_vis = ko.observable(false);
     sxnu.noContent_vis = ko.observable(false);
 
@@ -303,7 +303,12 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         sxnu.NoticeList.removeAll();
         $.ajax("/Admin/Notice/ShowNoticeListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
             if (result) {
-                sxnu.NoticeList(result.Data);
+                $.each(result.Data, function (i, v) {
+                    if (v.no_Title.length > 25) {
+                        v.no_Title = v.no_Title.substr(0, 25) + "...";
+                    }
+                    sxnu.NoticeList.push(v);
+                });
                 sxnu.am_TotalPage(result.TotalPages);
                 sxnu.am_TotalRecord(result.TotalRecords);
             }
@@ -335,7 +340,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         sxnu.GetByPageingData();
     }
     sxnu.IsCanSubmitNotice = function () {
-        var flg = true; 
+        var flg = true;
         if (!sxnu.no_title().trim()) {
             sxnu.noTitle_vis(true);
             flg = false;
@@ -349,11 +354,11 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
         } else {
             sxnu.noContent_vis(false);
             flg = true;
-        } 
-        return flg; 
-         
+        }
+        return flg;
+
     }
-    sxnu.CreateAndModeify = function (noticeMoel,flg) {
+    sxnu.CreateAndModeify = function (noticeMoel, flg) {
         if (!sxnu.IsCanSubmitNotice()) return false;
         $.ajax("/Admin/Notice/Add_Notice", { async: true, type: "POST", data: noticeMoel, dataType: "json", }).then(function (result) {
             if (result) {
@@ -377,7 +382,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
             No_PublicTime: "",
             No_IsExpired: "n"
         }
-        sxnu.CreateAndModeify(noticeMoel,"C");
+        sxnu.CreateAndModeify(noticeMoel, "C");
     }
     sxnu.Modify_Notice = function () {
         var noticeMoel = {
@@ -387,7 +392,7 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
             No_PublicTime: "",
             No_IsExpired: "n"
         }
-        sxnu.CreateAndModeify(noticeMoel,"M");
+        sxnu.CreateAndModeify(noticeMoel, "M");
 
     }
     sxnu.PageInit = function () {
@@ -402,8 +407,8 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
 
 var SXNU_ViewModel_QuesList = function ($, currentDom) {
     var sxnu = currentDom || this;
-     
-     
+
+
 
     sxnu.wj_ID = ko.observable(0);
     sxnu.SearchValue = ko.observable("");
@@ -450,7 +455,16 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
         sxnu.WJ_List.removeAll();
         $.ajax("/Admin/Question/QuesListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
             if (result) {
-                sxnu.WJ_List(result.Data);
+               
+                $.each(result.Data, function (i, v) {
+                    if (v.wj_Title.length > 10) {
+                        v.wj_Title = v.wj_Title.substr(0, 10) + "...";
+                    }
+                    if (v.wj_ProjectSource.length > 10) {
+                        v.wj_ProjectSource = v.wj_ProjectSource.substr(0, 10) + "...";
+                    }
+                    sxnu.WJ_List.push(v);
+                });
                 sxnu.am_TotalPage(result.TotalPages);
                 sxnu.am_TotalRecord(result.TotalRecords);
             }
@@ -459,6 +473,55 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
         });
     }
     //==============分页 结束===============
+
+    sxnu.recall_WJ = function (val) {
+        if (confirm("你确定要撤回问卷吗?")) {
+            var WJ_Model = {
+                wj_ID: val.wj_ID,
+                wj_PublishTime: "",
+                wj_Status: "n"
+            }
+            sxnu.Set_WJ_Status(WJ_Model);
+        }
+    }
+
+    sxnu.publishWJ = function (val) {
+        if (confirm("你确定要发布问卷吗?")) {
+            var WJ_Model = {
+                wj_ID: val.wj_ID,
+                wj_PublishTime: "",
+                wj_Status: "y"
+            }
+            sxnu.Set_WJ_Status(WJ_Model);
+        }
+    }
+    sxnu.Set_WJ_Status = function (WJ_Model) {
+        $.ajax("/Admin/Question/publishWJ", { async: true, type: "GET", data: WJ_Model, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("操作成功");
+                sxnu.GetByPageingData();
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+    sxnu.Del_WJ = function (val) {
+        if (confirm("你确定要删除问卷以及对应的试题信息吗?")) {
+            var WJ_Model = {
+                wj_ID: val.wj_ID
+                //wj_PublishTime  :"",
+                //wj_Status:""  
+            }
+            $.ajax("/Admin/Question/Del_WJ", { async: true, type: "GET", data: WJ_Model, dataType: "json", }).then(function (result) {
+                if (result.IsSuccess) {
+                    alert("操作成功");
+                    sxnu.GetByPageingData();
+                }
+            }).fail(function () {
+                alert("系统异常！");
+            });
+        }
+    }
 
 
     sxnu.CheckUserIsExist = function () {

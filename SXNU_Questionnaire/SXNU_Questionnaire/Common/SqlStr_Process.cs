@@ -19,7 +19,7 @@ namespace SXNU_Questionnaire.Common
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("SELECT * FROM ( SELECT ROW_NUMBER() OVER (");
-            strSql.Append("order by T." + orderby);
+            strSql.Append("order by T." + orderby+" desc");
             strSql.AppendFormat(")AS Row, T.*  from {0} T ", tablename);
             if (!string.IsNullOrEmpty(strWhere.Trim()))
             {
@@ -49,7 +49,39 @@ namespace SXNU_Questionnaire.Common
             SqlParameter[] commandParameters = new SqlParameter[] { };
             return SqlHelper.GetTable(CommandType.Text, strSql.ToString(), commandParameters)[0];
         }
- 
+
+        /// <summary>
+        /// 主页展示数据
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <returns></returns>
+        public static DataTable GetIndexData(string strSql)
+        {
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            return SqlHelper.GetTable(CommandType.Text, strSql, commandParameters)[0];
+        }
+
+        /// <summary>
+        /// 主页全部通知数据展示 两张表
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <returns></returns>
+        public static DataTableCollection GetNoticeByYear(string strSql)
+        {
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            return SqlHelper.GetTable(CommandType.Text, strSql, commandParameters);
+        }
+        public static string ReturnJSONStr() 
+        {
+
+            string SqlStr = "select  DateName(year,no_PublicTime) as No_Year  from  [dbo].[Notice]  GROUP BY  DateName(year,no_PublicTime) ; select  DateName(year,no_PublicTime)as No_Year,*   from  [dbo].[Notice]";
+            DataTableCollection ds= SqlStr_Process.GetNoticeByYear(SqlStr);
+            String ResultJson = "";
+            return ResultJson = "{\"Data\":" + JsonTool.DtToJson(ds[1]) + ", \"Years\":" + JsonTool.DtToJson(ds[0]) + "}";
+        }
+
+
+
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16
         /// </summary>
