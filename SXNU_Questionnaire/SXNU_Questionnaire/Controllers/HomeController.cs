@@ -24,9 +24,7 @@ namespace SXNU_Questionnaire.Controllers
         {
             return View();
         }
-
-
-
+         
       
     }
 }

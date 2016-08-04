@@ -20,6 +20,8 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
         public string U_Phone { get; set; }
         public string U_Status { get; set; }
 
+        public string U_Role { get; set; }
         public string CreateTime { get; set; }
+
     }
 }

@@ -2,165 +2,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "通知中心";
     ViewBag.flgStyle = "note";
-} 
-@*<div class="wrapper">
-    <div class="left w-30 m-t18"><img src="~/Content/images/home.jpg"></div>
-    <div class="left w-630 nav m-t3">
-        <ul>
-            <li><a href="/Home/Index">首页</a></li>
-            <li><a href="/Ques/Ques">问卷中心</a></li>
-            <li><a class="nav_hover" href="/Notice/Notice">通知中心</a></li>
-        </ul>
-    </div>
-    <div class="right search_k m-t11"><img class="left m-r10" src="~/Content/images/sec.jpg"><input class="w-270 search" value="请输入关键字"></div>
-    <div class="clear"></div>
-</div>*@
+}
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Index_Notice($);
+        ko.applyBindings(pageModel, $("#NoticePage")[0]);
+
+    });
+</script>
 <div class="show_h"></div>
 <div class="wrapper m-t30 m-b30">
     <div><img src="~/Content/images/center.jpg"></div>
 
     <div class="content">
-        <div class="wrapper">
-            <div class="main">
-                <div class="year">
+        <div class="wrapper" id="NoticePage">
+            <div class="main" data-bind="foreach:$root.newNotice">
+
+                <div class="year" data-bind="attr:{class:$index()==0?'year':'year closes'}">
                     <h1 class="title"></h1>
-                    <h2><a href="#">2014年</a></h2>
+                    <h2><a href="#" data-bind="text:N_Year()+'年'"></a></h2>
                     <div class="list">
-                        <ul>
+                        <ul data-bind="foreach:YearList">
                             <li class="cls">
-                                <p class="date">03/26</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通知问卷通知</p>
+                                <p class="date" data-bind="text:No_md">03/26</p>
+                                <p class="intro" data-bind="text:no_Title"></p>
                                 <p class="version">&nbsp;</p>
                                 <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="/Notice/NoticeDetail">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/19</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/12</p>
-                                <p class="intro">企业员工满意调通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/05</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">02/26</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="year closes">
-                    <h1 class="title"></h1>
-                    <h2><a href="#">2013年</a></h2>
-                    <div class="list">
-                        <ul>
-                            <li class="cls">
-                                <p class="date">03/19</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/12</p>
-                                <p class="intro">企业员工满意调通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/05</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">09/20</p>
-                                <p class="intro">微俱聚V5.1上线</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>发力行业O2O应用，为商家提供量身定制的行业方案<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="year closes">
-                    <h1 class="title"></h1>
-                    <h2><a href="#">2012年</a></h2>
-                    <div class="list">
-                        <ul>
-                            <li class="cls">
-                                <p class="date">03/19</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/12</p>
-                                <p class="intro">企业员工满意调通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="year closes">
-                    <h1 class="title"></h1>
-                    <h2><a href="#">2011年</a></h2>
-                    <div class="list">
-                        <ul>
-                            <li class="cls">
-                                <p class="date">03/19</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/12</p>
-                                <p class="intro">企业员工满意调通知问卷通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企业员工满意调查问...<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
-                                </div>
-                            </li>
-                            <li class="cls">
-                                <p class="date">03/05</p>
-                                <p class="intro">企业员工满意调查问卷通知问卷通通知</p>
-                                <p class="version">&nbsp;</p>
-                                <div class="more">
-                                    <p>企业员工满意调查问卷通知问卷通知企业员工满意调查问卷通知企业员工满意调查问卷通知问卷通知企<span class="m-l20 red"><a href="#">查看详情>></a></span></p>
+                                    <p ><!--ko text: no_Content--><!--/ko--><span class="m-l20 red"><a data-bind="attr:{href:'/Notice/NoticeDetail?ID='+no_ID}">查看详情</a></span></p>
                                 </div>
                             </li>
                         </ul>
@@ -170,14 +38,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(".main .year .list").each(function (e, target) {
-        var $target = $(target),
-            $ul = $target.find("ul");
-        $target.height($ul.outerHeight()), $ul.css("position", "absolute");
-    });
-    $(".main .year>h2>a").click(function (e) {
-        e.preventDefault();
-        $(this).parents(".year").toggleClass("closes");
-    });
-</script>

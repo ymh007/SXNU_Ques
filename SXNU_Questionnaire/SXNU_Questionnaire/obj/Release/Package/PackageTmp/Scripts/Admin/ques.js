@@ -13,7 +13,7 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
     sxnu.SearchValue = ko.observable("");
     sxnu.ValidStart = ko.observable();
     sxnu.ValidEnd = ko.observable();
-
+    sxnu.IsExitisFile = ko.observable(false);
     sxnu.ValidStart.subscribe(function (val) {
         $("#ValidEnd").datepicker("option", "minDate", val);
 
@@ -24,7 +24,26 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
 
 
     sxnu.Submited_Step1 = function () {
-        //window.location.href = "/Admin/Question/Step2";
+        var wj_Title =  $("[name='wj_Title']").val();
+        var wj_ProjectSource = $("[name='wj_ProjectSource']").val();
+        var wj_Time = $("[name='wj_Time']").val();
+        var wj_BeginBody = $("[name='wj_BeginBody']").val();
+        if (!$.trim(wj_Title) || !$.trim(wj_ProjectSource) || !$.trim(wj_Time) || !$.trim(wj_BeginBody)) {
+            alert("问卷信息不完整！");
+            return false;
+        }
+        if (!sxnu.IsNumber(wj_Time)) {
+            alert("问卷时间格式不正确");
+            return false;
+        }
+        if (!sxnu.ValidStart() || !sxnu.ValidEnd()) {
+            alert("请设置问卷有效期！");
+            return false;
+        }
+        if (!sxnu.IsExitisFile()) {
+            alert("请选择问卷封面图片");
+            return false;
+        }
         return true;
     }
 
@@ -35,6 +54,7 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $("#front_cover_view").attr("src", e.target.result);
+                    sxnu.IsExitisFile(true);
                     //$("#fn").text(file.name);
                     //$("#fs").text(file.size + "bytes");
                 }

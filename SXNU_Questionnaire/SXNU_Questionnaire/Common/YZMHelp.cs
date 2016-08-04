@@ -110,16 +110,16 @@ namespace SXNU_Questionnaire.Common
         private string text;
         private Bitmap image;
         private int letterCount = 4;   //验证码位数
-        private int letterWidth = 16;  //单个字体的宽度范围
-        private int letterHeight = 20; //单个字体的高度范围
+        private int letterWidth = 30;  //单个字体的宽度范围
+        private int letterHeight = 50; //单个字体的高度范围
         private static byte[] randb = new byte[4];
         private static RNGCryptoServiceProvider rand = new RNGCryptoServiceProvider();
         private Font[] fonts = 
     {
-       new Font(new FontFamily("Times New Roman"),12 +Next(1),System.Drawing.FontStyle.Regular),
-       new Font(new FontFamily("Georgia"), 12 + Next(1),System.Drawing.FontStyle.Regular),
-       new Font(new FontFamily("Arial"), 12 + Next(1),System.Drawing.FontStyle.Regular),
-       new Font(new FontFamily("Comic Sans MS"), 12 + Next(1),System.Drawing.FontStyle.Regular)
+       new Font(new FontFamily("Times New Roman"),16 +Next(1),System.Drawing.FontStyle.Regular),
+       new Font(new FontFamily("Georgia"), 16 + Next(1),System.Drawing.FontStyle.Regular),
+       new Font(new FontFamily("Arial"), 16 + Next(1),System.Drawing.FontStyle.Regular),
+       new Font(new FontFamily("Comic Sans MS"), 16 + Next(1),System.Drawing.FontStyle.Regular)
     };
         #endregion
 
@@ -186,8 +186,9 @@ namespace SXNU_Questionnaire.Common
         /// </summary>
         public void CreateImage()
         {
-            int int_ImageWidth = this.text.Length * letterWidth;
-            Bitmap image = new Bitmap(int_ImageWidth, letterHeight);
+            //int int_ImageWidth = this.text.Length * letterWidth;
+            int int_ImageWidth = 84;
+            Bitmap image = new Bitmap(int_ImageWidth, 48);
             Graphics g = Graphics.FromImage(image);
             g.Clear(Color.White);
             for (int i = 0; i < 2; i++)
@@ -206,13 +207,14 @@ namespace SXNU_Questionnaire.Common
                 string str_char = this.text.Substring(int_index, 1);
                 str_char = Next(1) == 1 ? str_char.ToLower() : str_char.ToUpper();
                 Brush newBrush = new SolidBrush(GetRandomColor());
+                
                 Point thePos = new Point(_x, _y);
                 g.DrawString(str_char, fonts[Next(fonts.Length - 1)], newBrush, thePos);
             }
             for (int i = 0; i < 10; i++)
             {
-                int x = Next(image.Width - 1);
-                int y = Next(image.Height - 1);
+                int x = Next(image.Width - 2);
+                int y = Next(image.Height - 2);
                 image.SetPixel(x, y, Color.FromArgb(Next(0, 255), Next(0, 255), Next(0, 255)));
             }
             image = TwistImage(image, true, Next(1, 3), Next(4, 6));

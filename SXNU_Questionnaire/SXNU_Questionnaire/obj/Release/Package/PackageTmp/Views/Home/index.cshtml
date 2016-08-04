@@ -3,7 +3,14 @@
     ViewBag.Title = "陕师大-智能测评系统";
     ViewBag.flgStyle = "index";
 }
-<div class="conter p-t38 p-b60">
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Index($);
+        ko.applyBindings(pageModel, $("#indexPage")[0]);
+
+    });
+</script>
+<div class="conter p-t38 p-b60" id="indexPage">
     <div class="wrapper white p-b10">
         <div class="p-l10 p-r10 p-t15 p-b15">
             <div class="blue"><img class="left" src="~/Content/images/latest.jpg"><a href="/Notice/Notice"><img class="right" src="~/Content/images/more.jpg"></a><div class="clear"></div></div>
@@ -21,8 +28,8 @@
             <ul data-bind="foreach:$root.newQuestion">
                 <li>
                     <div class="pos_rel">
-                        <img data-bind="attr:{src:wj_BeginPic}"><div class="pos_abs nameb"><a href="#" data-bind="text:wj_Title"></a></div>
-                        <div class="ind_lan pos_abs ceng" style="display: none">
+                        <img style="width:310px;height:200px" data-bind="attr:{src:wj_BeginPic}"><div class="pos_abs nameb"><a href="#" data-bind="text:wj_Title"></a></div>
+                        <div class="ind_lan pos_abs ceng" style="display: none" data-bind="attr:{class:IsExpire=='y'?'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}">
                             <h2 class="m-b10 m-t5" data-bind="text:wj_Title">企业员工满意度调查</h2><!--ko text:'项目来源：'+wj_ProjectSource--><!--/ko--><br>
                             <!--ko text:'有效期：'+wj_ValidStart+'-'+wj_ValidEnd --><!--/ko--><br><!--ko text:'发布者：'+wj_Sponsor --><!--/ko--><br>
                             <!--ko text:'发布时间：'+wj_PublishTime --><!--/ko--><br>
@@ -30,56 +37,6 @@
                         </div>
                     </div>
                 </li>
-                @*<li>
-                        <div class="pos_rel">
-                            <img src="~/Content/images/img2.jpg"><div class="pos_abs nameb"><a href="#">企业员工满意度调查</a></div>
-                            <div class="ind_lan pos_abs ceng" style="display: none">
-                                <h2 class="m-b10 m-t5">企业员工满意度调查</h2>项目来源：中小学科学研究调查<br>
-                                有效期：2016/03/15-2016/06/20<br>发布者：张丽<br>发布时间：2016/03/10<br>
-                                <button class="ind_bott m-t10">进行中</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pos_rel">
-                            <img src="~/Content/images/img3.jpg"><div class="pos_abs nameb"><a href="#">企业员工满意度调查</a></div>
-                            <div class="ind_hui pos_abs ceng" style="display: none">
-                                <h2 class="m-b10 m-t5">企业员工满意度调查</h2>项目来源：中小学科学研究调查<br>
-                                有效期：2016/03/15-2016/06/20<br>发布者：张丽<br>发布时间：2016/03/10<br>
-                                <button class="ind_botts m-t10">进行中</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pos_rel">
-                            <img src="~/Content/images/img4.jpg"><div class="pos_abs nameb"><a href="#">企业员工满意度调查</a></div>
-                            <div class="ind_lan pos_abs ceng" style="display: none">
-                                <h2 class="m-b10 m-t5">企业员工满意度调查</h2>项目来源：中小学科学研究调查<br>
-                                有效期：2016/03/15-2016/06/20<br>发布者：张丽<br>发布时间：2016/03/10<br>
-                                <button class="ind_bott m-t10">进行中</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pos_rel">
-                            <img src="~/Content/images/img3.jpg"><div class="pos_abs nameb"><a href="#">企业员工满意度调查</a></div>
-                            <div class="ind_lan pos_abs ceng" style="display: none">
-                                <h2 class="m-b10 m-t5">企业员工满意度调查</h2>项目来源：中小学科学研究调查<br>
-                                有效期：2016/03/15-2016/06/20<br>发布者：张丽<br>发布时间：2016/03/10<br>
-                                <button class="ind_bott m-t10">进行中</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pos_rel">
-                            <img src="~/Content/images/img2.jpg"><div class="pos_abs nameb"><a href="#">企业员工满意度调查</a></div>
-                            <div class="ind_hui pos_abs ceng" style="display: none">
-                                <h2 class="m-b10 m-t5">企业员工满意度调查</h2>项目来源：中小学科学研究调查<br>
-                                有效期：2016/03/15-2016/06/20<br>发布者：张丽<br>发布时间：2016/03/10<br>
-                                <button class="ind_botts m-t10">进行中</button>
-                            </div>
-                        </div>
-                    </li>*@
             </ul>
         </div>
 

@@ -58,6 +58,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             else 
             {
                 u.CreateTime = DateTime.Now.ToString();
+                u.U_Role = "1";
                 jm= Sql_AccounrManage.Add_Userinfo(u);
                 
                 

@@ -27,7 +27,7 @@ namespace SXNU_Questionnaire.Controllers
             {
                 Not.No_PublicTime = dt.Rows[0]["No_PublicTime"].ToString();
                 Not.No_Title = dt.Rows[0]["No_Title"].ToString();
-                Not.No_Content = dt.Rows[0]["No_Content"].ToString().Replace("\n", "<br/>"); 
+                Not.No_Content = dt.Rows[0]["No_Content"].ToString().Replace(" ", "&nbsp;").Replace("\n", "<br/>"); 
 
             }
             else 

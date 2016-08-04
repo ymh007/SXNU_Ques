@@ -16,12 +16,12 @@ namespace SXNU_Questionnaire.Common
         public static JsMessage Add_Userinfo(UserInfo u)
         {
             JsMessage js = new JsMessage();
-            string SqlStr = "INSERT INTO [dbo].[AccountManage] ([am_LoginUser],[am_PWD],[am_Email],[am_Name],[am_Phone],[am_Status],[am_CreateTime]) values(@am_LoginUser,@am_PWD,@am_Email,@am_Name,@am_Phone,@am_Status,@am_CreateTime)";
+            string SqlStr = "INSERT INTO [dbo].[AccountManage] ([am_LoginUser],[am_PWD],[am_Email],[am_Name],[am_Phone],[am_Status],[am_CreateTime],[am_Role]) values(@am_LoginUser,@am_PWD,@am_Email,@am_Name,@am_Phone,@am_Status,@am_CreateTime,@am_Role)";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@am_LoginUser",u.U_LoginName),
                 new SqlParameter("@am_PWD",u.U_PWD),
                 new SqlParameter("@am_Email",u.U_Email),
-                //new SqlParameter("@am_Name",u.U_Name),
+                new SqlParameter("@am_Role",u.U_Role),
                 //new SqlParameter("@am_Phone",u.U_Phone),
                 new SqlParameter("@am_Name",""),
                 new SqlParameter("@am_Phone",""),

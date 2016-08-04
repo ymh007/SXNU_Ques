@@ -1,31 +1,61 @@
 ﻿var SXNU_ViewModel_login = function ($, currentDom) {
     var sxnu = currentDom || this;
-    sxnu.isProject_QA = ko.observable(false);
-
-
-    sxnu.userName = ko.observable();
-    sxnu.userEmail = ko.observable();
-    sxnu.userName_error_des = ko.observable();
-    sxnu.userEmail_error_des = ko.observable();
-    sxnu.userName_vis = ko.observable(false);
-    sxnu.userEmail_vis = ko.observable(false);
-
-
-
-
-    //==============分页 开始==============
-    sxnu.accountList = ko.observableArray();
-
-    sxnu.am_CurrenPageIndex = ko.observable(1);//当前第几页
-    sxnu.am_PageSize = ko.observable(20); //一页显示多少条数据
-    sxnu.am_TotalPage = ko.observable(0); // 页总数
-    sxnu.am_TotalRecord = ko.observable();//总记录数
-
-     
- 
-
-    sxnu.Login = function (flg) {
-        window.location.href = "/Admin/Question/QuesList";
+    sxnu.ErrorMsg = ko.observable("");
+    sxnu.Loginuser = ko.observable("");
+    sxnu.Pwd = ko.observable("");
+    sxnu.V_Code = ko.observable("");
+    sxnu.InvaildStr = function (val) {
+        var patrn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/;
+        if (patrn.test(val)) {
+            return true;
+        }
+        return false;
     }
-  
+    sxnu.ChangeCode = function () {
+        //var code = $("#imgCode").attr("src");
+        //$("#imgCode").attr("src", code + "1");
+    }
+    sxnu.Login = function (flg) {
+        sxnu.Loginuser($.trim(sxnu.Loginuser()));
+        sxnu.Pwd($.trim(sxnu.Pwd()))
+        sxnu.V_Code($.trim(sxnu.V_Code()))
+        if (!sxnu.Loginuser() || !sxnu.Pwd() || !sxnu.V_Code()) {
+            $("#ErrorMsg").html("登陆信息不完整！");
+            return false;
+        }
+        if (sxnu.InvaildStr(sxnu.Loginuser())) {
+            $("#ErrorMsg").html("用户名不能包含特殊字符！");
+            return false;
+        }
+        if (sxnu.InvaildStr(sxnu.V_Code())) {
+            $("#ErrorMsg").html("验证码不能包含特殊字符！");
+            return false;
+        }
+        return true;
+        //var UserInfo = {
+        //    //U_ID :"",
+        //    U_LoginName: sxnu.Loginuser(),
+        //    U_PWD: ""
+        //    //U_Name :"",
+        //    //U_Email :"",
+        //    //U_Phone :"",
+        //    //U_Status :"",
+        //    //U_Role :"",
+        //}
+
+        //$.ajax("/Admin/Login/Vali_Login", { async: true, type: "GET", cache: true, data: UserInfo, dataType: "json", }).then(function (result) {
+        //    if (result) {
+        //        if (result.length == 1) {
+        //            if (result[0].U_LoginName == sxnu.Loginuser() && result[0].U_LoginName ) {
+
+        //            }
+        //        }
+        //    }
+        //    sxnu.InitEffect();
+        //}).fail(function () {
+        //    alert("系统异常！");
+        //});
+        //window.location.href = "/Admin/Question/QuesList";
+    }
+
 }

@@ -32,35 +32,21 @@ namespace SXNU_Questionnaire.Controllers
         {
             return View();
         }
-        public ActionResult AddData_DB(UserInfo ui)
-        {
-            string Vcode = "";
-            if (Session["vcode"] != null) 
-            {
-                Vcode = Session["vcode"].ToString();
-            }
-            string ResultStr = string.Empty;
-            JsMessage jm = SqlStr_Process.Add_Userinfo(ui);
+        //public ActionResult AddData_DB(UserInfo ui)
+        //{
+        //    string Vcode = "";
+        //    if (Session["vcode"] != null) 
+        //    {
+        //        Vcode = Session["vcode"].ToString();
+        //    }
+        //    string ResultStr = string.Empty;
+        //    JsMessage jm = SqlStr_Process.Add_Userinfo(ui);
 
+             
 
-
-
-
-
-           
-
-
-
-
-
-
-
-
-
-
-            ResultStr = JsonTool.ObjToJson(jm);
-            return Content(ResultStr);
-        }
+        //    ResultStr = JsonTool.ObjToJson(jm);
+        //    return Content(ResultStr);
+        //}
 
 
         public ActionResult ExportWord()
@@ -194,20 +180,20 @@ namespace SXNU_Questionnaire.Controllers
         }
 
 
-        public ActionResult GetUserInfo()
-        {
-            string ResultStr = string.Empty;
-            UserInfo u = new UserInfo();
-            u.name = "andy";
-            u.age = 12;
-            u.address = "xxxxx-12-111xxx";
-            u.birthday = "2015-12-12";
-            u.mark = "biezhu ";
-            u.modify = DateTime.Now.ToShortDateString();
-            ResultStr = JsonTool.ObjToJson(u);
-            return Content(ResultStr);
+        //public ActionResult GetUserInfo()
+        //{
+        //    string ResultStr = string.Empty;
+        //    UserInfo u = new UserInfo();
+        //    u.name = "andy";
+        //    u.age = 12;
+        //    u.address = "xxxxx-12-111xxx";
+        //    u.birthday = "2015-12-12";
+        //    u.mark = "biezhu ";
+        //    u.modify = DateTime.Now.ToShortDateString();
+        //    ResultStr = JsonTool.ObjToJson(u);
+        //    return Content(ResultStr);
 
-        }
+        //}
 
 
         public ActionResult Yzm() 

@@ -7,5 +7,5 @@
 <div class="wrapper m-t30 m-b150">
     <div class="show_wz">首页<span class="m-l7 m-r7">></span>通知中心</div>
     <div class="show_name show_hx m-t30 p-b10"><h2> @Model.No_Title </h2><div class="show_time"><img src="~/Content/images/time.jpg"></div>@Model.No_PublicTime </div>
-    <div class="m-t25 show_con">  @Model.No_Content  </div>
+    <div class="m-t25 show_con"> @Html.Raw(Model.No_Content)</div>
 </div>

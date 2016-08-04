@@ -20,12 +20,14 @@
 <body class="bj"> 
     <div class="center admin_top"><img src="~/Content/images/admin/admin_logo.png" /></div>
     <div class="Sign_bj p-t100 p-l170">
-        <input type="text" name="" class="Sign_in user w-310 p-l38" value="用户名" />
-        <input type="text" name="" class="Sign_in pass w-310 p-l38 m-t15" value="密码" />
-        <input type="text" name="" class="Sign_in w-210 m-t15 p-l13 left" value="验证码" /><div class="left m-t16 m-l15"><img src="~/Content/images/admin/ma.jpg" /></div>
-        <div class="clear"></div>
-        <div class="sign_red m-t15 m-b15">用户名错误，请您重新输入</div>
-        <input class="w-350 sign_bus" type="submit" data-bind="click:Login" name="" value="登 录" />
+        <form action="/Admin/Login/Login" method="post">
+            <input type="text" name="user" class="Sign_in user w-310 p-l38" value="用户名" data-bind="value:Loginuser" />
+            <input type="text" name="pwd" class="Sign_in pass w-310 p-l38 m-t15" value="密码" data-bind="value:Pwd" />
+            <input type="text" name="code" class="Sign_in w-210 m-t15 p-l13 left" value="验证码" data-bind="value:V_Code" /><div class="left m-t16 m-l15"><img id="imgCode" data-bind="click:$root.ChangeCode" src="~/Admin/Login/GetCode?ID=1" /></div>
+            <div class="clear"></div>
+            <div class="sign_red m-t15 m-b15" id="ErrorMsg">@ViewData["ErrorMsg"]</div>
+            <input class="w-350 sign_bus" type="submit" data-bind="click:Login" name="" value="登 录" />
+        </form>
     </div>
     <div class="sign_bottom">@Html.Raw("@ 陕西师范大学          技术支持：西电易达")</div>
 

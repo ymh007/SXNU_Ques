@@ -4,13 +4,31 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
-using SXNU_Questionnaire.Models;
+using SXNU_Questionnaire.Areas.Admin.Models;
 using System.Text;
 
 namespace SXNU_Questionnaire.Common
 {
     public class SqlStr_Process
     {
+         
+        /// <summary>
+        /// 获取登陆人信息
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static DataTable GetLoginInfo(UserInfo u)
+        {
+
+            string SqlStr = "select * from [SXNU_Questionnaire].[dbo].[AccountManage]  where  am_LoginUser=@am_LoginUser  and  am_PWD=@am_PWD ";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@am_LoginUser",u.U_LoginName),
+                new SqlParameter("@am_PWD",u.U_PWD)
+            };
+            return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters)[0];
+        }
+
+         
 
         /// <summary>
         /// 分页获取数据列表
@@ -74,7 +92,7 @@ namespace SXNU_Questionnaire.Common
         public static string ReturnJSONStr() 
         {
 
-            string SqlStr = "select  DateName(year,no_PublicTime) as No_Year  from  [dbo].[Notice]  GROUP BY  DateName(year,no_PublicTime) ; select  DateName(year,no_PublicTime)as No_Year,*   from  [dbo].[Notice]";
+            string SqlStr = "select  DateName(year,no_PublicTime) as No_Year  from  [dbo].[Notice]  GROUP BY  DateName(year,no_PublicTime) order by No_Year desc; select  DateName(year,no_PublicTime)as No_Year,(DateName(MONTH,no_PublicTime)+'/'+DateName(DAY,no_PublicTime)) as No_md,*   from  [dbo].[Notice] order by no_PublicTime  desc";
             DataTableCollection ds= SqlStr_Process.GetNoticeByYear(SqlStr);
             String ResultJson = "";
             return ResultJson = "{\"Data\":" + JsonTool.DtToJson(ds[1]) + ", \"Years\":" + JsonTool.DtToJson(ds[0]) + "}";
@@ -158,36 +176,7 @@ namespace SXNU_Questionnaire.Common
 
 
 
-        public static JsMessage Add_Userinfo(UserInfo ui)
-        {
-            JsMessage js = new JsMessage();
-            string SqlStr = " insert into user_info(name,age,[address],birthday,mark) values(@name,@age,@address,@birthday,@mark)";
-            SqlParameter[] commandParameters = new SqlParameter[]{
-                new SqlParameter("@name",ui.name),
-                new SqlParameter("@age",ui.age),
-                new SqlParameter("@address",ui.address),
-                new SqlParameter("@birthday",ui.birthday),
-                new SqlParameter("@mark",ui.mark)
-            };
-            try
-            {
-                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
-                if (flg == 1)
-                {
-                    js.IsSuccess = true;
-                }
-                else
-                {
-                    js.IsSuccess = false;
-                }
-            }
-            catch (SqlException ex)
-            {
-                js.IsSuccess = false;
-                js.ErrorMsg = ex.ToString();
-            }
-            return js;
-        }
+    
 
         public static JsMessage DeleteUser(int ID)
         {
