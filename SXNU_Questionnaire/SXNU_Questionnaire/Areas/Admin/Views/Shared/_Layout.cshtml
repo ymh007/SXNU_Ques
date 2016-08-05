@@ -13,6 +13,9 @@
 
 <body class="admin">
     <div id="MaskMain">
+        @{
+            SXNU_Questionnaire.Areas.Admin.Models.UserInfo User = (SXNU_Questionnaire.Areas.Admin.Models.UserInfo)Session["UserInfo"];
+        }
         <div class="admin_header p-l35">
             <div class="left p-t10 p-b8 "><img src="~/Content/images/admin/admin_logo1.png"></div>
             <div class="right admin_out">
@@ -21,11 +24,16 @@
                     <li><a href="#"><img src="~/Content/images/admin/ico5.png"></a></li>
                 </ul>
             </div>
-            <div class="right admin_tele m-t22 m-r25">13579246810</div>
+            <div class="right admin_tele m-t22 m-r25">@User.U_LoginName</div>
 
             <div class="clear"></div>
         </div>
         <div class="left admin_left p-w8">
+           
+            <input type="hidden" id="golName" value="@User.U_Name" />
+            <input type="hidden" id="golUserID" value="@User.U_ID" />
+            <input type="hidden" id="golUserRole" value="@User.U_Role" />
+            <input type="hidden" id="golUserLogin" value="@User.U_LoginName" />
             <div class="menu">
                 <ul>
                     @if (ViewBag.flgStyle == "q")

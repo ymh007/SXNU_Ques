@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SXNU_Questionnaire.Areas.Admin.Controllers
 {
+    [AdminFilter]
     public class QuestionController : Controller
     {
         //
@@ -36,7 +37,12 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
         public ActionResult QuesList()
         {
-            return View();
+            //UserInfo User = new UserInfo();
+            //User = (UserInfo)Session["UserInfo"];
+            //if (User == null) {
+            //    return RedirectToAction("Login","Login");
+            //}
+            return View(User);
         }
         public ActionResult QuesListByPage(QueryModel Q)
         {
@@ -145,7 +151,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_ValidEnd = Request.Form["wj_ValidEnd"];
             wj.wj_BeginBody = Request.Form["wj_BeginBody"];
             wj.wj_BeginPic = Request.Form["WJ_nfm"];
-
+            wj.wj_Sponsor = Request.Form["Sponsor"];
 
             if (Request.Files.Count > 0)
             {
@@ -163,7 +169,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_EndBody = "";
             wj.wj_PageSize = "";
             wj.wj_Status = "n";
-            wj.wj_Sponsor = "";
+            
             wj.wj_PublishTime = DateTime.Now.ToString();
 
             #region   添加和修改问卷

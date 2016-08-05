@@ -38,7 +38,7 @@
                     }
                 </ul>
             </div>
-            <div class="right search_k m-t11"><img class="left m-r10" src="~/Content/images/sec.jpg"><input class="w-270 search" value="请输入关键字"></div>
+            <div class="right search_k m-t11"><img class="left m-r10" src="~/Content/images/sec.jpg" onclick="javascript: if ($.trim($('#g_serach').val())) window.location.href = '/Ques/Ques?v=' + encodeURI($('#g_serach').val())"><input maxlength="50" class="w-270 search" value="" id="g_serach"></div>
             <div class="clear"></div>
         </div>
         

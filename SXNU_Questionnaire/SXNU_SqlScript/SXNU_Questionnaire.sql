@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [SXNU_Questionnaire]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Database [SXNU_Questionnaire]    Script Date: 2016/8/5 18:14:21 ******/
 CREATE DATABASE [SXNU_Questionnaire]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -77,7 +77,60 @@ EXEC sys.sp_db_vardecimal_storage_format N'SXNU_Questionnaire', N'ON'
 GO
 USE [SXNU_Questionnaire]
 GO
-/****** Object:  Table [dbo].[AccountManage]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  StoredProcedure [dbo].[NoticeQues]    Script Date: 2016/8/5 18:14:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+
+CREATE  PROCEDURE  [dbo].[NoticeQues](
+@search     nvarchar(200),
+@BeginIndex int, 
+@EndIndex int,
+@Total int out  
+)
+AS 
+BEGIN
+ 
+ IF object_id('tempdb..#NQ_T') is  null 
+ Begin
+ CREATE TABLE #NQ_T
+( 
+ID INT ,
+N_Q char(1),
+Title VARCHAR(1000),  
+Content  VARCHAR(8000), 
+publishTime datetime,
+StartTime datetime,
+EndTime datetime,
+publishP VARCHAR(100),
+IsExpire char(1),
+QStatus char(1)
+)   
+End
+
+INSERT INTO #NQ_T  SELECT  [wj_ID] ,'q',[wj_Title],'',CONVERT(varchar(100),[wj_PublishTime], 23) ,
+CONVERT(varchar(100),[wj_ValidStart], 23),CONVERT(varchar(100),[wj_ValidEnd], 23),[wj_Sponsor],
+CASE WHEN ([wj_ValidEnd] > GETDATE()) THEN 'y'  ELSE 'n' END, [wj_Status] 
+FROM  [dbo].[WJ]   WHERE [wj_Status]='y' and  wj_Title like '%'+@search +'%'  ORDER BY [wj_PublishTime] DESC;
+  
+INSERT INTO #NQ_T SELECT   [no_ID] ,'n' ,[no_Title],[no_Content],CONVERT(varchar(100),[no_PublicTime], 23) ,'','' ,'' , '',''
+FROM [dbo].[Notice]  WHERE  no_Title like '%'+@search +'%'  ORDER BY  no_PublicTime DESC;
+
+SELECT * FROM ( SELECT ROW_NUMBER() OVER ( order by  publishTime  desc)AS Row, *  from  #NQ_T  ) TT   WHERE TT.Row between @BeginIndex and @EndIndex
+
+SELECT @Total=COUNT(1)  FROM  #NQ_T;
+
+TRUNCATE TABLE  #NQ_T;
+END
+
+GO
+/****** Object:  Table [dbo].[AccountManage]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -103,7 +156,7 @@ CREATE TABLE [dbo].[AccountManage](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Answer]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[Answer]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -119,7 +172,7 @@ CREATE TABLE [dbo].[Answer](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AnswerUserInfo]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[AnswerUserInfo]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -135,7 +188,7 @@ CREATE TABLE [dbo].[AnswerUserInfo](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Notice]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[Notice]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +210,7 @@ CREATE TABLE [dbo].[Notice](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[SystemSetting]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[SystemSetting]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,7 +235,7 @@ CREATE TABLE [dbo].[SystemSetting](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[WJ]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[WJ]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -214,7 +267,7 @@ CREATE TABLE [dbo].[WJ](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[WT]    Script Date: 2016/8/4 16:13:00 ******/
+/****** Object:  Table [dbo].[WT]    Script Date: 2016/8/5 18:14:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

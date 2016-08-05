@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SXNU_Questionnaire.Areas.Admin.Controllers
 {
+    [AdminFilter]
     public class UserController : Controller
     {
         //

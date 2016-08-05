@@ -9,8 +9,11 @@ using System.Web.Mvc;
 
 namespace SXNU_Questionnaire.Areas.Admin.Controllers
 {
+    [AdminFilter]
     public class NoticeController : Controller
     {
+
+       
         //
         // GET: /Admin/Notice/
         public ActionResult Index()

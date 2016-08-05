@@ -11,6 +11,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
     /// </summary>
     public class UserInfo
     {
+        public string U_Role { get; set; }
         public int U_ID { get; set; }
         public string U_LoginName { get; set; }
         public string U_PWD { get; set; }
@@ -20,7 +21,6 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
         public string U_Phone { get; set; }
         public string U_Status { get; set; }
 
-        public string U_Role { get; set; }
         public string CreateTime { get; set; }
 
     }

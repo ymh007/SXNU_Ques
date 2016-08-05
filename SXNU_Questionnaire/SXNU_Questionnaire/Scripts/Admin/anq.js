@@ -412,6 +412,8 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
 
     sxnu.wj_ID = ko.observable(0);
     sxnu.SearchValue = ko.observable("");
+
+
     //==============分页 开始==============
     sxnu.WJ_List = ko.observableArray();
 

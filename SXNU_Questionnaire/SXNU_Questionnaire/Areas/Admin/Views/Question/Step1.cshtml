@@ -60,6 +60,10 @@
                 <textarea class="inf_textarea w-450 left" cols="20" name="wj_BeginBody" rows="3" ></textarea>
                 <div class="clear"></div>
             </div>
+            @{
+                SXNU_Questionnaire.Areas.Admin.Models.UserInfo User = (SXNU_Questionnaire.Areas.Admin.Models.UserInfo)Session["UserInfo"];
+            }
+            <input type="hidden" name="Sponsor" value="@User.U_LoginName" />
             <div class="w-100 centers m-t40">
                 <input type="submit" value="提 交" class="a_red w-120" data-bind="click:Submited_Step1" />
             </div>

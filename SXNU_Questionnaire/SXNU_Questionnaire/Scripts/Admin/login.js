@@ -12,8 +12,8 @@
         return false;
     }
     sxnu.ChangeCode = function () {
-        //var code = $("#imgCode").attr("src");
-        //$("#imgCode").attr("src", code + "1");
+        var code = $("#imgCode").attr("src");
+        $("#imgCode").attr("src", code + "1");
     }
     sxnu.Login = function (flg) {
         sxnu.Loginuser($.trim(sxnu.Loginuser()));

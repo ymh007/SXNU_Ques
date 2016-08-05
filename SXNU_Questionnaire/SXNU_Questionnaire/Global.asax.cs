@@ -27,6 +27,7 @@ namespace SXNU_Questionnaire
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new ExceptionFilterAttribute());  //自己定义的过滤器
+              
         }
         /// <summary>
         /// 2.自己定义的过滤器 处理异常跳转错误页

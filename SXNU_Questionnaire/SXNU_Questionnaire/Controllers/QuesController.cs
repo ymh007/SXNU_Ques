@@ -38,7 +38,7 @@ namespace SXNU_Questionnaire.Controllers
 
         public ActionResult GetIndexQuestion()
         {
-            string SqlStr = "SELECT TOP 6 wj_ID ,wj_Number,wj_Status,wj_Sponsor,wj_Title,wj_BeginPic,wj_ProjectSource,wj_Time,CONVERT(varchar(100),  wj_ValidStart, 23) As wj_ValidStart,CONVERT(varchar(100),  wj_ValidEnd, 23) As wj_ValidEnd , CONVERT(varchar(100),wj_PublishTime, 23) AS wj_PublishTime,wj_Status,wj_BeginBody,wj_BaseInfo FROM  [dbo].[WJ]  ORDER BY  wj_PublishTime  DESC";
+            string SqlStr = "SELECT TOP 6 wj_ID ,wj_Number,wj_Status,wj_Sponsor,wj_Title,wj_BeginPic,wj_ProjectSource,wj_Time,CONVERT(varchar(100),  wj_ValidStart, 23) As wj_ValidStart,CONVERT(varchar(100),  wj_ValidEnd, 23) As wj_ValidEnd , CONVERT(varchar(100),wj_PublishTime, 23) AS wj_PublishTime,wj_Status,wj_BeginBody,wj_BaseInfo FROM  [dbo].[WJ] WHERE [wj_Status]='y'  ORDER BY  wj_PublishTime  DESC";
             DataTable dt = SqlStr_Process.GetIndexData(SqlStr);
             if (dt != null)
             {

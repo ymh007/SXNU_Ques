@@ -21,9 +21,16 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             user.U_PWD = Request.Form["pwd"];
             string Code = Request.Form["code"];
             if (string.IsNullOrEmpty(user.U_LoginName) || string.IsNullOrEmpty(user.U_PWD)) { return View(); }
-            if (Session["ValidateCode"].ToString().ToLower() != Code.ToLower())
+            try
             {
-                ViewData["ErrorMsg"] = "验证码错误";
+                if (Session["ValidateCode"].ToString().ToLower() != Code.ToLower())
+                {
+                    ViewData["ErrorMsg"] = "验证码错误";
+                    return View();
+                }
+            }
+            catch(Exception ex)
+            {
                 return View();
             }
             DataTable dt = SqlStr_Process.GetLoginInfo(user);
@@ -41,9 +48,9 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     user.U_Email = dt.Rows[0]["am_Email"].ToString();
                     user.U_Phone = dt.Rows[0]["am_Phone"].ToString();
                     user.U_Name = dt.Rows[0]["am_Name"].ToString();
-                   
-                  
-                    Session["ValidateCode"]=user;
+                    user.U_ID =int.Parse(dt.Rows[0]["am_ID"].ToString());
+
+                    Session["UserInfo"] = user;
                     return RedirectToAction("QuesList", "Question");
                 }
                 else
