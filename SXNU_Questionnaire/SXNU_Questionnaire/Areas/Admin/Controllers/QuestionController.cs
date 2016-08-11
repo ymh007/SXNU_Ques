@@ -165,7 +165,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             }
 
             // 初始化参数
-            wj.wj_BaseInfo = "";
+            //wj.wj_BaseInfo = "";
             wj.wj_EndBody = "";
             wj.wj_PageSize = "";
             wj.wj_Status = "n";
@@ -336,9 +336,8 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             dx.wt_LogicRelated = "";
             dx.wt_Problem = dx.wt_Problem == null ? "" : dx.wt_Problem;
             dx.wt_Pageing = "n";
-            JsMessage jm = new JsMessage();
+            JsMessage jm = Sql_STManage.Add_DXST(dx);
             string ResultStr = string.Empty;
-            jm = Sql_STManage.Add_DXST(dx);
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
@@ -390,14 +389,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         public ActionResult Set_Relation(DanXuan dx)
         {
             JsMessage jm = new JsMessage();
-            if (dx.wt_LogicRelated.Length != 0)
+            if (dx.wt_LogicRelated == null)
             {
-                dx.wt_LogicRelated = "y";
+                dx.wt_LogicRelated = "";
                 jm = Sql_STManage.Set_Relation(dx);
             }
             else
             {
-                dx.wt_LogicRelated = "";
+                dx.wt_LogicRelated = "y";
                 jm = Sql_STManage.Set_Relation(dx);
             }
             return Content(JsonTool.ObjToJson(jm));

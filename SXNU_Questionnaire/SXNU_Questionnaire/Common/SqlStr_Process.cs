@@ -6,12 +6,13 @@ using System.Web;
 using System.Data.SqlClient;
 using SXNU_Questionnaire.Areas.Admin.Models;
 using System.Text;
+using SXNU_Questionnaire.Models;
 
 namespace SXNU_Questionnaire.Common
 {
     public class SqlStr_Process
     {
-         
+
         /// <summary>
         /// 获取登陆人信息
         /// </summary>
@@ -28,7 +29,7 @@ namespace SXNU_Questionnaire.Common
             return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters)[0];
         }
 
-         
+
 
         /// <summary>
         /// 分页获取数据列表
@@ -37,7 +38,7 @@ namespace SXNU_Questionnaire.Common
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("SELECT * FROM ( SELECT ROW_NUMBER() OVER (");
-            strSql.Append("order by T." + orderby+" desc");
+            strSql.Append("order by T." + orderby + " desc");
             strSql.AppendFormat(")AS Row, T.*  from {0} T ", tablename);
             if (!string.IsNullOrEmpty(strWhere.Trim()))
             {
@@ -49,6 +50,22 @@ namespace SXNU_Questionnaire.Common
             return SqlHelper.GetTable(CommandType.Text, strSql.ToString(), commandParameters)[0];
         }
 
+        /// <summary>
+        /// 存储过程分页
+        /// </summary>
+        public static QuesIndex GetListByPro(string strWhere, string orderby, int BeginIndex, int EndIndex)
+        {
+            QuesIndex Q = new QuesIndex();
+            SqlParameter[] commandParameters = new SqlParameter[] { 
+                          new SqlParameter("@search",strWhere),
+                          new SqlParameter("@BeginIndex",BeginIndex), 
+                          new SqlParameter("@EndIndex",EndIndex), 
+                          new SqlParameter("@Total",SqlDbType.Int){Direction = ParameterDirection.Output}
+            };
+            Q.Data = SqlHelper.GetTable(CommandType.StoredProcedure, "NoticeQues", commandParameters)[0];
+            Q.Total = int.Parse(commandParameters[3].Value.ToString());
+            return Q;
+        }
         /// <summary>
         /// 分页获取数据列表 排序列需要做计算 试题排序专用
         /// </summary>
@@ -89,11 +106,11 @@ namespace SXNU_Questionnaire.Common
             SqlParameter[] commandParameters = new SqlParameter[] { };
             return SqlHelper.GetTable(CommandType.Text, strSql, commandParameters);
         }
-        public static string ReturnJSONStr() 
+        public static string ReturnJSONStr()
         {
 
             string SqlStr = "select  DateName(year,no_PublicTime) as No_Year  from  [dbo].[Notice]  GROUP BY  DateName(year,no_PublicTime) order by No_Year desc; select  DateName(year,no_PublicTime)as No_Year,(DateName(MONTH,no_PublicTime)+'/'+DateName(DAY,no_PublicTime)) as No_md,*   from  [dbo].[Notice] order by no_PublicTime  desc";
-            DataTableCollection ds= SqlStr_Process.GetNoticeByYear(SqlStr);
+            DataTableCollection ds = SqlStr_Process.GetNoticeByYear(SqlStr);
             String ResultJson = "";
             return ResultJson = "{\"Data\":" + JsonTool.DtToJson(ds[1]) + ", \"Years\":" + JsonTool.DtToJson(ds[0]) + "}";
         }
@@ -176,7 +193,7 @@ namespace SXNU_Questionnaire.Common
 
 
 
-    
+
 
         public static JsMessage DeleteUser(int ID)
         {
@@ -207,5 +224,99 @@ namespace SXNU_Questionnaire.Common
 
         }
 
+
+
+        public static DataTable GetWJByID_Answer(int ID)
+        {
+            string SqlStr = "SELECT   *  FROM  [dbo].[WJ]  where wj_ID=" + ID;
+            return SqlStr_Process.GetIndexData(SqlStr);
+        }
+
+
+
+        /// <summary>
+        /// 添加答题人基本信息
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Add_BaseInfo(AnswerUserInfo au)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" INSERT INTO [dbo].[AnswerUserInfo] ([au_wjID] ,[au_AnswerUserInfo]) VALUES (@au_wjID,  @au_AnswerUserInfo);SELECT @au_ID=SCOPE_IDENTITY();";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@au_wjID",au.au_wjID),
+                new SqlParameter("@au_AnswerUserInfo",SqlDbType.VarChar,1000){Value=au.au_AnswerUserInfo},
+                new SqlParameter("@au_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                    js.ReturnADD_ID = int.Parse(commandParameters[2].Value.ToString());
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
+
+        /// <summary>
+        /// 批量保存答案
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Add_Answer(CommonMode com)
+        {
+            JsMessage js = new JsMessage();
+            List<Answer> list = JsonTool.JSONStringToList<Answer>(com.dataArrayStr);
+            SqlParameter[] commandParameters = null;
+            int count = list.Count;
+            string SqlStr = @" INSERT INTO [dbo].[Answer] ([an_auID],[an_wtID],[an_Result],[an_Invalid],[an_leapfrog],[an_wtType]) VALUES (@an_auID,@an_wtID,@an_Result,@an_Invalid,@an_leapfrog,@an_wtType)";
+            foreach (Answer A in list)
+            {
+                count--;
+                commandParameters = new SqlParameter[]{
+                    new SqlParameter("@an_auID",com.an_auID),
+                    new SqlParameter("@an_wtID",com.an_wtID),
+                    new SqlParameter("@an_Result",SqlDbType.VarChar,1000){Value=A.an_Result},
+                    new SqlParameter("@an_Invalid",A.an_Invalid),
+                    new SqlParameter("@an_leapfrog",A.an_leapfrog),
+                    new SqlParameter("@an_wtType",A.an_wtType)
+                };
+                try
+                {
+                    int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                    if (count == 0)
+                    {
+                        js.IsSuccess = true;
+                    }
+                    else
+                    {
+                        js.IsSuccess = false;
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    js.IsSuccess = false;
+                    js.ErrorMsg = ex.ToString();
+                }
+
+
+            }
+
+            return js;
+        }
     }
 }

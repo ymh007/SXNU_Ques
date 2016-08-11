@@ -3,45 +3,44 @@
     ViewBag.Title = "问卷中心";
     ViewBag.flgStyle = "ques";
 }
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Index_BaseInfo($);
+        ko.applyBindings(pageModel, $("#QuestionPage")[0]);
+
+    });
+</script>
 <div class="show_h"></div>
-<div class="wrapper m-t30 m-b150">
-
+<div class="wrapper m-t30 m-b150" id="QuestionPage">
+    <input type="hidden" value="@Model.wj_ID" id="wj_id">
     <table class="tale">
-        <tr>
-            <td width="250" align="right"><span>*</span> 您的姓名：</td>
-            <td><input class="input" value="请填写您的姓名"></td>
-        </tr>
-        <tr>
-            <td align="right"><span>*</span> 性别：</td>
-            <td><input type="radio" checked="checked" name="sex" /> 男 <input type="radio" name="sex" /> 女</td>
-        </tr>
-        <tr>
-            <td align="right"><span>*</span> 年龄：</td>
-            <td><input class="input" value="请填写您的年龄"></td>
-        </tr>
-        <tr>
-            <td align="right">手机：</td>
-            <td><input class="input" value="请填写您的手机"></td>
-        </tr>
-        <tr>
-            <td align="right">Email：</td>
-            <td><input class="input" value="请填写您的Email"></td>
-        </tr>
-        <tr>
-            <td align="right">职业：</td>
-            <td><input class="input" value="请填写您的职业"></td>
-        </tr>
-        <tr>
-            <td align="right">所在高校：</td>
-            <td>
-                <select name="select" id="select_k1" class="input">
-                    <option value="请填写您所在的高校">请填写您所在的高校</option>
-                    <option value="选择品牌1">选择品牌1</option>
-                    <option value="选择品牌2">选择品牌2</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-    <div class="center m-t30"><input class="sub w-120" type="submit" name="" value="下一步"></div>
-</div>
+       
+        <tbody data-bind="foreach:$root.ControlList">
 
+            <tr data-bind="if: ty() =='文本框'">
+                <td width="250" align="right"><span data-bind="visible:ck()=='1'?true:false">*</span>&nbsp;&nbsp;<!--ko text: tit--><!--/ko-->&nbsp;：</td>
+                <td><input class="input" data-bind="value:iv,attr:{maxlength:val}" ></td>
+            </tr>
+
+
+
+            <tr data-bind="if:ty() =='单选按钮'">
+                <td align="right"><span data-bind="visible:ck()=='1'?true:false">*</span>&nbsp;&nbsp; <!--ko text: tit--><!--/ko--> &nbsp;：</td>
+                <td>
+                    <!-- ko foreach:list -->
+                    <input type="radio" data-bind="value: $data,attr:{name:$parent.name},checked:$parent.iv" /><!--ko text:$data --><!--/ko--> &nbsp;&nbsp;&nbsp;
+                    <!-- /ko -->
+                </td>
+            </tr>
+
+            <tr data-bind="if:ty() =='下拉菜单'">
+                <td align="right"><span data-bind="visible:ck()=='1'?true:false">*</span>&nbsp;&nbsp;<!--ko text: tit--><!--/ko-->&nbsp;：</td>
+                <td>
+                    <select name="select" class="input" data-bind="options: list,value: iv"></select>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="center m-t30"><input class="sub w-120" type="submit" name="" data-bind="click:$root.GoTwoStep" value="下一步"></div>
+</div>

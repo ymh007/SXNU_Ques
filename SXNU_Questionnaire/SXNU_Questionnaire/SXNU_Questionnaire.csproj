@@ -373,6 +373,7 @@
     <Content Include="Views\Notice\NoticeDetail.cshtml" />
     <Content Include="Views\Ques\QuesFirstStep.cshtml" />
     <Content Include="Views\Ques\QuesTwoStep.cshtml" />
+    <Content Include="Views\Ques\Answer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generate\" />

@@ -28,22 +28,25 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
         var wj_ProjectSource = $("[name='wj_ProjectSource']").val();
         var wj_Time = $("[name='wj_Time']").val();
         var wj_BeginBody = $("[name='wj_BeginBody']").val();
-        if (!$.trim(wj_Title) || !$.trim(wj_ProjectSource) || !$.trim(wj_Time) || !$.trim(wj_BeginBody)) {
+        if (!$.trim(wj_Title)   || !$.trim(wj_BeginBody)) {
             alert("问卷信息不完整！");
             return false;
         }
-        if (!sxnu.IsNumber(wj_Time)) {
-            alert("问卷时间格式不正确");
-            return false;
+        if ($.trim(wj_Time)!="") {
+            if (!sxnu.IsNumber($.trim(wj_Time))) {
+                alert("问卷时间格式不正确");
+                return false;
+            }
         }
+       
         if (!sxnu.ValidStart() || !sxnu.ValidEnd()) {
             alert("请设置问卷有效期！");
             return false;
         }
-        if (!sxnu.IsExitisFile()) {
-            alert("请选择问卷封面图片");
-            return false;
-        }
+        //if (!sxnu.IsExitisFile()) {
+        //    alert("请选择问卷封面图片");
+        //    return false;
+        //}
         return true;
     }
 
@@ -262,11 +265,17 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
         return false;
     }
     sxnu.IsNumber = function (val) {
+        var flag = false;
         var patrn = /^\+?[1-9][0-9]*$/;
-        if (patrn.test(val)) {
-            return true;
+        if (val) {
+            if (patrn.test(val)) {
+                flag = true;
+            } else { flag = false; }
+        } else {
+            flag = true;
         }
-        return false;
+       
+        return flag  ;
     }
 
     sxnu.Submited_Step2 = function () {
@@ -2595,10 +2604,10 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         $.ajax("/Admin/Question/Set_Pageing", { async: true, cache: false, type: "GET", data: fromDataModel, dataType: "json" }).then(function (result) {
             if (result.IsSuccess) {
                 sxnu.Load_ST_List();
-                alert(val.pageing == 'n' ? "取消分页成功！" : "添加分页成功！");
+                alert(val.pageing == 'n' ? "添加分页成功！" : "取消分页成功！");
                 
             } else {
-                alert(val.pageing == 'n' ? "取消分页失败！" : "添加分页失败！");
+                alert(val.pageing == 'n' ? "添加分页失败！" : "取消分页失败！");
             }
         }).fail(function () {
             alert("系统异常！");
@@ -2758,21 +2767,18 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         sxnu.Set_RelationToDB('y');
     }
 
-    sxnu.Del_Relation = function () {
+    sxnu.Del_Relation = function (val) {
         // 删除关联
-        sxnu.Set_RelationToDB("");
+        sxnu.Set_RelationToDB("", val);
     }
 
 
-    sxnu.Set_RelationToDB = function (val) {
-       
+    sxnu.Set_RelationToDB = function (val,rowM) {
         var fromDataModel = {
-            wt_ID: sxnu.ShowSTInfo()[0].dbID(),
+            wt_ID: val == 'y' ? sxnu.ShowSTInfo()[0].dbID() : rowM.ID,
             wt_LogicRelated: val,
             wt_Options: ""
         }
-       
-        
         var ItemArray = new Array();
         if (val == "y") {
             var flag = true;
@@ -2797,21 +2803,19 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             if (index==0) { alert("最少添加一个关联！"); return false;}
 
         } else {
-            $.each(sxnu.ShowSTInfo()[0].wt_Options(), function (i, item) {
-                var Temp = { t: item.item(), f: item.fz(), pv: [], r: "" };
-                $.each(item.pv(), function (ii, item1) {
-                    Temp.pv.push({ n: item1.n, t: item1.t });
-                });
-                ItemArray.push(Temp);
-            });
-            $.each(sxnu.ShowSTInfo()[0].wt_OtherItem(), function (i, item) {
-                var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: "" };
-                $.each(item.pv(), function (ii, item1) {
-                    Temp.pv.push({ n: item1.n, t: item1.t });
-                });
-                ItemArray.push(Temp);
+            // 调用 页面刚加载的时候保存的所有试题对象进行 删除逻辑操作  sxnu.Globle_STList();
+            $.each(sxnu.Globle_STList(), function (val,item) {
+                if (item.wt_ID == fromDataModel.wt_ID) {
+                    var tempA = JSON.parse(item.wt_Options);
+                    $.each(tempA, function (i,v) {
+                        v.r = "";
+                        ItemArray.push(v);
+                    })
+                    return false;
+                }
             });
         }
+
         fromDataModel.wt_Options = JSON.stringify(ItemArray);
         $.ajax("/Admin/Question/Set_Relation", { async: true, cache: false, type: "GET", data: fromDataModel, dataType: "json" }).then(function (result) {
             if (result.IsSuccess) {
@@ -2824,15 +2828,10 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         }).fail(function () {
             alert("系统异常！");
         });
-
-
-
-
-
-
-
-
     }
+
+
+
     sxnu.DataMode4 = function (title, id, pID, wj_ID, stNum, pageing, relation, sleep, IsShowRe, IsShowSl, type, showNumber) {
         this.index = 0;
         this.Title = title;

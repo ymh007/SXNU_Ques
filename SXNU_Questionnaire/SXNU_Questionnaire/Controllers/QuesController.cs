@@ -1,4 +1,6 @@
-﻿using SXNU_Questionnaire.Common;
+﻿using SXNU_Questionnaire.Areas.Admin.Models;
+using SXNU_Questionnaire.Common;
+using SXNU_Questionnaire.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,13 +27,62 @@ namespace SXNU_Questionnaire.Controllers
         {
             return View();
         }
-        public ActionResult QuesFirstStep()
+
+
+        public ActionResult QuesFirstStep(int ID)
         {
-            return View();
+            DataTable dt =SqlStr_Process.GetWJByID_Answer(ID);
+            QuestionInfo Quest = new QuestionInfo();
+            if (dt != null)
+            {
+                Session["V_Code"] = dt.Rows[0]["wj_Number"].ToString();
+                Session.Timeout = 120;
+                Quest.wj_ID =int.Parse(dt.Rows[0]["wj_ID"].ToString());
+                Quest.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                Quest.wj_BeginBody = dt.Rows[0]["wj_BeginBody"].ToString().Replace(" ", "&nbsp;").Replace("\n", "<br/>");
+            }
+            else
+            {
+                return Content("问卷不存在！");
+            }
+            return View(Quest);
         }
-        public ActionResult QuesTwoStep()
+
+        [V_CodeFilter]
+        public ActionResult QuesTwoStep(int ID)
         {
-          
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(ID);
+            QuestionInfo Quest = new QuestionInfo();
+            if (dt != null)
+            {
+                Session["V_Code"] = dt.Rows[0]["wj_Number"].ToString();
+                Session.Timeout = 120;
+                Quest.wj_ID = int.Parse(dt.Rows[0]["wj_ID"].ToString());
+                Quest.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                Quest.wj_BeginBody = dt.Rows[0]["wj_BeginBody"].ToString().Replace(" ", "&nbsp;").Replace("\n", "<br/>");
+            }
+            else
+            {
+                return Content("问卷不存在！");
+            }
+            return View(Quest);
+        }
+        [V_CodeFilter]
+        public ActionResult Answer(int id,int aid)
+        {
+            ViewBag.id = id;
+            ViewBag.aid = aid;
+           
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(id);
+            if (dt != null)
+            {
+                ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                ViewBag.time = dt.Rows[0]["wj_Time"].ToString();
+            }
+            else
+            {
+                return Content("问卷不存在！");
+            }
             return View();
         }
 
@@ -61,5 +112,47 @@ namespace SXNU_Questionnaire.Controllers
             return Content(JsonTool.DtToJson(dt));
         }
 
+
+        public ActionResult GetIndexQuesData(QueryModel Q)
+        {
+            String ResultJson = "";
+            Q.StrWhere=Q.StrWhere == null ? "" : Q.StrWhere;
+            int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
+            int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
+            QuesIndex QI = SqlStr_Process.GetListByPro(Q.StrWhere, "am_ID", BeginIndex, Endindex);
+            int TotalRecords = QI.Total;
+            int TotalPages = TotalRecords / Q.PageSize + (TotalRecords % Q.PageSize == 0 ? 0 : 1);
+            ResultJson = "{\"Data\":" + JsonTool.DtToJson(QI.Data) + ", \"TotalRecords\":" + TotalRecords + ",\"TotalPages\":" + TotalPages + "}";
+            return Content(ResultJson.ToString());
+        }
+
+        public ActionResult GetBaseInfoBy_WJID(int ID) 
+        {
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(ID);
+            return Content(JsonTool.DtToJson(dt));
+        }
+
+        public ActionResult InsertBaseInfo(AnswerUserInfo au)
+        {
+            JsMessage jm = SqlStr_Process.Add_BaseInfo(au);
+            string ResultStr = string.Empty;
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
+        public ActionResult GetSTBy_WJID(int ID)
+        {
+            DataTable dt = SqlStr_Process.GetListByPage_Calc("[SXNU_Questionnaire].[dbo].[WT]", "wt_WJID=" + ID, 0, 9999);
+            return Content(JsonTool.DtToJson(dt));
+        }
+
+
+        public ActionResult SaveAnswer(CommonMode CommonMode)
+        {
+            JsMessage jm = SqlStr_Process.Add_Answer(CommonMode);
+            string ResultStr = string.Empty;
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
     }
 }

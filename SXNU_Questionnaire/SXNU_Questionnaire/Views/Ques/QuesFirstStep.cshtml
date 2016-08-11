@@ -6,17 +6,15 @@
 
 <div class="show_h"></div>
 <div class="wrapper m-t30 m-b150">
-    <div class="show_name m-t30 p-b10"><h2>企业员工满意度调查问卷</h2></div>
+    <div class="show_name m-t30 p-b10"><h2>@Model.wj_Title</h2></div>
     <div class="m-t25 show_con">
-        各位同学：<br>
-        您好！欢迎您参加此次测评。为了更好的帮助您了解自己的教师专业能力发展状况，我们编制了下面的调查表，请您根据真实情况认真作答，您的作答对于测评结果的客观、准确非常重要。全部题目没有正确错误之分，请认真读清题目回答要求，按着第一反应回答即可。本次调查结果只用于各位同学认识自我及教学，我们会为调查信息保密，请您仔细于都每项题目的陈述，选择您认为正确的选项。祝您学习愉快！<br>
-        特别提醒：在线调查的结果与本次选拔的分数无关，只作为后期教学培训的参考，并会对全体同学反馈，所以，请按实际情况作答。
-    </div>
+        @Html.Raw(Model.wj_BeginBody)
+    </div> 
     <div class="center m-t30"><input class="sub w-120" type="button"   onclick="GoTwoStep()" value="立即测试"></div>
 </div>
 <script  type="text/javascript">
     function GoTwoStep() {
-        window.location.href = "/Ques/QuesTwoStep";
+        window.location.href = "/Ques/QuesTwoStep?ID=@Model.wj_ID";
     }
 
 </script>

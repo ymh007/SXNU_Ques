@@ -337,8 +337,7 @@ namespace SXNU_Questionnaire.Common
                                ,[wj_PublishTime]
                                ,[wj_Status]
                                ,[wj_ValidStart]
-                               ,[wj_ValidEnd]
-                               ,[wj_BaseInfo] )
+                               ,[wj_ValidEnd])
                             VALUES
                              (  @wj_ProjectSource
                                ,@wj_Number
@@ -352,8 +351,7 @@ namespace SXNU_Questionnaire.Common
                                ,@wj_PublishTime
                                ,@wj_Status
                                ,@wj_ValidStart
-                               ,@wj_ValidEnd
-                               ,@wj_BaseInfo );SELECT @wj_ID=SCOPE_IDENTITY();";
+                               ,@wj_ValidEnd );SELECT @wj_ID=SCOPE_IDENTITY();";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@wj_ProjectSource",SqlDbType.NVarChar,100){Value=Q.wj_ProjectSource},
                 new SqlParameter("@wj_Number",Q.wj_Number),
@@ -368,7 +366,6 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wj_Status",Q.wj_Status),
                 new SqlParameter("@wj_ValidStart",Q.wj_ValidStart),
                 new SqlParameter("@wj_ValidEnd",Q.wj_ValidEnd),
-                new SqlParameter("@wj_BaseInfo",SqlDbType.NVarChar,8000){Value=Q.wj_BaseInfo},
                 new SqlParameter("@wj_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
 
@@ -380,7 +377,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[14].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[13].Value.ToString());
                 }
                 else
                 {
@@ -418,8 +415,7 @@ namespace SXNU_Questionnaire.Common
                               [wj_PublishTime] =  @wj_PublishTime,
                               [wj_Status]      =  @wj_Status,
                               [wj_ValidStart]  =  @wj_ValidStart,
-                              [wj_ValidEnd]    =  @wj_ValidEnd,
-                              [wj_BaseInfo]    =  @wj_BaseInfo 
+                              [wj_ValidEnd]    =  @wj_ValidEnd
                          WHERE [wj_ID]=@wj_ID ";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@wj_ProjectSource",SqlDbType.NVarChar,100){Value=Q.wj_ProjectSource},
@@ -434,8 +430,7 @@ namespace SXNU_Questionnaire.Common
                 new SqlParameter("@wj_PublishTime",Q.wj_PublishTime),
                 new SqlParameter("@wj_Status",Q.wj_Status),
                 new SqlParameter("@wj_ValidStart",Q.wj_ValidStart),
-                new SqlParameter("@wj_ValidEnd",Q.wj_ValidEnd),
-                new SqlParameter("@wj_BaseInfo",SqlDbType.NVarChar,8000){Value=Q.wj_BaseInfo},
+                new SqlParameter("@wj_ValidEnd",Q.wj_ValidEnd), 
                 new SqlParameter("@wj_ID",Q.wj_ID)
             };
             try

@@ -11,8 +11,8 @@
         @Styles.Render("~/Content/PageCss")
        
     </head>
-    <body >
-        
+    <body>
+
         <div class="header">
             <div class="wrapper p-t5 p-b5"><img src="~/Content/images/logo.jpg"></div>
         </div>
@@ -24,30 +24,29 @@
                     {
                         <li><a class="nav_hover" href="/Home/Index">首页</a></li>
                         <li><a href="/Ques/Ques">问卷中心</a></li>
-                        <li><a  href="/Notice/Notice">通知中心</a></li>
-                    }else if(ViewBag.flgStyle == "ques")
+                        <li><a href="/Notice/Notice">通知中心</a></li>
+                    }
+                    else if (ViewBag.flgStyle == "ques")
                     {
                         <li><a href="/Home/Index">首页</a></li>
                         <li><a class="nav_hover" href="/Ques/Ques">问卷中心</a></li>
-                        <li><a  href="/Notice/Notice">通知中心</a></li>
-                    }else if(ViewBag.flgStyle == "note")
+                        <li><a href="/Notice/Notice">通知中心</a></li>
+                    }
+                    else if (ViewBag.flgStyle == "note")
                     {
                         <li><a href="/Home/Index">首页</a></li>
                         <li><a href="/Ques/Ques">问卷中心</a></li>
-                        <li><a  class="nav_hover" href="/Notice/Notice">通知中心</a></li>
+                        <li><a class="nav_hover" href="/Notice/Notice">通知中心</a></li>
                     }
                 </ul>
             </div>
             <div class="right search_k m-t11"><img class="left m-r10" src="~/Content/images/sec.jpg" onclick="javascript: if ($.trim($('#g_serach').val())) window.location.href = '/Ques/Ques?v=' + encodeURI($('#g_serach').val())"><input maxlength="50" class="w-270 search" value="" id="g_serach"></div>
             <div class="clear"></div>
-        </div>
-        
-         @*页面内容显示区域*@
+        </div> 
 
-            @RenderBody()
+        @*页面内容显示区域*@
 
-            @RenderSection("scripts", required: false)
-
+        @RenderBody()
         <div class="foot_bj">
             <div class="wrapper p-t15 p-b15">
                 <div class="left">
@@ -57,6 +56,6 @@
                 <div class="right cen_rig">@Html.Raw("@陕西师范大学")<br>陕ICP备05001611 总机：86-29-85308114</div>
                 <div class="clear"></div>
             </div>
-        </div>
+        </div> 
     </body>
     </html>
