@@ -55,7 +55,7 @@
                         <span class="hei vol_ico9 m-r20" data-bind="visible:!IsShowSl"><a href="javascript:void(0)" data-bind="click:$root.Cancel_Sleep">取消休息</a></span>
                         <span class="ico vol_ico9 m-r20" data-bind="visible:IsShowSl"><a class=" button button-big bg-main dialogs" data-bind="click:$root.Set_Sleep" href="#">设置休息</a></span>
                         <!-- /ko -->
-                        <!-- ko if: type==1 || type==2 -->
+                        <!-- ko if: type==1 -->
                         <span class="ico vol_ico15" data-bind="visible:IsShowRe"><a class="button button-big bg-main dialogs" data-bind="click:$root.Set_Relation" href="#">相加关联</a></span>
                         <span class="ico_red vol_ico15" data-bind="visible:!IsShowRe"><a href="#" data-bind="click:$root.Del_Relation">删除关联</a></span>
                         <!-- /ko -->
@@ -66,9 +66,9 @@
         </table>
 
 
-        <div class="w-100 centers m-t40">
+        @*<div class="w-100 centers m-t40">
             <input type="submit" value="保存问卷" class="a_red w-120" />
-        </div>
+        </div>*@
     </div>
 
 
@@ -123,7 +123,7 @@
                             <div class="w-390 left"><input type="radio" value=" " data-bind="attr:{name:'dxst_'+$parent.dbID()}" /><!--ko text: item--><!--/ko--></div>
                             <div class="right">
                                 跳转至
-                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                <select class="inf_textxx w-80" data-bind="value: r">
                                     <option  value="">请选择</option>
                                     <!-- ko foreach:$root.Relation_NumList -->
                                     <option data-bind="value:ID,text: showNumber"></option> <!-- /ko -->
@@ -137,7 +137,7 @@
                             <div class="w-390 left"><input type="radio" name="" value="" data-bind="attr:{name:'dxst_'+$parent.dbID()}"><!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></div>
                             <div class="right">
                                 跳转至
-                                <select class="inf_textxx w-80" data-bind="value: rel">
+                                <select class="inf_textxx w-80" data-bind="value: r">
                                     <option value="">请选择</option>
                                     <!-- ko foreach:$root.Relation_NumList -->
                                     <option data-bind="value:ID,text :showNumber"></option> <!-- /ko -->
@@ -158,28 +158,12 @@
                     <ul data-bind="foreach:wt_Options">
                         <li>
                             <div class="w-390 left"><input type="checkbox" /><!--ko text:item--><!--/ko--></div>
-                            <div class="right">
-                                跳转至
-                                <select class="inf_textxx w-80" data-bind="value: rel">
-                                    <option value="">请选择</option>
-                                    <!-- ko foreach:$root.Relation_NumList -->
-                                    <option data-bind="value:ID, text:showNumber"></option> <!-- /ko -->
-                                </select> 题
-                            </div>
                         </li>
                         <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                     </ul>
                     <ul data-bind="foreach:wt_OtherItem">
                         <li>
                             <div class="w-390 left"><input type="checkbox"> <!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></div>
-                            <div class="right">
-                                跳转至
-                                <select class="inf_textxx w-80" data-bind="value: rel">
-                                    <option  value="">请选择</option>
-                                    <!-- ko foreach:$root.Relation_NumList -->
-                                    <option data-bind="value:ID,text: showNumber"></option> <!-- /ko -->
-                                </select> 题
-                            </div>
                         </li>
                         <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                     </ul>

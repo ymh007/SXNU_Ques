@@ -154,5 +154,28 @@ namespace SXNU_Questionnaire.Controllers
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
+
+
+        public ActionResult ViewAnswer(int auid, int wjid)
+        {
+            ViewBag.id = wjid;
+            ViewBag.aid = auid;
+
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(wjid);
+            if (dt != null)
+            {
+                ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                ViewBag.time = dt.Rows[0]["wj_Time"].ToString();
+            }
+            else
+            {
+                return Content("问卷不存在！");
+            }
+            return View();
+        }
+
+
+
+
     }
 }

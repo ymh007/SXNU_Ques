@@ -2784,17 +2784,17 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             var flag = true;
             var index = sxnu.ShowSTInfo()[0].wt_Options().length + sxnu.ShowSTInfo()[0].wt_OtherItem().length;
             $.each(sxnu.ShowSTInfo()[0].wt_Options(), function (i, item) {
-                var Temp = { t: item.item(), f: item.fz(), pv: [], r: item.rel() };
-                flag = item.rel() == "" ? true : false;
-                if (item.rel() == "") { index--}
+                var Temp = { t: item.item(), f: item.fz(), pv: [], r: item.r() };
+                flag = item.r() == "" ? true : false;
+                if (item.r() == "") { index--}
                 $.each(item.pv(), function (ii, item1) {
                     Temp.pv.push({ n: item1.n, t: item1.t });
                 });
                 ItemArray.push(Temp);
             });
             $.each(sxnu.ShowSTInfo()[0].wt_OtherItem(), function (i, item) {
-                var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: item.rel() };
-                if (item.rel() == "") { index-- }
+                var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: item.r() };
+                if (item.r() == "") { index-- }
                 $.each(item.pv(), function (ii, item1) {
                     Temp.pv.push({ n: item1.n, t: item1.t });
                 });
@@ -2856,7 +2856,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         this.item = ko.observable(item);
         this.fz = ko.observable(fz);
         this.pv = ko.observableArray([]);
-        this.rel = ko.observable(r);
+        this.r = ko.observable(r);
     }
     sxnu.ShowSTByLoccation = function (val) {
         // 元素id  'StNum_'+dbID()
@@ -3026,7 +3026,6 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
 
 
 }
-
 // 修改试题对象
 var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     var sxnu = currentDom || this;
@@ -3049,7 +3048,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
         this.item = ko.observable(item);
         this.fz = ko.observable(fz);
         this.pv = ko.observableArray([]);
-        this.rel = ko.observable(r);
+        this.r = ko.observable(r);
     }
     sxnu.T_itmeID = ko.observable("");
     sxnu.T_otherID = ko.observable("");
@@ -4096,3 +4095,93 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
 
 }
+var SXNU_ViewModel_AnswerDeail = function ($, currentDom) {
+    var sxnu = currentDom || this; 
+    sxnu.wj_ID = ko.observable(0);
+    sxnu.SearchValue = ko.observable("");
+
+
+    //==============分页 开始==============
+    sxnu.AnswerPerson_List = ko.observableArray();
+
+    sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
+    sxnu.am_PageSize = ko.observable(20); //一页显示多少条数据
+    sxnu.am_TotalPage = ko.observable(1); // 页总数
+    sxnu.am_TotalRecord = ko.observable();//总记录数
+    sxnu.UserIsExits = ko.observable(false);
+
+    sxnu.Search_WJ = function () {
+        sxnu.am_CurrenPageIndex(0);
+        sxnu.am_TotalPage(1);
+        sxnu.GetByPageingData();
+    }
+    sxnu.Provider = function () {
+        if (sxnu.am_CurrenPageIndex() > 0) {
+            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
+            sxnu.GetByPageingData();
+        }
+    }
+    sxnu.NextPage = function () {
+        if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
+        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() + 1);
+        sxnu.GetByPageingData();
+    }
+
+    sxnu.GotoPage = function (index) {
+        if (index < 0 || index > (sxnu.am_TotalPage() - 1)) {
+            return;
+        };
+        sxnu.am_CurrenPageIndex(index);
+        sxnu.GetByPageingData();
+    }
+
+    sxnu.GetByPageingData = function () {
+        var parmentMode = {
+            StrWhere: sxnu.wj_ID(),
+            CurrenPageIndex: sxnu.am_CurrenPageIndex(),
+            PageSize: sxnu.am_PageSize()
+        }
+        sxnu.AnswerPerson_List.removeAll();
+        $.ajax("/Admin/Question/GetAnswerByWjid", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
+            if (result) {
+                sxnu.AnswerPerson_List(result.Data);
+                //$.each(result.Data, function (i, v) {
+                //    if (v.wj_Title.length > 10) {
+                //        v.wj_Title = v.wj_Title.substr(0, 10) + "...";
+                //    }
+                //    if (v.wj_ProjectSource.length > 10) {
+                //        v.wj_ProjectSource = v.wj_ProjectSource.substr(0, 10) + "...";
+                //    }
+                //    sxnu.AnswerPerson_List.push(v);
+                //});
+                sxnu.am_TotalPage(result.TotalPages);
+                sxnu.am_TotalRecord(result.TotalRecords);
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+    //==============分页 结束===============
+
+    sxnu.ViewAnswer = function (val) {
+        window.open("/Ques/ViewAnswer?wjid=" + val.au_wjID + "&auid=" + val.au_ID);
+    }
+    sxnu.publishWJ = function (val) {
+        if (confirm("你确定要发布问卷吗?")) {
+            var WJ_Model = {
+                wj_ID: val.wj_ID,
+                wj_PublishTime: "",
+                wj_Status: "y"
+            }
+            sxnu.Set_WJ_Status(WJ_Model);
+        }
+    } 
+    sxnu.PageInit = function () {
+        sxnu.wj_ID($("#wjid").val());
+        sxnu.GetByPageingData();
+    }
+    sxnu.PageInit();
+
+
+}
+ 

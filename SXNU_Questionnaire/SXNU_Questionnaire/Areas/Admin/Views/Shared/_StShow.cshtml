@@ -1,4 +1,6 @@
-﻿<div class="right wly m-l30 p-w70">
+﻿
+
+<div class="right wly m-l30 p-w70">
     <div class="wly_name">已创建的试题编号：</div>
     <div class="wly_menber">
         <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
@@ -24,7 +26,7 @@
             </li>
         </script> 
         <!-- ko if:  type()==1 -->
-        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
         <div class="lume_img m-t10">
             <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
             <div class="clear"></div>
@@ -41,7 +43,7 @@
         </div>
         <!-- /ko -->
         <!-- ko if:  type()==2 -->
-        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+        <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
         <div class="lume_img m-t10">
             <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
             <div class="clear"></div>
@@ -122,30 +124,25 @@
             <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
             <div class="clear"></div>
         </div>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t15 bige">
-            <tr>
-                <!-- ko foreach:AnswerList -->
-                <!-- ko if: $index()==0 -->
-                <td align="center" bgcolor=#ecf0f5 data-bind="text:a"> </td>
-                <!-- /ko -->
-                <!-- ko if:  $index()!=0 -->
-                <td align="center" bgcolor=#ecf0f5 class="p-w10" data-bind="text:a"> </td>
-                <!-- /ko -->
-                <!-- /ko -->
-            </tr>
-        </table>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="biges">
-            <tbody data-bind="foreach:TitleLsit">
-                <tr>
-                    <td data-bind="text:t"></td>
-                    <!-- ko foreach:$parent.AnswerList -->
-                    <!-- ko if:  $index()!=0 -->
-                    <td align="center" class="p-w10"><input value="male" data-bind="attr:{name: $parent.name}" type="radio"></td>
-                    <!-- /ko -->
+
+        <div class="m-l25 m-r15">
+            <table border=0 cellspacing=0 cellpadding=0 width="100%" class="volume_table">
+                <tr class="volu_bj">
+                    <td class="center">内容项</td>
+                    <!-- ko foreach:AnswerList -->
+                    <td class="center" width="10%" data-bind="text:a"></td>
                     <!-- /ko -->
                 </tr>
-            </tbody>
-        </table>
+                <!-- ko foreach:TitleLsit -->
+                <tr>
+                    <td class="volu_keft" data-bind="text:t"></td>
+                    <!-- ko foreach:$parent.AnswerList -->
+                    <td class="center"><input type="radio" data-bind="attr:{name: $parent.name}" /></td>
+                    <!-- /ko -->
+                </tr>
+                <!-- /ko -->
+            </table>
+        </div> 
         <!-- /ko -->
 
     </div>

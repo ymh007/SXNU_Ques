@@ -8,9 +8,30 @@
     <meta name="description" content="{$SEO['index_description']}">
     @Styles.Render("~/Content/admin/PageCss")
     @*@Styles.Render("~/Content/QuesCss")*@
-    
+
     @Scripts.Render("~/js/Common")
     @Scripts.Render("~/js/admin/Page/ques")
+    <style>
+        .volume_table {
+            border-left: 1px solid #d6d6d6;
+            border-bottom: 1px solid #d6d6d6;
+        }
+
+            .volume_table tr td {
+                border: 1px solid #d6d6d6;
+                border-bottom: none;
+                border-left: none;
+                line-height: 38px;
+            }
+
+        .volu_bj {
+            background: #ecf0f5;
+        }
+
+        .volu_keft {
+            padding-left: 10px;
+        }
+    </style>
 </head>
 
 <body class="admin">
@@ -31,7 +52,7 @@
             <div class="clear"></div>
         </div>
         <div class="left admin_left p-w8">
-          
+
             <input type="hidden" id="golName" value="@User.U_Name" />
             <input type="hidden" id="golUserID" value="@User.U_ID" />
             <input type="hidden" id="golUserRole" value="@User.U_Role" />
@@ -70,7 +91,7 @@
 
         @RenderSection("scripts", required: false)
 
-        </div>
+    </div>
 
 </body>
 

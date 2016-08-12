@@ -47,7 +47,6 @@ namespace SXNU_Questionnaire.Models
     public class CommonMode
     {
         public string an_auID { get; set; }
-        public string an_wtID { get; set; }
         public string dataArrayStr { get; set; }
 
     } 

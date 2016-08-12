@@ -21,11 +21,13 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult AnswerDetails()
+        public ActionResult AnswerDetails(int ID)
         {
+            //Response.Cookies["WJID"].Value =ID.ToString();
+            ViewBag.wjid = ID;
             return View();
         }
-
+       
 
         public ActionResult Subst(int wjID, int ID)
         {
@@ -429,7 +431,27 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             jm = Sql_QuestionManage.PublishWJ(Q);
             return Content(JsonTool.ObjToJson(jm));
         }
+
+
+        public ActionResult GetAnswerByWjid(QueryModel Q)
+        {
+            String ResultJson = "";
+            string StrWhere = "";
+            if (!string.IsNullOrEmpty(Q.StrWhere))
+            {
+                StrWhere = "au_wjID¡¡= " + Q.StrWhere;
+            }
+            int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
+            int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
+            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[AnswerUserInfo]", StrWhere, "au_ID", BeginIndex, Endindex);
+            int TotalRecords = SqlStr_Process.GetTotalRecord("[SXNU_Questionnaire].[dbo].[AnswerUserInfo]", StrWhere);
+            int TotalPages = TotalRecords / Q.PageSize + (TotalRecords % Q.PageSize == 0 ? 0 : 1);
+            ResultJson = "{\"Data\":" + JsonTool.DtToJson(dt) + ", \"TotalRecords\":" + TotalRecords + ",\"TotalPages\":" + TotalPages + "}";
+            return Content(ResultJson.ToString());
+        }
+
          
+
  
     }
 }

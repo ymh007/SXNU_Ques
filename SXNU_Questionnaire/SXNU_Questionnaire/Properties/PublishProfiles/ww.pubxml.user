@@ -37,13 +37,13 @@
       <publishTime>06/28/2016 15:29:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/AnswerDetails.cshtml">
-      <publishTime>06/29/2016 13:55:17</publishTime>
+      <publishTime>08/12/2016 15:11:43</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/Modst.cshtml">
       <publishTime>07/28/2016 09:10:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/QuesList.cshtml">
-      <publishTime>08/05/2016 14:30:27</publishTime>
+      <publishTime>08/12/2016 10:05:18</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/QuesManage.cshtml">
       <publishTime>06/21/2016 14:40:26</publishTime>
@@ -55,10 +55,10 @@
       <publishTime>07/18/2016 17:57:49</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/Step3.cshtml">
-      <publishTime>08/02/2016 18:08:22</publishTime>
+      <publishTime>08/11/2016 14:07:19</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/Step4.cshtml">
-      <publishTime>08/08/2016 17:44:49</publishTime>
+      <publishTime>08/12/2016 10:15:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/Subst.cshtml">
       <publishTime>07/28/2016 11:57:55</publishTime>
@@ -70,7 +70,7 @@
       <publishTime>08/05/2016 11:37:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_StShow.cshtml">
-      <publishTime>08/04/2016 13:37:01</publishTime>
+      <publishTime>08/12/2016 14:32:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/AccountCreate.cshtml">
       <publishTime>07/21/2016 18:05:48</publishTime>
@@ -112,7 +112,7 @@
       <publishTime>06/01/2016 11:21:13</publishTime>
     </File>
     <File Include="bin/SXNU_Questionnaire.dll">
-      <publishTime>08/10/2016 15:36:45</publishTime>
+      <publishTime>08/12/2016 15:14:24</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/09/2013 11:04:48</publishTime>
@@ -580,13 +580,13 @@
       <publishTime>07/21/2016 18:02:59</publishTime>
     </File>
     <File Include="Scripts/Admin/anq.js">
-      <publishTime>08/08/2016 13:35:53</publishTime>
+      <publishTime>08/12/2016 09:35:24</publishTime>
     </File>
     <File Include="Scripts/Admin/login.js">
       <publishTime>08/05/2016 09:09:08</publishTime>
     </File>
     <File Include="Scripts/Admin/ques.js">
-      <publishTime>08/09/2016 17:16:31</publishTime>
+      <publishTime>08/12/2016 15:07:41</publishTime>
     </File>
     <File Include="Scripts/jquery-1.8.2.js">
       <publishTime>05/13/2016 11:46:19</publishTime>
@@ -637,7 +637,7 @@
       <publishTime>05/13/2016 11:46:24</publishTime>
     </File>
     <File Include="Scripts/PageJS/index.js">
-      <publishTime>08/10/2016 15:33:05</publishTime>
+      <publishTime>08/12/2016 15:09:54</publishTime>
     </File>
     <File Include="Scripts/uploader.swf">
       <publishTime>07/27/2016 11:03:50</publishTime>
@@ -664,7 +664,7 @@
       <publishTime>08/08/2016 16:16:12</publishTime>
     </File>
     <File Include="Views/Ques/Answer.cshtml">
-      <publishTime>08/10/2016 15:31:54</publishTime>
+      <publishTime>08/12/2016 14:12:43</publishTime>
     </File>
     <File Include="Views/Ques/ques.cshtml">
       <publishTime>08/10/2016 14:02:53</publishTime>
@@ -675,11 +675,14 @@
     <File Include="Views/Ques/QuesTwoStep.cshtml">
       <publishTime>08/09/2016 15:54:19</publishTime>
     </File>
+    <File Include="Views/Ques/ViewAnswer.cshtml">
+      <publishTime>08/12/2016 15:14:06</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>05/13/2016 11:46:11</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/10/2016 14:20:44</publishTime>
+      <publishTime>08/12/2016 09:29:52</publishTime>
     </File>
     <File Include="Views/Test/adddata.cshtml">
       <publishTime>05/19/2016 15:35:52</publishTime>
