@@ -30,6 +30,7 @@ namespace SXNU_Questionnaire.Models
         public int au_ID { get; set; }
         public int au_wjID { get; set; }
         public string au_AnswerUserInfo { get; set; }
+        public string au_Time { get; set; }
     }
 
 
@@ -46,6 +47,7 @@ namespace SXNU_Questionnaire.Models
     }
     public class CommonMode
     {
+        public string au_Time { get; set; }
         public string an_auID { get; set; }
         public string dataArrayStr { get; set; }
 

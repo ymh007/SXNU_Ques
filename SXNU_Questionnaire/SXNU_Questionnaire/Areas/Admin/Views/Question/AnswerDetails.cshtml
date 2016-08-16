@@ -31,7 +31,7 @@
             <tbody data-bind="foreach:AnswerPerson_List">
                 <tr>
                     <td class="p-w38" data-bind="text:Row"></td>
-                    <td class="p-w38">30分40秒</td>
+                    <td class="p-w38" data-bind="text: (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) +'分'+(parseInt(au_Time.length==0?0:au_Time) - (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) * 60))+'秒')">30分40秒</td>
                     <td>
                         <span class="ico vol_ico5 m-r20"><a href="javascript:;" data-bind="click:$root.ViewAnswer">查看答题详情</a></span>
                     </td>

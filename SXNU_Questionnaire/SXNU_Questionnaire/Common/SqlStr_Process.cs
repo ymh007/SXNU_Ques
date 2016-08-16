@@ -115,7 +115,20 @@ namespace SXNU_Questionnaire.Common
             return ResultJson = "{\"Data\":" + JsonTool.DtToJson(ds[1]) + ", \"Years\":" + JsonTool.DtToJson(ds[0]) + "}";
         }
 
+        /// <summary>
+        /// 查看答题详情
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetAnswerFinish(int wjid,int auid)
+        {
 
+            string SqlStr = "select * from [dbo].[WT] wt join  [dbo].[Answer] answer  on wt.wt_ID=answer.an_wtID  where wt.wt_WJID=" + wjid + "  and  answer.an_auID=" + auid + " order by  cast(wt.wt_OrderNum as float)   ";
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters)[0];
+            
+        }
+
+        
 
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16
@@ -232,6 +245,11 @@ namespace SXNU_Questionnaire.Common
             return SqlStr_Process.GetIndexData(SqlStr);
         }
 
+        public static DataTable Get_AnswerInfo(int ID)
+        {
+            string SqlStr = "select  * from  [dbo].[AnswerUserInfo] where au_ID=" + ID;
+            return SqlStr_Process.GetIndexData(SqlStr);
+        }
 
 
         /// <summary>
@@ -241,11 +259,13 @@ namespace SXNU_Questionnaire.Common
         /// <returns></returns>
         public static JsMessage Add_BaseInfo(AnswerUserInfo au)
         {
+            au.au_Time = "";
             JsMessage js = new JsMessage();
-            string SqlStr = @" INSERT INTO [dbo].[AnswerUserInfo] ([au_wjID] ,[au_AnswerUserInfo]) VALUES (@au_wjID,  @au_AnswerUserInfo);SELECT @au_ID=SCOPE_IDENTITY();";
+            string SqlStr = @" INSERT INTO [dbo].[AnswerUserInfo] ([au_wjID] ,[au_AnswerUserInfo],[au_Time]) VALUES (@au_wjID,  @au_AnswerUserInfo,@au_Time);SELECT @au_ID=SCOPE_IDENTITY();";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@au_wjID",au.au_wjID),
                 new SqlParameter("@au_AnswerUserInfo",SqlDbType.VarChar,1000){Value=au.au_AnswerUserInfo},
+                 new SqlParameter("@au_Time",au.au_Time),
                 new SqlParameter("@au_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
             try
@@ -254,7 +274,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[2].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[3].Value.ToString());
                 }
                 else
                 {
@@ -283,6 +303,20 @@ namespace SXNU_Questionnaire.Common
             SqlParameter[] commandParameters = null;
             int count = list.Count;
             string SqlStr = @" INSERT INTO [dbo].[Answer] ([an_auID],[an_wtID],[an_Result],[an_Invalid],[an_leapfrog],[an_wtType]) VALUES (@an_auID,@an_wtID,@an_Result,@an_Invalid,@an_leapfrog,@an_wtType)";
+            string sqlUpdateAU = "UPDATE [dbo].[AnswerUserInfo]  SET  [au_Time] = @au_Time   WHERE au_ID=@au_ID";
+            try
+            {
+                SqlParameter[] update = new SqlParameter[]{
+                    new SqlParameter("@au_ID",com.an_auID),
+                    new SqlParameter("@au_Time",com.au_Time)
+                };
+                js.ReturnADD_ID = SqlHelper.ExecteNonQueryText(sqlUpdateAU, update);
+
+            }
+            catch(SqlException ex)
+            { 
+                js.ErrorMsg = ex.ToString();
+            }
             foreach (Answer A in list)
             {
                 count--;

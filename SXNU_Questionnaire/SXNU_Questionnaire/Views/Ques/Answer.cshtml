@@ -5,10 +5,10 @@
 }
 
 <script type="text/javascript">
-    var intDiff = parseInt(@ViewBag.time)*60;//倒计时总秒数量
-
+    @*var intDiff = parseInt(@ViewBag.time)*60;//倒计时总秒数量
+    var g_id;
     function timer(intDiff) {
-        window.setInterval(function () {
+        g_id= window.setInterval(function () {
             var day = 0,
                 hour = 0,
                 minute = 0,
@@ -29,16 +29,17 @@
             var ShowTime = hour + ":" + minute + ":" + second;
             $('#Countdown').text(ShowTime);
             intDiff--;
+            if (intDiff == 0) { clearTimeout(g_id) }
         }, 1000);
-    }
+    }*@
     $(function () {
         var pageModel = new SXNU_ViewModel_Answer($);
         ko.applyBindings(pageModel, $("#ko_Question")[0]);
-        if (intDiff > 0) {
-            timer(intDiff);
-        } else {
-
-        }
+        //if (intDiff > 0) {
+        //    timer(intDiff);
+        //} else {
+        //    sxnu.answerTime
+        //}
         
     });
 
@@ -148,7 +149,7 @@
                     <tr>
                         <td class="volu_keft" data-bind="text:t"></td>
                         <!-- ko foreach:$parent.AnswerList -->
-                        <td class="center"><input type="radio" data-bind="enable:$root.EnBgSt,value:a,attr:{name: $parent.name},checked:$parent.ck,event:{change:$parent.getF} " /></td>
+                        <td class="center"><input type="radio" data-bind="enable:$parent.jy,value:a,attr:{name: $parent.name},checked:$parent.ck,event:{change:$parent.getF} " /></td>
                         <!-- /ko -->
                     </tr>
                     <!-- /ko -->

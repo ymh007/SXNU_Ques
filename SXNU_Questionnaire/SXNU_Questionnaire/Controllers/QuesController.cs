@@ -72,7 +72,7 @@ namespace SXNU_Questionnaire.Controllers
         {
             ViewBag.id = id;
             ViewBag.aid = aid;
-           
+            ViewBag.time = 0;
             DataTable dt = SqlStr_Process.GetWJByID_Answer(id);
             if (dt != null)
             {
@@ -162,10 +162,11 @@ namespace SXNU_Questionnaire.Controllers
             ViewBag.aid = auid;
 
             DataTable dt = SqlStr_Process.GetWJByID_Answer(wjid);
-            if (dt != null)
+            //DataTable BaseInfo =SqlStr_Process.Get_AnswerInfo(wjid);
+            if (dt != null  )
             {
                 ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
-                ViewBag.time = dt.Rows[0]["wj_Time"].ToString();
+                //ViewBag.time = BaseInfo.Rows[0]["au_Time"].ToString();
             }
             else
             {
@@ -175,7 +176,14 @@ namespace SXNU_Questionnaire.Controllers
         }
 
 
-
+        public ActionResult GetAnswerFinish(int wjid,int auid)
+        {
+            String ResultJson = "";
+            DataTable Ansewer = SqlStr_Process.GetAnswerFinish(wjid,auid);
+            DataTable BaseInfo = SqlStr_Process.Get_AnswerInfo(auid);
+            ResultJson = "{\"aw\":" + JsonTool.DtToJson(Ansewer) + ", \"baseinfo\":" + BaseInfo.Rows[0]["au_AnswerUserInfo"].ToString() + ",\"time\":" + BaseInfo.Rows[0]["au_Time"].ToString() + "}";
+            return Content(ResultJson.ToString());
+        }
 
     }
 }

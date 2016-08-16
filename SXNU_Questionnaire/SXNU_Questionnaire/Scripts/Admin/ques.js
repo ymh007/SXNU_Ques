@@ -405,27 +405,30 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
+        var strArray = [];
         $.each(sxnu.Item(), function (i, item) {
             var Temp = { t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.Item()[i].pv(), function (ii, item1) {
                 Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
+            strArray.push(Temp.t);
         });
         $.each(sxnu.other(), function (i, item) {
             var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.other()[i].pv(), function (ii, item1) {
                 Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
+            strArray.push(Temp.t);
         });
-        fromDataModel.wt_Options = JSON.stringify(ItemArray);
+         
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -434,6 +437,11 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        if (IsRepeat(strArray)) {
+            alert("不能添加重复项！");
+            return false;
+        }
+        fromDataModel.wt_Options = JSON.stringify(ItemArray);
         sxnu.Save_Ajax(fromDataModel);
 
     }
@@ -830,6 +838,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         var ItemArray = new Array();
+        var strArray = [];
         $.each(sxnu.Item2(), function (i, item) {
             var Temp = { t: item.item(), f: item.fz(), pv: [], r: "" };
             if (!item.item().trim() || !sxnu.IsFZandTime(item.fz())) {
@@ -839,6 +848,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
+            strArray.push(Temp.t);
         });
         $.each(sxnu.other2(), function (i, item) {
             var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: "" };
@@ -849,8 +859,9 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 Temp.pv.push({ n: item1.n, t: item1.t });
             });
             ItemArray.push(Temp);
+            strArray.push(Temp.t);
         });
-        fromDataModel.wt_Options = JSON.stringify(ItemArray);
+       
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -859,6 +870,11 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        if (IsRepeat(strArray)) {
+            alert("不能添加重复项！");
+            return false;
+        }
+        fromDataModel.wt_Options = JSON.stringify(ItemArray);
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================多选题   结束===========
@@ -1010,27 +1026,27 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             baseInfo.push({ n: item.n, t: item.t });
         });
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
-
         var bg = {
             t: [],
             a: []
         };
+        var strArray = [];
         var flag = true;
         $.each(sxnu.TitleLsit(), function (i, item) {
             //var Temp = { t: item.item(), f: item.fz(), pv: [] };
-            if (!item.t().trim()) {
+            if (!$.trim(item.t())) {
                 flag = false;
             }
-            bg.t.push(item.t().trim());
+            bg.t.push($.trim(item.t()));
         });
         $.each(sxnu.AnswerList(), function (i, item) {
             //var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [] };
-            if (!item.a().trim() || !sxnu.IsFZandTime(item.f())) {
+            if (!$.trim(item.a()) || !sxnu.IsFZandTime(item.f())) {
                 flag = false;
             }
-            bg.a.push({ t: item.a().trim(), f: item.f() });
+            bg.a.push({ t: $.trim(item.a()), f: $.trim(item.f()) });
+            strArray.push($.trim(item.a()));
         });
-        fromDataModel.wt_Options = JSON.stringify(bg);
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -1039,6 +1055,11 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        if (IsRepeat(strArray) || IsRepeat(bg.t)) {
+            alert("答案 或 内容项存在重复！");
+            return false;
+        }
+        fromDataModel.wt_Options = JSON.stringify(bg);
         sxnu.Save_Ajax(fromDataModel);
     }
 
@@ -4146,3 +4167,20 @@ var SXNU_ViewModel_AnswerDeail = function ($, currentDom) {
 
 }
  
+
+function IsRepeat(arr) {
+    //var arrStr = JSON.stringify(arr), str;
+    //for (var i = 0; i < arr.length; i++) {
+    //    if (arrStr.indexOf(arr[i]) != arrStr.lastIndexOf(arr[i])) {
+    //        return true;
+    //    }
+    //};
+    //return false;
+    var nary = arr.sort();
+    for (var i = 0; i < nary.length; i++) {
+        if (nary[i] == nary[i + 1]) {
+            return true;
+        }
+    }
+    return false;
+}
