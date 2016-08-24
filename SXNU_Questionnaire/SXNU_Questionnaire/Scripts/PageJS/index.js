@@ -28,13 +28,37 @@
                         v.wj_Title = v.wj_Title.substr(0, 13) + "...";
                     }
                     v.wj_BeginPic = sxnu.pv_Path() + v.wj_ID + "/" + v.wj_BeginPic;
-                    sxnu.newQuestion.push(v);
+                    sxnu.newQuestion.push(v); 
                 });
             }
             sxnu.InitEffect();
+            //setTimeout(function () {
+               
+            //}, 1000);
+            sxnu.IsImg_Load();
         }).fail(function () {
             alert("系统异常！");
         });
+    }
+
+    sxnu.IsImg_Load = function () {
+        //data-bind="attr:{class: IsExpire=='y' ? 'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}"
+        $("#questionList div[name]").each(function () {
+            if (this.name == "y") {
+                this.className="ind_hui pos_abs ceng";
+            } else {
+                this.className="ind_lan pos_abs ceng";
+            }
+        });
+        var max = 8, min = 1;
+        $("#questionList img").each(function (i, v) {
+            var name = parseInt(Math.random() * (max - min + 1) + min, 10);
+            var defPath = "/Content/images/com/d" + name + ".jpg";
+            if (!this.complete) {
+                this.src = defPath;
+            }
+        });
+       
     }
 
 
@@ -51,8 +75,9 @@
     }
     sxnu.PageInit = function () {
         sxnu.pv_Path("/WJ_Attachment/");
-        sxnu.GetNotices();
         sxnu.GetQuestion();
+        sxnu.GetNotices();
+        
     }
     sxnu.PageInit();
 
@@ -120,7 +145,7 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
     sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
     sxnu.am_PageSize = ko.observable(10); //一页显示多少条数据
     sxnu.am_TotalPage = ko.observable(1); // 页总数
-    sxnu.am_TotalRecord = ko.observable();//总记录数
+    sxnu.am_TotalRecord = ko.observable(0);//总记录数
 
     sxnu.Search_WJ = function () {
         sxnu.am_CurrenPageIndex(0);
@@ -191,7 +216,7 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
                             } else {
                                 html_q += "<div  class=\"left cout\">进行中</div>";
                             }
-                            html_q += "<h2 class=\"left m-l10\"><a id=\"" + v.ID + "\" class=\"" + v.V_Code + "\"  href=\"javascript:;\"> " + v.Title.replace(sxnu.search(), "<span>" + sxnu.search() + "</span>") + "</a></h2>";
+                            html_q += "<h2 class=\"left m-l10\"><a  href=\"/Ques/QuesFirstStep?ID=" + v.ID + "\"> " + v.Title.replace(sxnu.search(), "<span>" + sxnu.search() + "</span>") + "</a></h2>";
                             html_q += "<div class=\"clear\"></div>";
                             html_q += "<div class=\"left m-t15 qu_time\">有效期：" + v.StartTime + " -- " + v.EndTime + "</div>";
                             html_q += "<div class=\"right m-t15 qu_time\">发布者：" + v.publishP + " &nbsp;&nbsp;&nbsp;&nbsp; 发布时间：" + v.publishTime + "</div>";
@@ -200,19 +225,19 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
                             html_q += "<img class=\"m-t20\" src=\"../Content/images/heng.jpg\">";
                             html_q += "</div>";
                             $("#row_list").append(html_q);
-                            if (v.IsExpire == "n") {
-                                $("#" + v.ID).click(function () {
-                                    $("#Validate_Code").dialog({
-                                        resizable: false,
-                                        height: 200,
-                                        width: 300,
-                                        modal: true
-                                    });
-                                    sxnu.currentRowCode(this.className);
-                                    sxnu.currentRowWJID(this.id);
+                            //if (v.IsExpire == "n") {
+                            //    $("#" + v.ID).click(function () {
+                            //        $("#Validate_Code").dialog({
+                            //            resizable: false,
+                            //            height: 200,
+                            //            width: 300,
+                            //            modal: true
+                            //        });
+                            //        sxnu.currentRowCode(this.className);
+                            //        sxnu.currentRowWJID(this.id);
 
-                                });
-                            }
+                            //    });
+                            //}
 
                         }
                         if (v.N_Q == 'n') {
@@ -237,7 +262,7 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
                         } else {
                             html_q += "<div  class=\"left cout\">进行中</div>";
                         }
-                        html_q += "<h2 class=\"left m-l10\"><a id=\"" + v.ID + "\" class=\"" + v.V_Code + "\"  href=\"javascript:;\"> " + v.Title.replace(sxnu.search(), "<span>" + sxnu.search() + "</span>") + "</a></h2>";
+                        html_q += "<h2 class=\"left m-l10\"><a  href=\"/Ques/QuesFirstStep?ID=" + v.ID + "\"> " + v.Title.replace(sxnu.search(), "<span>" + sxnu.search() + "</span>") + "</a></h2>";
                         html_q += "<div class=\"clear\"></div>";
                         html_q += "<div class=\"left m-t15 qu_time\">有效期：" + v.StartTime + " -- " + v.EndTime + "</div>";
                         html_q += "<div class=\"right m-t15 qu_time\">发布者：" + v.publishP + " &nbsp;&nbsp;&nbsp;&nbsp; 发布时间：" + v.publishTime + "</div>";
@@ -246,20 +271,20 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
                         html_q += "<img class=\"m-t20\" src=\"../Content/images/heng.jpg\">";
                         html_q += "</div>";
                         $("#row_list").append(html_q);
-                        if (v.IsExpire == "n") {
-                            $("#" + v.ID).click(function () {
-                                $("#Validate_Code").dialog({
-                                    resizable: false,
-                                    height: 200,
-                                    width: 300,
-                                    modal: true
-                                });
-                                sxnu.currentRowCode(this.className);
-                                sxnu.currentRowWJID(this.id);
+                        //if (v.IsExpire == "n") {
+                        //    $("#" + v.ID).click(function () {
+                        //        $("#Validate_Code").dialog({
+                        //            resizable: false,
+                        //            height: 200,
+                        //            width: 300,
+                        //            modal: true
+                        //        });
+                        //        sxnu.currentRowCode(this.className);
+                        //        sxnu.currentRowWJID(this.id);
 
 
-                            });
-                        }
+                        //    });
+                        //}
 
                     }
                     sxnu.WJ_List.push(v);
@@ -274,26 +299,6 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
     }
 
     //==============分页 结束===============
-
-    sxnu.Val_Code = function (val) {
-        if (val.IsExpire == 'n') {
-            $("#Validate_Code").dialog({
-                resizable: false,
-                height: 200,
-                width: 300,
-                modal: true
-            });
-            sxnu.currentRowCode(val.V_Code);
-            sxnu.currentRowWJID(val.ID);
-        }
-    }
-    sxnu.AuswerWJ = function () {
-
-        if ($.trim(sxnu.input_Code()) != sxnu.currentRowCode()) {
-            window.location.href = "/Ques/QuesFirstStep?ID=" + sxnu.currentRowWJID();
-        }
-    }
-
 
     sxnu.GetQuestion = function () {
         $.ajax("/Ques/GetIndexQuestion", { async: true, type: "GET", cache: true, data: parmentMode, dataType: "json", }).then(function (result) {
@@ -327,11 +332,61 @@ var SXNU_ViewModel_Index_Ques = function ($, currentDom) {
 
 
 }
+var SXNU_ViewModel_Index_FirstStep = function ($, currentDom) {
+    var sxnu = currentDom || this;
+    //FRCMMMWI23X7X
+    sxnu.input_Code = ko.observable("");
+    sxnu.currentRowCode = ko.observable("");
+    sxnu.currentRowWJID = ko.observable(0);
+    sxnu.IsExprire = ko.observable("");
+    sxnu.wjid = ko.observable("");
+
+
+    sxnu.Val_Code = function (val) {
+        $("#Validate_Code").dialog({
+            resizable: false,
+            height: 200,
+            width: 300,
+            modal: true
+        });
+    }
+
+    sxnu.AuswerWJ = function () {
+        var code = $.trim(sxnu.input_Code());
+        if (!code) {
+            alert("认证码不能为空");
+            return false;
+        }
+        if (code.length != 13) {
+            alert("认证码格式不正确");
+            return false;
+        }
+        $.ajax("/Ques/Validate_Code", { async: true, type: "GET", cache: true, data: { wjid: sxnu.wjid(), code: sxnu.input_Code() }, dataType: "json", }).then(function (result) {
+            if (result) {
+                if (result.IsSuccess) {
+                    window.location.href = "/Ques/QuesTwoStep?ID=" + sxnu.wjid();
+                } else {
+                    alert(result.ErrorMsg);
+                }
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+
+    }
+    sxnu.PageInit = function () {
+        sxnu.wjid($("#wjid").val());
+        sxnu.IsExprire($("#isexp").val());
+    }
+    sxnu.PageInit();
+}
+
 var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
     var sxnu = currentDom || this;
     sxnu.baseInfoID = ko.observable(0);
     sxnu.wj_id = ko.observable(0);
-
+    sxnu.Nameck = ko.observable("");
+    sxnu.NameVal = ko.observable("");
     sxnu.ControlList = ko.observableArray([]);
     sxnu.EnumControlsType = {
         wbk: "文本框",
@@ -351,6 +406,7 @@ var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
         $.ajax("/Ques/GetBaseInfoBy_WJID", { async: true, type: "GET", cache: true, data: { ID: sxnu.wj_id() }, dataType: "json", }).then(function (result) {
             if (result) {
                 if (result.length == 1) {
+                    sxnu.Nameck(result[0].wj_PageSize);
                     var Temp = JSON.parse(result[0].wj_BaseInfo);
                     $.each(Temp, function (i, v) {
                         var T = new sxnu.ConorlesMode(v.ck, v.tit, v.ty, v.val, []);
@@ -361,12 +417,12 @@ var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
                         }
                         if (sxnu.EnumControlsType.dxan == v.ty) {
                             var str = v.val;
-                            var array = str.replace(' ', '').split(",");
+                            var array = str.replace(' ', '').split("|");
                             T.list(array);
                         }
                         if (sxnu.EnumControlsType.xlcd == v.ty) {
                             var str = v.val;
-                            var array = str.replace(' ', '').split(",");
+                            var array = str.replace(' ', '').split("|");
                             T.list(array);
                         }
                         sxnu.ControlList.push(T);
@@ -383,16 +439,29 @@ var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
             au_ID: "",
             au_wjID: sxnu.wj_id(),
             au_AnswerUserInfo: "",
-            au_Time: ""
+            au_Time: "",
+            au_Name: $.trim(sxnu.NameVal())
         };
         var dataArray = [];
         var flag = true;
+        var msg = "";
         $.each(sxnu.ControlList(), function (index, item) {
             var t = { ck: item.ck(), tit: item.tit(), ty: item.ty(), val: item.val(), iv: $.trim(item.iv()) };
-            if ($.trim(item.iv()) == "") { flag = false; }
+            if (item.ck() == "1") {
+                if ($.trim(item.iv()) == "") {
+                    flag = false; msg = item.tit() + " 不能为空！";
+                    return false;
+                }
+            }
             dataArray.push(t);
         });
-        if (!flag) { $("body").unmask(); alert("请先填写基本信息"); return false; }
+
+        if (sxnu.Nameck() == "1") {
+            if (!$.trim(sxnu.NameVal())) {
+                alert("姓名不能为空"); return false;
+            }
+        }
+        if (!flag) { $("body").unmask(); alert(msg); return false; }
         mode.au_AnswerUserInfo = JSON.stringify(dataArray);
         $.ajax("/Ques/InsertBaseInfo", { async: true, type: "GET", cache: true, data: mode, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
@@ -1616,7 +1685,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
     sxnu.GoPage = function (val) {
         sxnu.ShowSTInfo.removeAll();
         $.each(sxnu.Globle_STList(), function (index, item) {
-            var temp_V=parseFloat(item.wt_OrderNum);
+            var temp_V = parseFloat(item.wt_OrderNum);
             if (temp_V >= val.start && temp_V <= val.end) {
                 sxnu.ShowSTByLoccation(item, item.wt_OrderNum);
                 if (item.wt_Pageing == "y") {
@@ -1625,7 +1694,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
             }
         });
         $("#pageListNum :button").removeClass("page_bck");
-        $("#pageListNum :input[name='"+val.na+"']").addClass("page_bck");
+        $("#pageListNum :input[name='" + val.na + "']").addClass("page_bck");
 
     }
     sxnu.PageNum = ko.observableArray([]);
@@ -1645,17 +1714,17 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
         temparray.push(sxnu.MaxNum());
         for (var a = 0; a < temparray.length ; a++) {
             if (a % 2 == 0) {
-                sxnu.PageNum.push({ num: a, start: temparray[a], end: temparray[a+1] ,na:'gopage'+a});
+                sxnu.PageNum.push({ num: a, start: temparray[a], end: temparray[a + 1], na: 'gopage' + a });
             }
         }
     }
-   
+
     // 分页
     sxnu.CurrentStart_num = ko.observable(0);
     sxnu.CurrentEnd_num = ko.observable(0);
     sxnu.MaxNum = ko.observable(0);
 
-
+    sxnu.AnswerName = ko.observable("");
     sxnu.BaseInfo = ko.observableArray([]);
     sxnu.PageCount = ko.observable(0);
     sxnu.TotalWJ = ko.observable(0);
@@ -1678,7 +1747,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
                             par_num++;
                         }
                         if (v.wt_Pageing == "y") {
-                            sxnu.PageCount(parseInt(sxnu.PageCount()) + 1); 
+                            sxnu.PageCount(parseInt(sxnu.PageCount()) + 1);
                         }
                     });
                     sxnu.MaxNum(par_num - 1);
@@ -1707,7 +1776,8 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
                     });
 
                     sxnu.GetPageCount();  //  获取当前试题的第一个和最后一个编号 用来分页
-                    
+
+                    sxnu.AnswerName(result.Name);
                     sxnu.BaseInfo(result.baseinfo);
                     sxnu.AnswerTime((Math.floor(parseInt(result.time) / 60) + '分' + (parseInt(result.time) - (Math.floor(parseInt(result.time) / 60) * 60)) + '秒'));
                     $("body").unmask();

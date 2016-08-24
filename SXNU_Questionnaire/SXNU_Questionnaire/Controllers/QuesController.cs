@@ -37,6 +37,16 @@ namespace SXNU_Questionnaire.Controllers
             {
                 Session["V_Code"] = dt.Rows[0]["wj_Number"].ToString();
                 Session.Timeout = 120;
+                DateTime end = DateTime.Parse(dt.Rows[0]["wj_ValidEnd"].ToString());
+                if (end > DateTime.Now )
+                {
+                    Quest.wj_EndBody = "n";  // 过期
+                }
+                else
+                {
+                    Quest.wj_EndBody = "y";
+                }
+                Quest.wj_Number = dt.Rows[0]["wj_Number"].ToString();
                 Quest.wj_ID =int.Parse(dt.Rows[0]["wj_ID"].ToString());
                 Quest.wj_Title = dt.Rows[0]["wj_Title"].ToString();
                 Quest.wj_BeginBody = dt.Rows[0]["wj_BeginBody"].ToString().Replace(" ", "&nbsp;").Replace("\n", "<br/>");
@@ -47,6 +57,40 @@ namespace SXNU_Questionnaire.Controllers
             }
             return View(Quest);
         }
+
+        public ActionResult Validate_Code(int wjid, string code)
+        {
+            JsMessage jm = new JsMessage();
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(wjid);
+            string ResultStr = string.Empty;
+            if (dt != null)
+            {
+                if (dt.Rows.Count == 1)
+                {
+                    string temp = dt.Rows[0]["wj_Number"].ToString();
+                    if (code == temp)
+                    {
+                        jm.IsSuccess = true;
+                    }
+                    else {
+                        jm.IsSuccess = false;
+                        jm.ErrorMsg = "认证码不匹配";
+                    }
+                }
+                else {
+                    jm.IsSuccess = false;
+                    jm.ErrorMsg = "问卷不存在";
+                }
+            }
+            else 
+            {
+                jm.IsSuccess = false;
+                jm.ErrorMsg = "问卷不存在";
+            }
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
 
         [V_CodeFilter]
         public ActionResult QuesTwoStep(int ID)
@@ -97,6 +141,7 @@ namespace SXNU_Questionnaire.Controllers
                 DateTime NowDate = DateTime.Now;
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    // CASE WHEN ([wj_ValidEnd] > GETDATE()) THEN 'n'  ELSE 'y' END AS IsExpire
                     //DateTime start = DateTime.Parse(dt.Rows[i]["wj_ValidStart"].ToString());
                     DateTime end = DateTime.Parse(dt.Rows[i]["wj_ValidEnd"].ToString());
                     if (NowDate > end)
@@ -113,6 +158,11 @@ namespace SXNU_Questionnaire.Controllers
         }
 
 
+        /// <summary>
+        /// 数据库分页
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
         public ActionResult GetIndexQuesData(QueryModel Q)
         {
             String ResultJson = "";
@@ -181,7 +231,7 @@ namespace SXNU_Questionnaire.Controllers
             String ResultJson = "";
             DataTable Ansewer = SqlStr_Process.GetAnswerFinish(wjid,auid);
             DataTable BaseInfo = SqlStr_Process.Get_AnswerInfo(auid);
-            ResultJson = "{\"aw\":" + JsonTool.DtToJson(Ansewer) + ", \"baseinfo\":" + BaseInfo.Rows[0]["au_AnswerUserInfo"].ToString() + ",\"time\":" + BaseInfo.Rows[0]["au_Time"].ToString() + "}";
+            ResultJson = "{\"aw\":" + JsonTool.DtToJson(Ansewer) + ", \"baseinfo\":" + BaseInfo.Rows[0]["au_AnswerUserInfo"].ToString() + ",\"time\":" + BaseInfo.Rows[0]["au_Time"].ToString() + ",\"Name\":\"" + BaseInfo.Rows[0]["au_Name"].ToString().Trim() + "\"}";
             return Content(ResultJson.ToString());
         }
 

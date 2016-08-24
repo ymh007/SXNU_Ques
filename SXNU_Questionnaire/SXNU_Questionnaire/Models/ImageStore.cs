@@ -31,6 +31,7 @@ namespace SXNU_Questionnaire.Models
         public int au_wjID { get; set; }
         public string au_AnswerUserInfo { get; set; }
         public string au_Time { get; set; }
+        public string au_Name { get; set; }
     }
 
 

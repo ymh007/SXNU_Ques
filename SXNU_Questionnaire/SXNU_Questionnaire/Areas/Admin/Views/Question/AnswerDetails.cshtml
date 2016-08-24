@@ -15,24 +15,25 @@
         <input type="hidden" value="@ViewBag.wjid" id="wjid" />
         <div class="m-b30 m-t15">
             <input type="submit" onclick="javascript: window.location.href = '/admin/Question/QuesList'" value="返回" class="a_red_min w-86 left m-r35" />
-            <input type="submit" value="导出问卷" class="a_red_min w-95 left m-r15" />
-            <input type="submit" value="导出回收数据" class="a_red_min w-125 left" />
+            <input type="button" value="导出问卷" class="a_red_min w-95 left m-r15"  data-bind="click:$root.Export_WJ"/> 
+            <input type="button" value="导出回收数据" class="a_red_min w-125 left" data-bind="click:$root.Export_AnswerList" /> 
             <div class="clear"></div>
         </div>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tr>
-               
-                <td class="p-w38"><b>编号</b></td>
-                <td class="p-w38"><b>答卷时间</b></td>
-                <td><b>操作</b></td>
+                <td class="p-w20"><b>编号</b></td>
+                <td class="p-w30"><b>姓名</b></td>
+                <td class="p-w30"><b>答卷时间</b></td>
+                <td class="p-w20"><b>操作</b></td>
             </tr>
         </table>
         <table id="mytable" border="0" cellspacing="0" cellpadding="0" width="100%" class="volume_list">
             <tbody data-bind="foreach:AnswerPerson_List">
                 <tr>
-                    <td class="p-w38" data-bind="text:Row"></td>
-                    <td class="p-w38" data-bind="text: (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) +'分'+(parseInt(au_Time.length==0?0:au_Time) - (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) * 60))+'秒')">30分40秒</td>
-                    <td>
+                    <td class="p-w20" data-bind="text:Row"></td>
+                    <td class="p-w30" data-bind="text:au_Name"></td>
+                    <td class="p-w30" data-bind="text: (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) +'分'+(parseInt(au_Time.length==0?0:au_Time) - (Math.floor(parseInt(au_Time.length==0?0:au_Time) / 60 ) * 60))+'秒')">30分40秒</td>
+                    <td class="p-w20">
                         <span class="ico vol_ico5 m-r20"><a href="javascript:;" data-bind="click:$root.ViewAnswer">查看答题详情</a></span>
                     </td>
                 </tr>

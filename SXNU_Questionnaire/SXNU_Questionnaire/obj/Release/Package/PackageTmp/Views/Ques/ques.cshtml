@@ -7,7 +7,6 @@
     $(function () {
         var pageModel = new SXNU_ViewModel_Index_Ques($);
         ko.applyBindings(pageModel, $("#QuestionPage")[0]);
-
     });
 </script>
 <style>
@@ -47,18 +46,7 @@
 </style>
 <div class="show_h"></div>
 <div class="wrapper m-t30 m-b80" id="QuestionPage">
-    <div class="dialog" title="认证码" id="Validate_Code">
-        <div class="dialog-body ">
-            <input type="text" class="input w-200" placeholder="" maxlength="13" style="color:black" data-bind="value:input_Code" />
-        </div>
-        <div class="dialog-foot">
-            <!--<button class="dialog-close">
-                 </button>-->
-            <button class="dialog-close" data-bind="click:$root.AuswerWJ">
-                <img src="~/Content/images/niu.jpg">
-            </button>
-        </div>
-    </div>
+   
     <div id="row_list">
 
     </div>

@@ -67,7 +67,7 @@ namespace SXNU_Questionnaire.Common
             return Q;
         }
         /// <summary>
-        /// 分页获取数据列表 排序列需要做计算 试题排序专用
+        /// 获取数据列表 排序列需要做计算 试题排序专用
         /// </summary>
         public static DataTable GetListByPage_Calc(string tablename, string strWhere, int BeginIndex, int EndIndex)
         {
@@ -119,16 +119,16 @@ namespace SXNU_Questionnaire.Common
         /// 查看答题详情
         /// </summary>
         /// <returns></returns>
-        public static DataTable GetAnswerFinish(int wjid,int auid)
+        public static DataTable GetAnswerFinish(int wjid, int auid)
         {
 
             string SqlStr = "select * from [dbo].[WT] wt join  [dbo].[Answer] answer  on wt.wt_ID=answer.an_wtID  where wt.wt_WJID=" + wjid + "  and  answer.an_auID=" + auid + " order by  cast(wt.wt_OrderNum as float)   ";
             SqlParameter[] commandParameters = new SqlParameter[] { };
             return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters)[0];
-            
+
         }
 
-        
+
 
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16
@@ -239,6 +239,35 @@ namespace SXNU_Questionnaire.Common
 
 
 
+
+        /// <summary>
+        /// 根据问卷id获取 试题 导出word 使用  ========   false  获取子试题
+        /// </summary>
+        /// <param name="WJID"></param>
+        /// <returns></returns>
+        public static DataTableCollection GetWTByWJID_Word(int WJID)
+        {
+            string SqlStr = "SELECT * FROM  [dbo].[WT] WHERE [wt_WJID]=@wt_WJID and [wt_PID] =0  ORDER BY  cast(wt.wt_OrderNum as float); SELECT * FROM  [dbo].[WT] WHERE [wt_WJID]=@wt_WJID and [wt_PID] !=0   ORDER BY  cast(wt.wt_OrderNum as float)";
+            SqlParameter[] commandParameters = new SqlParameter[] { 
+             new SqlParameter("@wt_WJID",WJID)
+            };
+            return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters);
+
+        }
+
+        /// <summary>
+        /// 根据问卷id 和 答题人id 获取导出的excel 数据
+        /// </summary>
+        /// <param name="wjid"></param>
+        /// <param name="AuID"></param>
+        /// <returns></returns>
+        public static DataTable GetAnswer_Excel(int wjid, int AuID)
+        {
+            return SqlStr_Process.GetAnswerFinish(wjid, AuID);
+        }
+
+
+
         public static DataTable GetWJByID_Answer(int ID)
         {
             string SqlStr = "SELECT   *  FROM  [dbo].[WJ]  where wj_ID=" + ID;
@@ -260,12 +289,14 @@ namespace SXNU_Questionnaire.Common
         public static JsMessage Add_BaseInfo(AnswerUserInfo au)
         {
             au.au_Time = "";
+            au.au_Name = au.au_Name == null ? "" : au.au_Name;
             JsMessage js = new JsMessage();
-            string SqlStr = @" INSERT INTO [dbo].[AnswerUserInfo] ([au_wjID] ,[au_AnswerUserInfo],[au_Time]) VALUES (@au_wjID,  @au_AnswerUserInfo,@au_Time);SELECT @au_ID=SCOPE_IDENTITY();";
+            string SqlStr = @" INSERT INTO [dbo].[AnswerUserInfo] ([au_wjID] ,[au_AnswerUserInfo],[au_Time],[au_Name]) VALUES (@au_wjID,  @au_AnswerUserInfo,@au_Time,@au_Name);SELECT @au_ID=SCOPE_IDENTITY();";
             SqlParameter[] commandParameters = new SqlParameter[]{
                 new SqlParameter("@au_wjID",au.au_wjID),
                 new SqlParameter("@au_AnswerUserInfo",SqlDbType.VarChar,1000){Value=au.au_AnswerUserInfo},
-                 new SqlParameter("@au_Time",au.au_Time),
+                new SqlParameter("@au_Time",au.au_Time),
+                new SqlParameter("@au_Name",au.au_Name),
                 new SqlParameter("@au_ID",SqlDbType.Int){Direction = ParameterDirection.Output}
             };
             try
@@ -274,7 +305,7 @@ namespace SXNU_Questionnaire.Common
                 if (flg == 1)
                 {
                     js.IsSuccess = true;
-                    js.ReturnADD_ID = int.Parse(commandParameters[3].Value.ToString());
+                    js.ReturnADD_ID = int.Parse(commandParameters[commandParameters.Length-1].Value.ToString());
                 }
                 else
                 {
@@ -313,8 +344,8 @@ namespace SXNU_Questionnaire.Common
                 js.ReturnADD_ID = SqlHelper.ExecteNonQueryText(sqlUpdateAU, update);
 
             }
-            catch(SqlException ex)
-            { 
+            catch (SqlException ex)
+            {
                 js.ErrorMsg = ex.ToString();
             }
             foreach (Answer A in list)

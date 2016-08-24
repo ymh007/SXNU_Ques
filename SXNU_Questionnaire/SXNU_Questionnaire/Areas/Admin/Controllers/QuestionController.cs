@@ -27,7 +27,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             ViewBag.wjid = ID;
             return View();
         }
-       
+
 
         public ActionResult Subst(int wjID, int ID)
         {
@@ -50,11 +50,25 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             String ResultJson = "";
             string StrWhere = "";
+            //  LoginName: $("#golUserLogin").val(),
+            //Role: $("#golUserRole").val()
             if (!string.IsNullOrEmpty(Q.StrWhere))
             {
                 //StrWhere = "am_LoginUser　like '%" + Q.StrWhere + "%' or am_Email like '%" + Q.StrWhere + "%'";
-                StrWhere = "wj_Title　like '%" + Q.StrWhere + "%'";
+                StrWhere = " wj_Title　like '%" + Q.StrWhere + "%' ";
+                if (Q.Role == "1") // 普通用户
+                {
+                    StrWhere += " and  wj_Sponsor='" + Q.LoginName + "'";
+                } 
             }
+            else 
+            {
+                if (Q.Role == "1") // 普通用户
+                {
+                    StrWhere += "  wj_Sponsor='" + Q.LoginName + "'";
+                }
+            }
+            
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
@@ -135,7 +149,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
         public ActionResult GetWJByID(int ID)
         {
-            string Fields = "wj_ID ,wj_Number,wj_Status,wj_Title,wj_BeginPic,wj_ProjectSource,wj_Time, CONVERT(varchar(100),  wj_ValidStart, 23) As wj_ValidStart,CONVERT(varchar(100),  wj_ValidEnd, 23) As wj_ValidEnd ,wj_BeginBody,wj_BaseInfo";
+            string Fields = "wj_ID ,wj_Number,wj_Status,wj_Title,wj_BeginPic,wj_PageSize,wj_ProjectSource,wj_Time, CONVERT(varchar(100),  wj_ValidStart, 23) As wj_ValidStart,CONVERT(varchar(100),  wj_ValidEnd, 23) As wj_ValidEnd ,wj_BeginBody,wj_BaseInfo";
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", Fields, "wj_ID=" + ID, "wj_ID", 0, 2);
             return Content(JsonTool.DtToJson(dt));
         }
@@ -171,7 +185,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             wj.wj_EndBody = "";
             wj.wj_PageSize = "";
             wj.wj_Status = "n";
-            
+
             wj.wj_PublishTime = DateTime.Now.ToString();
 
             #region   添加和修改问卷
@@ -416,7 +430,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                 string PhysicalPath = Path.Combine(Request.MapPath("~/WJ_Attachment/"), Q.wj_ID.ToString());
                 if (Directory.Exists(PhysicalPath))
                 {
-                   System.IO.Directory.Delete(PhysicalPath, true);
+                    System.IO.Directory.Delete(PhysicalPath, true);
                 }
             }
             catch (Exception ex)
@@ -443,15 +457,79 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             }
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
-            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[AnswerUserInfo]", StrWhere, "au_ID", BeginIndex, Endindex);
+            DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[AnswerUserInfo]", StrWhere, "au_Time", BeginIndex, Endindex);
             int TotalRecords = SqlStr_Process.GetTotalRecord("[SXNU_Questionnaire].[dbo].[AnswerUserInfo]", StrWhere);
             int TotalPages = TotalRecords / Q.PageSize + (TotalRecords % Q.PageSize == 0 ? 0 : 1);
             ResultJson = "{\"Data\":" + JsonTool.DtToJson(dt) + ", \"TotalRecords\":" + TotalRecords + ",\"TotalPages\":" + TotalPages + "}";
             return Content(ResultJson.ToString());
         }
 
-         
 
- 
+        #region==============================导出文件==============开始============
+        public ActionResult Export_AnswerList(int wjid)  // excel
+        {
+            SqlStr_Process.GetAnswer_Excel(wjid,10);
+            //string Save_Path = Server.MapPath(@"~\Generate\Answer.xls");
+            //DataTable dt = SqlStr_Process.GetListByPage("[Test].[dbo].[user_info]", "", "id", 1000, 2000);
+            //Stream fs = Export_Excle.RenderDataTableToExcel(dt);
+            //byte[] bytes = new byte[(int)fs.Length];
+            //fs.Read(bytes, 0, bytes.Length);
+            //fs.Close();
+            //Response.Charset = "UTF-8";
+            //Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
+            //Response.ContentType = "application/octet-stream";
+
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode("Answer.xls"));
+            //Response.BinaryWrite(bytes);
+            //Response.Flush();
+            //Response.End();
+            return new EmptyResult();
+        }
+
+
+
+        public ActionResult Export_WJ(int wjid) // word
+        {
+
+           
+            Path_Model pm = new Path_Model();
+            DataTable wj = SqlStr_Process.GetWJByID_Answer(wjid);
+            string wj_Title = wj.Rows[0]["wj_Title"].ToString();
+            string wj_BeginBody=wj.Rows[0]["wj_BeginBody"].ToString();
+            pm.FileName = wj_Title + ".doc";
+            pm.temppath = Server.MapPath(@"~\Generate\question.doc");
+            pm.savepath = Server.MapPath(@"~\Generate\");
+            pm.logPath = Server.MapPath(@"~\Generate\error.log");
+            pm.BasePath = Server.MapPath(@"~");
+            pm.defaultPic = pm.BasePath + @"\Content\images\no.png";
+            pm.BasePath = pm.BasePath + wjid.ToString()+"\\";
+            pm.savepath = pm.savepath + pm.FileName;
+            Question_Export qe = new Question_Export(pm);
+            qe.Generate(wjid, wj_Title, wj_BeginBody);
+            FileStream fs = new FileStream(pm.savepath, FileMode.Open);
+            byte[] bytes = new byte[(int)fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Response.Charset = "UTF-8";
+            Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
+            Response.ContentType = "application/octet-stream";
+
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode(pm.FileName));
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
+            if (System.IO.File.Exists(pm.savepath))//判断文件是否存在
+            {
+                System.IO.File.Delete(pm.savepath);//执行IO文件删除  
+            }
+            
+            return new EmptyResult();
+
+        }
+
+
+
+        #endregion ========================导出文件==============结束===========
+
     }
 }

@@ -16,7 +16,7 @@
     <input type="hidden" value="@ViewBag.noContent" id="m_content" />
     <div class="admin_name admin_zi">通知管理 -- <span>修改通知</span></div>
     <div class="admin_frame h-400">
-        <div class="m-b15 m-l50"><input type="submit" value="返回" class="a_red_min w-86" /></div>
+        <div class="m-b15 m-l50"><input type="button" value="返回" class="a_red_min w-86" onclick="javascript: window.location.href = '/admin/Notice/NoticeList'" /></div>
         <div class="m-b15">
             <div class="inf_left w-140"><span class="ind_red">*</span> 通知标题：</div>
             <input type="" value="请输通知标题" class="inf_text p-w85 left" data-bind="value:no_title" />

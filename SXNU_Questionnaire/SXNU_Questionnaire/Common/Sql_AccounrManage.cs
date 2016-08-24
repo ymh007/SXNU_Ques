@@ -110,7 +110,7 @@ namespace SXNU_Questionnaire.Common
         {
             string SqlStr = "UPDATE [dbo].[AccountManage] SET [am_PWD] =@am_PWD   WHERE  [am_ID]=@am_ID";
             SqlParameter[] commandParameters = new SqlParameter[]{
-                new SqlParameter("@am_PWD","123456"),
+                new SqlParameter("@am_PWD",Rand.Str(6,false)),
                 new SqlParameter("@am_ID",ID)
             };
             return Modify_Userinfo(SqlStr, commandParameters);
@@ -163,6 +163,66 @@ namespace SXNU_Questionnaire.Common
 
         }
 
+        public static string  OldPWD_NewPWD(string LoginName)
+        {
+            string js = "";
+            string SqlStr = " SELECT  *  FROM [SXNU_Questionnaire].[dbo].[AccountManage]	WHERE  am_LoginUser=@am_LoginUser";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@am_LoginUser",LoginName)
+            };
+            try
+            {
+                DataTable dt = SqlHelper.GetTableText(SqlStr,commandParameters)[0];
+                if (dt != null) 
+                {
+                    if (dt.Rows.Count == 1)
+                    {
+                        js = dt.Rows[0]["am_PWD"].ToString();
+                    }
+                }
+               
+            }
+            catch (SqlException ex)
+            {
+                js = "";
+                 
+            }
+            return js;
+
+
+        }
+
+        public static JsMessage ChangePWD(UserInfo user)
+        {
+            JsMessage jm = new JsMessage();
+            string SqlStr = " UPDATE [dbo].[AccountManage] SET [am_PWD]=@am_PWD  WHERE  am_LoginUser=@am_LoginUser";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@am_PWD",user.U_Name),
+                new SqlParameter("@am_LoginUser",user.U_LoginName)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    jm.IsSuccess = true;
+                    jm.ErrorMsg = "密码修改完成";
+                }
+                else
+                {
+                    jm.IsSuccess = false;
+                    jm.ErrorMsg = "密码修改失败";
+                }
+            }
+            catch (SqlException ex)
+            {
+                jm.IsSuccess = false;
+                jm.ErrorMsg = ex.ToString();
+            }
+            return jm;
+
+
+        }
 
 
     }
@@ -463,9 +523,10 @@ namespace SXNU_Questionnaire.Common
         {
             JsMessage js = new JsMessage();
             string SqlStr = @" UPDATE [dbo].[WJ]
-                           SET [wj_BaseInfo]    =  @wj_BaseInfo   WHERE [wj_ID]=@wj_ID ";
+                           SET [wj_BaseInfo]    =  @wj_BaseInfo ,[wj_PageSize]=@wj_PageSize  WHERE [wj_ID]=@wj_ID "; //pagesize 字段没有使用暂时作为姓名字段来使用 存储是否必须值
             SqlParameter[] commandParameters = new SqlParameter[]{ 
                 new SqlParameter("@wj_BaseInfo",SqlDbType.NVarChar,8000){Value=Q.wj_BaseInfo},
+                new SqlParameter("@wj_PageSize",Q.wj_PageSize),
                 new SqlParameter("@wj_ID",Q.wj_ID)
             };
             try
@@ -498,19 +559,12 @@ namespace SXNU_Questionnaire.Common
         public static JsMessage Del_WJ(QuestionInfo q)
         {
             JsMessage js = new JsMessage();
-            string SqlStr = "DELETE FROM [dbo].[WJ]  WHERE  [wj_ID]=" + q.wj_ID + " ;  DELETE FROM [dbo].[WT]  WHERE  [wt_WJID]=" + q.wj_ID ;
+            string SqlStr = "DELETE FROM [dbo].[WJ]  WHERE  [wj_ID]=" + q.wj_ID + " ;  DELETE FROM [dbo].[WT]  WHERE  [wt_WJID]=" + q.wj_ID + "; DELETE FROM [dbo].[AnswerUserInfo]  WHERE  [au_wjID]=" + q.wj_ID;
             //SqlParameter[] commandParameters = new SqlParameter[] { new SqlParameter("@wt_ID", ID) };
             try
             {
                 int flg = SqlHelper.ExecteNonQueryText(SqlStr, null);
-                if (flg != 0)
-                {
-                    js.IsSuccess = true;
-                }
-                else
-                {
-                    js.IsSuccess = false;
-                }
+                js.IsSuccess = true;
             }
             catch (SqlException ex)
             {
@@ -519,12 +573,12 @@ namespace SXNU_Questionnaire.Common
             }
             return js;
         }
-       
+
 
 
         public static JsMessage PublishWJ(QuestionInfo Q)
         {
-            Q.wj_PublishTime =Q.wj_Status=="y"? DateTime.Now.ToString():"";
+            Q.wj_PublishTime = Q.wj_Status == "y" ? DateTime.Now.ToString() : "";
             JsMessage js = new JsMessage();
             string SqlStr = @" UPDATE [dbo].[WJ] SET  [wj_Status] = @wj_Status ,[wj_PublishTime]=@wj_PublishTime  WHERE [wj_ID]=@wj_ID";
             SqlParameter[] commandParameters = new SqlParameter[]{  

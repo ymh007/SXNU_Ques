@@ -14,9 +14,12 @@
 <div class="wrapper m-t30 m-b150" id="QuestionPage">
     <input type="hidden" value="@Model.wj_ID" id="wj_id">
     <table class="tale">
-       
-        <tbody data-bind="foreach:$root.ControlList">
-
+        <tbody >
+            <tr >
+                <td width="250" align="right"><span data-bind="visible:$root.Nameck()=='1'?true:false">*</span>&nbsp;&nbsp;姓名&nbsp;：</td>
+                <td><input class="input" data-bind="value:$root.NameVal" maxlength="10"></td>
+            </tr>
+            <!-- ko foreach:$root.ControlList -->
             <tr data-bind="if: ty() =='文本框'">
                 <td width="250" align="right"><span data-bind="visible:ck()=='1'?true:false">*</span>&nbsp;&nbsp;<!--ko text: tit--><!--/ko-->&nbsp;：</td>
                 <td><input class="input" data-bind="value:iv,attr:{maxlength:val}" ></td>
@@ -39,7 +42,7 @@
                     <select name="select" class="input" data-bind="options: list,value: iv"></select>
                 </td>
             </tr>
-
+            <!-- /ko -->
         </tbody>
     </table>
     <div class="center m-t30"><input class="sub w-120" type="submit" name="" data-bind="click:$root.GoTwoStep" value="下一步"></div>

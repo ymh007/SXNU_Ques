@@ -3,18 +3,33 @@
     ViewBag.Title = "问卷中心";
     ViewBag.flgStyle = "ques";
 }
-
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Index_FirstStep($);
+        ko.applyBindings(pageModel, $("#QuestionPage")[0]);
+    });
+</script>
 <div class="show_h"></div>
-<div class="wrapper m-t30 m-b150">
+<div class="wrapper m-t30 m-b150" id="QuestionPage">
+    <input type="hidden" value="@Model.wj_ID" id="wjid" />
+    <input type="hidden" value="@Model.wj_EndBody" id="isexp" />
+
+    <div class="dialog" title="认证码" id="Validate_Code">
+        <div class="dialog-body ">
+            <input type="text" class="input w-200" placeholder="" maxlength="13" style="color:black" data-bind="value:input_Code" />
+        </div>
+        <div class="dialog-foot">
+            <!--<button class="dialog-close">
+                 </button>-->
+            <button class="dialog-close" data-bind="click:$root.AuswerWJ">
+                <img src="~/Content/images/niu.jpg">
+            </button>
+        </div>
+    </div>
     <div class="show_name m-t30 p-b10"><h2>@Model.wj_Title</h2></div>
     <div class="m-t25 show_con">
         @Html.Raw(Model.wj_BeginBody)
-    </div> 
-    <div class="center m-t30"><input class="sub w-120" type="button"   onclick="GoTwoStep()" value="立即测试"></div>
+    </div>
+    <div class="center m-t30"><input class="sub w-120" type="button" data-bind="visible:$root.IsExprire()=='n'?true:false,click:$root.Val_Code" value="立即测试"></div>
 </div>
-<script  type="text/javascript">
-    function GoTwoStep() {
-        window.location.href = "/Ques/QuesTwoStep?ID=@Model.wj_ID";
-    }
-
-</script>
+ 

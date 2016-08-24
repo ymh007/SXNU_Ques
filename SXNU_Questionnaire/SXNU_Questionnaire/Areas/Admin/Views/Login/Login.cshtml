@@ -22,7 +22,7 @@
     <div class="Sign_bj p-t100 p-l170">
         <form action="/Admin/Login/Login" method="post">
             <input type="text" name="user" class="Sign_in user w-310 p-l38" value="用户名" data-bind="value:Loginuser" />
-            <input type="text" name="pwd" class="Sign_in pass w-310 p-l38 m-t15" value="密码" data-bind="value:Pwd" />
+            <input type="password" name="pwd" class="Sign_in pass w-310 p-l38 m-t15" value="密码" data-bind="value:Pwd" />
             <input type="text" name="code" class="Sign_in w-210 m-t15 p-l13 left" value="验证码" data-bind="value:V_Code" /><div class="left m-t16 m-l15"><img id="imgCode" data-bind="click:$root.ChangeCode" src="~/Admin/Login/GetCode?ID=1" /></div>
             <div class="clear"></div>
             <div class="sign_red m-t15 m-b15" id="ErrorMsg">@ViewData["ErrorMsg"]</div>

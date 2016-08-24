@@ -47,6 +47,24 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
+        public ActionResult ChangePWD_DB(UserInfo user)
+        {
+
+            string ResultStr = string.Empty;
+            JsMessage jm = new JsMessage();
+            string dbpwd = Sql_AccounrManage.OldPWD_NewPWD(user.U_LoginName);
+            if (dbpwd == user.U_PWD)
+            {
+                jm = Sql_AccounrManage.ChangePWD(user);
+            }
+            else {
+                jm.IsSuccess = false;
+                jm.ErrorMsg = "原始密码不正确";
+            }
+            
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
 
         public ActionResult AddAccount(UserInfo u) 
         {
@@ -60,6 +78,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             {
                 u.CreateTime = DateTime.Now.ToString();
                 u.U_Role = "1";
+                u.U_PWD = Rand.Str(6, true);
                 jm= Sql_AccounrManage.Add_Userinfo(u);
                 
                 
@@ -106,8 +125,6 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
-
-
-
+         
     }
 }

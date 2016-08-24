@@ -51,6 +51,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     user.U_ID =int.Parse(dt.Rows[0]["am_ID"].ToString());
 
                     Session["UserInfo"] = user;
+                    Session.Timeout = 120;
                     return RedirectToAction("QuesList", "Question");
                 }
                 else

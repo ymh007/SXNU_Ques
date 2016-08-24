@@ -43,8 +43,8 @@
             <div class="left p-t10 p-b8 "><img src="~/Content/images/admin/admin_logo1.png"></div>
             <div class="right admin_out">
                 <ul>
-                    <li><a href="/admin/User/ChangePWD"><img src="~/Content/images/admin/ico4.png"></a></li>
-                    <li><a href="#"><img src="~/Content/images/admin/ico5.png"></a></li>
+                    <li><a href="/admin/User/ChangePWD"><img title="修改密码" src="~/Content/images/admin/ico4.png"></a></li>
+                    <li><a href="/admin/Login/Login"><img title="退出" src="~/Content/images/admin/ico5.png"></a></li>
                 </ul>
             </div>
             <div class="right admin_tele m-t22 m-r25">@User.U_LoginName</div>
@@ -66,20 +66,24 @@
                             <li><a href="/admin/Question/QuesList" title="#">问卷管理列表</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="hide p-t25 p-b25 font_18" href="#"><div class="m-b20"><img src="~/Content/images/admin/ico2.png"></div>账号管理</a>
-                        <ul>
-                            <li><a href="/admin/User/AccountCreate" title="">创建账号</a></li>
-                            <li><a href="/admin/User/AccountManage" title="">账号管理列表</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="hide p-t25 p-b25 font_18" href="#"><div class="m-b20"><img src="~/Content/images/admin/ico3.png"></div>通知管理</a>
-                        <ul>
-                            <li><a href="/admin/Notice/CreateNotice" title="">发布通知</a></li>
-                            <li><a href="/admin/Notice/NoticeList" title="">通知管理列表</a></li>
-                        </ul>
-                    </li>
+                    @if (User.U_Role == "0")
+                    {
+                        <li>
+                            <a class="hide p-t25 p-b25 font_18" href="#"><div class="m-b20"><img src="~/Content/images/admin/ico2.png"></div>账号管理</a>
+                            <ul>
+                                <li><a href="/admin/User/AccountCreate" title="">创建账号</a></li>
+                                <li><a href="/admin/User/AccountManage" title="">账号管理列表</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="hide p-t25 p-b25 font_18" href="#"><div class="m-b20"><img src="~/Content/images/admin/ico3.png"></div>通知管理</a>
+                            <ul>
+                                <li><a href="/admin/Notice/CreateNotice" title="">发布通知</a></li>
+                                <li><a href="/admin/Notice/NoticeList" title="">通知管理列表</a></li>
+                            </ul>
+                        </li>
+                    }
+
                 </ul>
             </div>
 

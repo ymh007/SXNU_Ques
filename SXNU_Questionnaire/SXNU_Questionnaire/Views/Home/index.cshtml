@@ -24,12 +24,12 @@
         <div class="p-l10 p-r10 p-t15 p-b15">
             <div class="blue"><img class="left" src="~/Content/images/quest.jpg"><a href="/Ques/Ques"><img class="right" src="~/Content/images/more.jpg"></a><div class="clear"></div></div>
         </div>
-        <div class="ind_oub m-t15 p-l5">
+        <div class="ind_oub m-t15 p-l5" id="questionList">
             <ul data-bind="foreach:$root.newQuestion">
                 <li>
                     <div class="pos_rel">
                         <img style="width:310px;height:200px" data-bind="attr:{src:wj_BeginPic}"><div class="pos_abs nameb"><a href="#" data-bind="text:wj_Title"></a></div>
-                        <div class="ind_lan pos_abs ceng" style="display: none" data-bind="attr:{class:IsExpire=='y'?'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}">
+                        <div  style="display: none" data-bind="attr:{name: IsExpire}">
                             <h2 class="m-b10 m-t5" data-bind="text:wj_Title">企业员工满意度调查</h2><!--ko text:'项目来源：'+wj_ProjectSource--><!--/ko--><br>
                             <!--ko text:'有效期：'+wj_ValidStart+'-'+wj_ValidEnd --><!--/ko--><br><!--ko text:'发布者：'+wj_Sponsor --><!--/ko--><br>
                             <!--ko text:'发布时间：'+wj_PublishTime --><!--/ko--><br>

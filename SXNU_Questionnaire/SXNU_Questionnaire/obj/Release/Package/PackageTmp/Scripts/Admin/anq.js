@@ -46,7 +46,7 @@
 
     sxnu.GetByPageingData = function () {
         var parmentMode = {
-            StrWhere: sxnu.SearchValue().trim(),
+            StrWhere: $.trim(sxnu.SearchValue()),
             CurrenPageIndex: sxnu.am_CurrenPageIndex(),
             PageSize: sxnu.am_PageSize()
         }
@@ -141,7 +141,8 @@
             U_Email: sxnu.userEmail(),
             U_Phone: "",
             U_Status: "y",
-            CreateTime: ""
+            CreateTime: "",
+            U_Role: 1
         };
         sxnu.AddAndModify(userModel, "C");
     }
@@ -177,7 +178,7 @@
         var userModel = {
             U_ID: $("#m_id").val(),
             U_LoginName: sxnu.userName(),
-            U_PWD: "123456",
+            U_PWD: "",
             U_Name: "",
             U_Email: sxnu.userEmail(),
             U_Phone: "",
@@ -452,12 +453,13 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
         var parmentMode = {
             StrWhere: sxnu.SearchValue().trim(),
             CurrenPageIndex: sxnu.am_CurrenPageIndex(),
-            PageSize: sxnu.am_PageSize()
+            PageSize: sxnu.am_PageSize(),
+            LoginName: $("#golUserLogin").val(),
+            Role: $("#golUserRole").val()
         }
         sxnu.WJ_List.removeAll();
         $.ajax("/Admin/Question/QuesListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
             if (result) {
-               
                 $.each(result.Data, function (i, v) {
                     if (v.wj_Title.length > 10) {
                         v.wj_Title = v.wj_Title.substr(0, 10) + "...";
@@ -660,3 +662,82 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
 
 }
 
+var SXNU_ViewModel_ChangePWD = function ($, currentDom) {
+    var sxnu = currentDom || this;
+     
+
+
+    sxnu.LoginName = ko.observable("");
+    sxnu.oldPWD = ko.observable("");
+    sxnu.newPWD = ko.observable("");
+    sxnu.repeatPWD = ko.observable("");
+    sxnu.IsError = ko.observable(0);
+    sxnu.ErrorMsg = ko.observable("");
+    sxnu.ChangePWD = function () {
+        var old = $.trim(sxnu.oldPWD());
+        var newPWD = $.trim(sxnu.newPWD());
+        var repeatPWD = $.trim(sxnu.repeatPWD());
+
+        if (!old ) {
+            sxnu.ErrorMsg("密码不能为空");
+            sxnu.IsError(1)
+            return false;
+        }
+        if ( !newPWD ) {
+            sxnu.ErrorMsg("新密码不能为空");
+            sxnu.IsError(2)
+            return false;
+        }
+        if (!repeatPWD) {
+            sxnu.ErrorMsg("新密码不能为空");
+            sxnu.IsError(3)
+            return false;
+        }
+
+        if (newPWD != repeatPWD) {
+            sxnu.ErrorMsg("两次密码不一致");
+            sxnu.IsError(2)
+            return false;
+        }
+        sxnu.ErrorMsg("");
+        sxnu.IsError(0)
+        var mode = {
+            U_ID: $("#golUserID").val(),
+            U_LoginName: $.trim(sxnu.LoginName()),
+            U_PWD: old ,  // 老密码
+            U_Name: newPWD   // 新密码
+        };
+       
+        $.ajax("/Admin/User/ChangePWD_DB", { async: true, type: "POST", data: mode, dataType: "json" }).then(function (result) {
+            if (result.IsSuccess) {
+                alert(result.ErrorMsg);
+                window.location.href = "/admin/Login/Login";
+            } else {
+                alert(result.ErrorMsg);
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+
+    }
+     
+
+    sxnu.ResetPwd = function (val) {
+        $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("操作成功");
+                sxnu.BackUserList();
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+
+    sxnu.PageInit = function () {
+        //获取修改数据
+        sxnu.LoginName($("#golUserLogin").val());
+    }
+    sxnu.PageInit();
+
+
+}

@@ -49,7 +49,19 @@ namespace SXNU_Questionnaire.Common
             return objs;
         }
 
+        public static object ConvertToList(string json, Type t)
+        {
+            try
+            {
+                JavaScriptSerializer Serializer = new JavaScriptSerializer();
+                return Serializer.Deserialize(json, t);
+            }
+            catch
+            {
+                return null;
+            }
 
+        }
         /// <summary>
         /// 把对象转换为json 字符串
         /// </summary>

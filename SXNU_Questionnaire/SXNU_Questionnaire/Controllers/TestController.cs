@@ -65,8 +65,8 @@ namespace SXNU_Questionnaire.Controllers
             
            
             //return File(new FileStream(absoluFilePath, FileMode.Open), "application/octet-stream", Server.UrlEncode("sss.gif"));
-            Question_Export qe = new Question_Export();
-            qe.Generate("",temppath, savepath);
+            Question_Export qe = new Question_Export(null);
+            //qe.Generate("",temppath, savepath,0);
             return null;
         }
         public ActionResult Down_ZIP_File() 
@@ -126,8 +126,8 @@ namespace SXNU_Questionnaire.Controllers
                 Directory.CreateDirectory(savepath);
             }
             savepath = savepath + FileName;
-            Question_Export qe = new Question_Export();
-            qe.Generate(BasePath, temppath, savepath);
+            Question_Export qe = new Question_Export(null);
+            //qe.Generate(BasePath, temppath, savepath,2);
             FileStream fs = new FileStream(savepath, FileMode.Open);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);

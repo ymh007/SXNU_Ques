@@ -27,7 +27,7 @@
         <div class="newly_name">请按照以下内容要求完成答卷人信息配置：</div>
         <div class="newly_prompt m-t15">
             温馨提示：<br>
-            1.若展现类型是文本框或多行文本框，则规则设置需要填写内容的字数限制，此时规则设置可以为空，采用默认设置，即多行文本框不超过255个字符，文本框字数无限制；若展现类型是单选按钮或多选按钮或下拉菜单，则规则设置需要填写内容项，此时规则设置不能为空，填写时内容项之间需要以逗号隔开；<br>
+            1.若展现类型是文本框或多行文本框，则规则设置需要填写内容的字数限制，此时规则设置可以为空，采用默认设置，即多行文本框不超过255个字符，文本框字数无限制；若展现类型是单选按钮或多选按钮或下拉菜单，则规则设置需要填写内容项，此时规则设置不能为空，填写时内容项之间需要以&nbsp;&nbsp; | &nbsp;&nbsp;隔开；<br>
             2.是否为必填项默认为否；
         </div>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="m-t20 newly_title">
@@ -37,6 +37,23 @@
                 <td class="p-w20"><b>规则设置</b></td>
                 <td class="p-w15"><b>是否必填项</b></td>
                 <td><b>操作</b></td>
+            </tr>
+        </table>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="newly_table">
+            <tr>
+                <td class="p-w20" ><input type="text" class="inf_text p-w100 left" data-bind="value:'姓名',enable:false" /></td>
+                <td class="p-w20">
+                    <select class="inf_text p-w100" data-bind="  value: '文本框',enable:false ">
+                        <option>文本框</option>
+                        <option>单选按钮</option>
+                        <option>下拉菜单</option>
+                    </select>
+                </td>
+                <td class="p-w20"><input type="text" class="inf_text p-w100 left" data-bind="enable:false" /></td>
+                <td class="p-w15"><input checked="checked" type="radio" value="1" name="name_r" data-bind="checked: $root.name_ck" /> 是&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" value="0" name="name_r" data-bind="checked: $root.name_ck" /> 否</td>
+                <td>
+                   
+                </td>
             </tr>
         </table>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="newly_table">

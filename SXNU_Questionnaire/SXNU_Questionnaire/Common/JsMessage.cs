@@ -34,6 +34,9 @@ namespace SXNU_Questionnaire.Common
         public int BeginIndex { get; set; }
         public string StrWhere { get; set; }
         public int Endindex { get; set; }
+        public string LoginName { get; set; }
+
+        public string Role { get; set; }
 
     }
 }

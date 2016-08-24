@@ -37,5 +37,17 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
 
 
     }
+
+    public class Path_Model 
+    {
+        public string FileName { get; set; }
+        public string temppath { get; set; }
+        public string savepath { get; set; }
+        public string BasePath { get; set; }
+        public string logPath { get; set; }
+
+        public string defaultPic { get; set; }
+        public string defaultVido { get; set; }
+    }
      
 }
