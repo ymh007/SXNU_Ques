@@ -1,0 +1,15 @@
+2016/8/22 11:42:18=================error==============System.IO.DirectoryNotFoundException: 未能找到路径“G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\1018\20160808052732307.jpg”的一部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   在 ns65.Class2170.smethod_1(String string_0)
+   在 Aspose.Words.DocumentBuilder.InsertImage(String fileName, RelativeHorizontalPosition horzPos, Double left, RelativeVerticalPosition vertPos, Double top, Double width, Double height, WrapType wrapType)
+   在 Aspose.Words.DocumentBuilder.InsertImage(String fileName, Double width, Double height)
+   在 SXNU_Questionnaire.Common.Question_Export.InsertControles(DocumentBuilder builder, WT_Model wt_Model) 位置 g:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\Common\Question_Export.cs:行号 342016/8/22 11:42:18=================error==============System.IO.DirectoryNotFoundException: 未能找到路径“G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\1018\20160808053020916.jpg”的一部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   在 ns65.Class2170.smethod_1(String string_0)
+   在 Aspose.Words.DocumentBuilder.InsertImage(String fileName, RelativeHorizontalPosition horzPos, Double left, RelativeVerticalPosition vertPos, Double top, Double width, Double height, WrapType wrapType)
+   在 Aspose.Words.DocumentBuilder.InsertImage(String fileName, Double width, Double height)
+   在 SXNU_Questionnaire.Common.Question_Export.InsertControles(DocumentBuilder builder, WT_Model wt_Model) 位置 g:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\Common\Question_Export.cs:行号 34

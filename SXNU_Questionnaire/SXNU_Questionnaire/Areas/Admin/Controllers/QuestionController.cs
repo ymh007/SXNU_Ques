@@ -59,16 +59,16 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                 if (Q.Role == "1") // 普通用户
                 {
                     StrWhere += " and  wj_Sponsor='" + Q.LoginName + "'";
-                } 
+                }
             }
-            else 
+            else
             {
                 if (Q.Role == "1") // 普通用户
                 {
                     StrWhere += "  wj_Sponsor='" + Q.LoginName + "'";
                 }
             }
-            
+
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
@@ -468,21 +468,19 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         #region==============================导出文件==============开始============
         public ActionResult Export_AnswerList(int wjid)  // excel
         {
-            SqlStr_Process.GetAnswer_Excel(wjid,10);
-            //string Save_Path = Server.MapPath(@"~\Generate\Answer.xls");
-            //DataTable dt = SqlStr_Process.GetListByPage("[Test].[dbo].[user_info]", "", "id", 1000, 2000);
-            //Stream fs = Export_Excle.RenderDataTableToExcel(dt);
-            //byte[] bytes = new byte[(int)fs.Length];
-            //fs.Read(bytes, 0, bytes.Length);
-            //fs.Close();
-            //Response.Charset = "UTF-8";
-            //Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
-            //Response.ContentType = "application/octet-stream";
-
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode("Answer.xls"));
-            //Response.BinaryWrite(bytes);
-            //Response.Flush();
-            //Response.End();
+            DataTable wj = SqlStr_Process.GetWJByID_Answer(wjid);
+            string wj_Title = wj.Rows[0]["wj_Title"].ToString();
+            Stream fs = Export_Excle.RenderDataTableToExcel(wjid, wj_Title);
+            byte[] bytes = new byte[(int)fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Response.Charset = "UTF-8";
+            Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
+            Response.ContentType = "application/octet-stream";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode(wj_Title + ".xls"));
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
             return new EmptyResult();
         }
 
@@ -491,18 +489,18 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         public ActionResult Export_WJ(int wjid) // word
         {
 
-           
+
             Path_Model pm = new Path_Model();
             DataTable wj = SqlStr_Process.GetWJByID_Answer(wjid);
             string wj_Title = wj.Rows[0]["wj_Title"].ToString();
-            string wj_BeginBody=wj.Rows[0]["wj_BeginBody"].ToString();
+            string wj_BeginBody = wj.Rows[0]["wj_BeginBody"].ToString();
             pm.FileName = wj_Title + ".doc";
             pm.temppath = Server.MapPath(@"~\Generate\question.doc");
             pm.savepath = Server.MapPath(@"~\Generate\");
             pm.logPath = Server.MapPath(@"~\Generate\error.log");
             pm.BasePath = Server.MapPath(@"~");
             pm.defaultPic = pm.BasePath + @"\Content\images\no.png";
-            pm.BasePath = pm.BasePath + wjid.ToString()+"\\";
+            pm.BasePath = pm.BasePath + wjid.ToString() + "\\";
             pm.savepath = pm.savepath + pm.FileName;
             Question_Export qe = new Question_Export(pm);
             qe.Generate(wjid, wj_Title, wj_BeginBody);
@@ -522,7 +520,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             {
                 System.IO.File.Delete(pm.savepath);//执行IO文件删除  
             }
-            
+
             return new EmptyResult();
 
         }

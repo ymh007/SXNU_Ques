@@ -94,20 +94,20 @@ namespace SXNU_Questionnaire.Controllers
         }
         public ActionResult Down_Excle() 
         {
-            string Save_Path = Server.MapPath(@"~\Generate\Answer.xls");
-            DataTable dt = SqlStr_Process.GetListByPage("[Test].[dbo].[user_info]", "", "id", 1000, 2000);
-            Stream fs = Export_Excle.RenderDataTableToExcel(dt);
-            byte[] bytes = new byte[(int)fs.Length];
-            fs.Read(bytes, 0, bytes.Length);
-            fs.Close();
-            Response.Charset = "UTF-8";
-            Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
-            Response.ContentType = "application/octet-stream";
+            //string Save_Path = Server.MapPath(@"~\Generate\Answer.xls");
+            //DataTable dt = SqlStr_Process.GetListByPage("[Test].[dbo].[user_info]", "", "id", 1000, 2000);
+            //Stream fs = Export_Excle.RenderDataTableToExcel(dt);
+            //byte[] bytes = new byte[(int)fs.Length];
+            //fs.Read(bytes, 0, bytes.Length);
+            //fs.Close();
+            //Response.Charset = "UTF-8";
+            //Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
+            //Response.ContentType = "application/octet-stream";
 
-            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode("Answer.xls"));
-            Response.BinaryWrite(bytes);
-            Response.Flush();
-            Response.End(); 
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode("Answer.xls"));
+            //Response.BinaryWrite(bytes);
+            //Response.Flush();
+            //Response.End(); 
             return new EmptyResult();
         }
 

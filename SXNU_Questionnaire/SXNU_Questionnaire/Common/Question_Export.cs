@@ -23,7 +23,15 @@ namespace SXNU_Questionnaire.Common
 
             string type = wt_Model.wt_Type;
             string pic_list = "";
-            builder.InsertHtml("<b>" + wt_Model.wt_OrderNum + ". " + wt_Model.wt_Title + "</b>");
+            if (wt_Model.wt_LimitTime != 0)
+            {
+                builder.InsertHtml("<b>" + wt_Model.wt_OrderNum + ". " + wt_Model.wt_Title + "</b><font size='1' color='red'> 本题限制时间/秒：" + wt_Model.wt_LimitTime.ToString() + "</font>");
+            }
+            else
+            {
+                builder.InsertHtml("<b>" + wt_Model.wt_OrderNum + ". " + wt_Model.wt_Title + "</b>");
+            }
+            
             if (wt_Model.wt_Problem.Trim() != "")
             {
                 List<Pic_Vido> pvlist = JsonTool.JSONStringToList<Pic_Vido>(wt_Model.wt_Problem);
@@ -293,10 +301,10 @@ namespace SXNU_Questionnaire.Common
             #region============设置问卷标题===========
             ParagraphFormat paragraphFormat = builder.ParagraphFormat;
             paragraphFormat.Alignment = ParagraphAlignment.Center;
-            //paragraphFormat.Style.Font.Size = 15;
-            //paragraphFormat.Style.Font.Bold = true;
+           
             builder.Writeln();
-            builder.InsertHtml("<h1 align='center'> " + wj_title + " </h1>");
+            builder.InsertHtml("<b ><font size='5' face='arial'>" + wj_title + "</font></b>");
+            
             builder.Writeln();
             builder.InsertParagraph();
             builder.PageSetup.ClearFormatting();
@@ -319,8 +327,9 @@ namespace SXNU_Questionnaire.Common
 
                 }
             }
-            doc.Save(pm.savepath);
 
+            doc.Save(pm.savepath);
+            
         }
 
         public List<WT_Model> ProcessData(int wjid)
@@ -375,10 +384,7 @@ namespace SXNU_Questionnaire.Common
 
 
 
-        public void Generate_Excle()
-        {
-
-        }
+     
 
 
     }
