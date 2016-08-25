@@ -232,7 +232,7 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
 
     }
 
-    //sxnu.s2_DataArray.push(new sxnu.bim("字段字段", "单选按钮", "xxx字段xxx", "0"));
+    //sxnu.s2_DataArray.push(new sxnu.bim("字段", "单选按钮", "xxx字段xxx", "0"));
     //sxnu.s2_DataArray.push(new sxnu.bim("字段", "下拉菜单", "111x字段xxxx", "0"));
     //sxnu.s2_DataArray.push(new sxnu.bim("1字段", "单选按钮", "111111111xxxxxxx字段xxxxxxxxxxxxxxx字段xxxxxxxxxxxxx111111字段111", "0"));
     //sxnu.s2_DataArray.push(new sxnu.bim("1字段", "下拉菜单", "1111111", "0"));
@@ -310,7 +310,7 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
                         });
                         sxnu.name_ck(result[0].wj_PageSize);
                     } else {
-                        sxnu.s2_DataArray.push(new sxnu.bim("字段", "文本框", "11", "0"));
+                        sxnu.s2_DataArray.push(new sxnu.bim("", "文本框", "", "0"));
                         sxnu.name_ck("1");
                     }
                 }
@@ -455,9 +455,9 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 sxnu.Globle_STList.push(DataModel);
                 sxnu.Init(DataModel.wt_Type);
                 sxnu.ST_NumList.push(new sxnu.ST_Model(result.ReturnADD_ID, sxnu.Globle_OrderNum(), DataModel.wt_Type));
-                sxnu.Globle_OrderNum(sxnu.Globle_OrderNum() + 1);
                 var temp = new sxnu.ST_Model(result.ReturnADD_ID, sxnu.Globle_OrderNum(), DataModel.wt_Type);
                 sxnu.ShowSTByLoccation(temp);
+                sxnu.Globle_OrderNum(sxnu.Globle_OrderNum() + 1);
             } else {
                 alert("保存失败！");
             }
@@ -1861,7 +1861,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var strArray = [];
         $.each(sxnu.Item(), function (i, item) {
             var Temp = { t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!$trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.Item()[i].pv(), function (ii, item1) {
@@ -1872,7 +1872,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         });
         $.each(sxnu.other(), function (i, item) {
             var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!$trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.other()[i].pv(), function (ii, item1) {
@@ -1955,7 +1955,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         var strArray = [];
         $.each(sxnu.Item2(), function (i, item) {
             var Temp = { t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!$trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.Item2()[i].pv(), function (ii, item1) {
@@ -1966,7 +1966,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         });
         $.each(sxnu.other2(), function (i, item) {
             var Temp = { o: 1, t: item.item(), f: item.fz(), pv: [], r: "" };
-            if (!$trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
+            if (!$.trim(item.item()) || !sxnu.IsFZandTime(item.fz())) {
                 flag = false;
             }
             $.each(sxnu.other2()[i].pv(), function (ii, item1) {
@@ -4184,11 +4184,11 @@ var SXNU_ViewModel_AnswerDeail = function ($, currentDom) {
         window.open("/Ques/ViewAnswer?wjid=" + val.au_wjID + "&auid=" + val.au_ID);
     }
     sxnu.Export_WJ = function (val) {
-        window.location.href = "/Admin/Question/GetAnswerByWjid?wjid=" + sxnu.wj_ID();
+        window.location.href = "/Admin/Question/Export_WJ?wjid=" + sxnu.wj_ID();
     }
 
     sxnu.Export_AnswerList = function (val) {
-        window.location.href = "/Admin/Question/GetAnswerByWjid?wjid=" + sxnu.wj_ID();
+        window.location.href = "/Admin/Question/Export_AnswerList?wjid=" + sxnu.wj_ID();
     }
 
     sxnu.PageInit = function () {

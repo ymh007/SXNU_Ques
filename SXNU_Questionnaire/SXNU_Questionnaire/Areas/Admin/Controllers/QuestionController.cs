@@ -500,10 +500,10 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             pm.logPath = Server.MapPath(@"~\Generate\error.log");
             pm.BasePath = Server.MapPath(@"~");
             pm.defaultPic = pm.BasePath + @"\Content\images\no.png";
-            pm.BasePath = pm.BasePath + wjid.ToString() + "\\";
+            pm.BasePath = pm.BasePath + "WJ_Attachment\\" + wjid.ToString() + "\\";
             pm.savepath = pm.savepath + pm.FileName;
             Question_Export qe = new Question_Export(pm);
-            qe.Generate(wjid, wj_Title, wj_BeginBody);
+            qe.Generate(wjid, wj_Title, wj_BeginBody);//=================
             FileStream fs = new FileStream(pm.savepath, FileMode.Open);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);

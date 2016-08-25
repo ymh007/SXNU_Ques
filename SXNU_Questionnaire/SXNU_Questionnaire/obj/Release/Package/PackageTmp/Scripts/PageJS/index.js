@@ -42,14 +42,23 @@
     }
 
     sxnu.IsImg_Load = function () {
+        //data-bind="attr:{class: IsExpire=='y' ? 'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}"
+        $("#questionList div[name]").each(function () {
+            if (this.name == "y") {
+                this.className="ind_hui pos_abs ceng";
+            } else {
+                this.className="ind_lan pos_abs ceng";
+            }
+        });
         var max = 8, min = 1;
-        $("#questionList img").each(function () {
-            var name=parseInt(Math.random() * (max - min + 1) + min, 10);
+        $("#questionList img").each(function (i, v) {
+            var name = parseInt(Math.random() * (max - min + 1) + min, 10);
             var defPath = "/Content/images/com/d" + name + ".jpg";
             if (!this.complete) {
                 this.src = defPath;
             }
         });
+       
     }
 
 
@@ -740,17 +749,31 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     sxnu.finishWT = function () {
         window.location.href = "/Home/Index";
     }
+
+
+    sxnu.TestData = function () {
+        sxnu.TimeOut_Mask();
+    }
     sxnu.ShowSubmitedInfo = function (val) {
         $("#wj_finish").dialog({
             resizable: false,
             closeOnEscape: false,
             open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-            height: 300,
+            height: 400,
             width: 500,
             modal: true
         });
     }
-
+    sxnu.TimeOut_Mask = function (val) {
+        $("#time_out").dialog({
+            resizable: false,
+            closeOnEscape: false,
+            open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+            height: 300,
+            width: 400,
+            modal: true
+        });
+    }
     sxnu.ShowConfirm = function (val) {
         $("#conifmNextPage").dialog({
             resizable: false,
@@ -1075,7 +1098,10 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             $('#Countdown').text(ShowTime);
             intDiff--;
             sxnu.Answer_Time(sxnu.Answer_Time() + 1);
-            if (intDiff < 0) { clearTimeout(sxnu.g_id()) }
+            if (intDiff < 0) {
+                sxnu.TimeOut_Mask();
+                clearTimeout(sxnu.g_id());
+            }
         }, 1000));
 
     }

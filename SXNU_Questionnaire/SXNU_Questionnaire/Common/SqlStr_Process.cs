@@ -255,6 +255,14 @@ namespace SXNU_Questionnaire.Common
 
         }
 
+        public static DataTable Get_AnswerUid(int wjid)
+        {
+            string SqlStr = "select  au_ID from  [dbo].[AnswerUserInfo] where au_wjID=" + wjid;
+            return SqlStr_Process.GetIndexData(SqlStr);
+        }
+        
+
+
         /// <summary>
         /// 根据问卷id 和 答题人id 获取导出的excel 数据
         /// </summary>
@@ -263,9 +271,16 @@ namespace SXNU_Questionnaire.Common
         /// <returns></returns>
         public static DataTable GetAnswer_Excel(int wjid, int AuID)
         {
-            return SqlStr_Process.GetAnswerFinish(wjid, AuID);
+            string SqlStr = "select  wt.wt_OrderNum ,answer.an_leapfrog,answer.an_Invalid,answer.an_Result,answer.an_wtType "
+            + "from [dbo].[WT] wt join  [dbo].[Answer] answer  on wt.wt_ID=answer.an_wtID  where wt.wt_WJID=" + wjid + "  and   an_wtType!='4' and  answer.an_auID=" + AuID + " order by  cast(wt.wt_OrderNum as float)  ";
+            return SqlStr_Process.GetIndexData(SqlStr);
         }
-
+        public static DataTable Get_AnswerInfoByWJID(int wjid)
+        {
+            string SqlStr = "select  * from  [dbo].[AnswerUserInfo] where au_wjID=" + wjid;
+            return SqlStr_Process.GetIndexData(SqlStr);
+        }
+        
 
 
         public static DataTable GetWJByID_Answer(int ID)
@@ -279,8 +294,7 @@ namespace SXNU_Questionnaire.Common
             string SqlStr = "select  * from  [dbo].[AnswerUserInfo] where au_ID=" + ID;
             return SqlStr_Process.GetIndexData(SqlStr);
         }
-
-
+      
         /// <summary>
         /// 添加答题人基本信息
         /// </summary>

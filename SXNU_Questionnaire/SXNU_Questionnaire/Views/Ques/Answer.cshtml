@@ -53,12 +53,14 @@
     <div class="left volume_left w-160 center"><h1 id="Countdown"> </h1>&nbsp;剩余时间</div>
     <div class="left volume_right w-816">
         <h2>@ViewBag.wj_Title</h2>
+        @*<input type="button" data-bind="click:TestData" value="测试结果" />*@
         <div class="volume_bj m-l15 m-r15 m-b50" data-bind="foreach:$root.ShowSTInfo">
 
             <!-- 视频图片绑定模板-->
             <script type="text/html" id="pv_temp">
                 <li data-bind="if: pvp.t=='v'">
-                    <video width="310" height="200" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                    <video width="310" height="200" controls="controls" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                    @*<video width="310" height="200" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
                 </li>
                 <li data-bind="if: pvp.t=='p'">
                     <div class="left"></div><img style="width:200px;height:160px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">
@@ -178,8 +180,8 @@
                 </div>
             </div>
             <div class="dialog-foot m-b20">
-                <input class="sub w-120 m-l10" type="submit" name="" data-bind="click:$root.NextPageWT" value="确定">
-                <input class="sub_h w-120 m-l10" type="submit" name="" data-bind="click:$root.CloseConfirm" value="取消">
+                <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.NextPageWT" value="确定">
+                <input class="sub_h w-120 m-l10" type="button" name="" data-bind="click:$root.CloseConfirm" value="取消">
             </div>
         </div>
 
@@ -191,8 +193,18 @@
             </div>
         </div>
         <div class="dialog-foot m-b20">
-            <input class="sub w-120 m-l10" type="submit" name="" data-bind="click:$root.finishWT" value="确定">
+            <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.finishWT" value="确定">
         </div>
     </div>
-    
+    <div class="dialog" title="问卷超时" id="time_out">
+        <div class="dialog-body m-t30 m-b10">
+            <!-- 对话框内容 -->
+            <div class="center font_18">
+                对不起你已超时,点击确定回到主页！
+            </div>
+        </div>
+        <div class="dialog-foot m-b20">
+            <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.finishWT" value="确定">
+        </div>
+    </div>
 </div>  
