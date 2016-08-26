@@ -27,20 +27,32 @@
                     if (v.wj_Title.length > 13) {
                         v.wj_Title = v.wj_Title.substr(0, 13) + "...";
                     }
-                    v.wj_BeginPic = sxnu.pv_Path() + v.wj_ID + "/" + v.wj_BeginPic;
-                    sxnu.newQuestion.push(v); 
+                   
+                    if (v.wj_BeginPic) {
+                        v.wj_BeginPic = sxnu.pv_Path() + v.wj_ID + "/" + v.wj_BeginPic;
+                    } else {
+                        var max = 8, min = 1;
+                        var name = parseInt(Math.random() * (max - min + 1) + min, 10);
+                        var defPath = "/Content/images/com/d" + name + ".jpg";
+                        v.wj_BeginPic = defPath;
+                    }
+                    sxnu.newQuestion.push(v);
                 });
             }
             sxnu.InitEffect();
-            //setTimeout(function () {
-               
-            //}, 1000);
             sxnu.IsImg_Load();
         }).fail(function () {
             alert("系统异常！");
         });
     }
-
+    sxnu.SetDefault = function (val) {
+        var max = 8, min = 1;
+        var name = parseInt(Math.random() * (max - min + 1) + min, 10);
+        var defPath = "/Content/images/com/" + name + ".jpg";
+        $("#" + val.wj_ID).attr('src', defPath);
+        //var img = $("#" + val.wj_ID).srcElement;
+        //img.onerror = null;// 控制不要一直跳动
+    }
     sxnu.IsImg_Load = function () {
         //data-bind="attr:{class: IsExpire=='y' ? 'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}"
         $("#questionList div[name]").each(function () {
@@ -50,14 +62,7 @@
                 this.className="ind_lan pos_abs ceng";
             }
         });
-        var max = 8, min = 1;
-        $("#questionList img").each(function (i, v) {
-            var name = parseInt(Math.random() * (max - min + 1) + min, 10);
-            var defPath = "/Content/images/com/d" + name + ".jpg";
-            if (!this.complete) {
-                this.src = defPath;
-            }
-        });
+        
        
     }
 

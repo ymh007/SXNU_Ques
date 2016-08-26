@@ -25,18 +25,18 @@ namespace SXNU_Questionnaire
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             UserInfo User = new UserInfo();
-            //User = (UserInfo)filterContext.HttpContext.Session["UserInfo"];
-            //if (User == null)
-            //{
-            //     filterContext.Result = new RedirectResult("/Admin/Login/Login");
-            //}
+            User = (UserInfo)filterContext.HttpContext.Session["UserInfo"];
+            if (User == null)
+            {
+                filterContext.Result = new RedirectResult("/Admin/Login/Login");
+            }
 
-            User = new UserInfo();
-            User.U_LoginName = "andy";
-            User.U_Role = "1";
-            User.U_Name = "ss";
-            User.U_ID = 1025;
-            filterContext.HttpContext.Session["UserInfo"] = User;
+            //User = new UserInfo();
+            //User.U_LoginName = "andy";
+            //User.U_Role = "1";
+            //User.U_Name = "ss";
+            //User.U_ID = 1025;
+            //filterContext.HttpContext.Session["UserInfo"] = User;
         }
 
 

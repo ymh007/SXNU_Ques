@@ -16,7 +16,6 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
     sxnu.IsExitisFile = ko.observable(false);
     sxnu.ValidStart.subscribe(function (val) {
         $("#ValidEnd").datepicker("option", "minDate", val);
-
     });
     sxnu.ValidEnd.subscribe(function (val) {
         $("#ValidStart").datepicker("option", "maxDate", val);
@@ -101,8 +100,13 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
                     sxnu.ValidStart(result[0].wj_ValidStart);
                     sxnu.ValidEnd(result[0].wj_ValidEnd);
                     $('textarea[name="wj_BeginBody"]').html(result[0].wj_BeginBody);
-                    $("#front_cover_view").attr('src', ("/WJ_Attachment/" + sxnu.wj_ID() + "/" + result[0].wj_BeginPic));
-                    $("#WJ_fm").val(result[0].wj_BeginPic);
+                    if (result[0].wj_BeginPic) {
+                        $("#front_cover_view").attr('src', ("/WJ_Attachment/" + sxnu.wj_ID() + "/" + result[0].wj_BeginPic));
+                        $("#WJ_fm").val(result[0].wj_BeginPic);
+                    } else {
+                        $("#front_cover_view").attr('src', "/Content/images/admin/1.jpg");
+                        $("#WJ_fm").val("");
+                    }
                 }
             }).fail(function () {
                 alert("系统异常！");

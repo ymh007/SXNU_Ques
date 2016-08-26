@@ -50,7 +50,7 @@
     <div id="row_list">
         
     </div>
-    <p data-bind="visible:$root.am_TotalPage()==0?true:false">无记录</p>
+    <div style="min-height:500px;"  data-bind="visible:$root.am_TotalPage()==0?true:false">无记录</div>
     <div class="waik" data-bind="visible:$root.am_TotalPage()==0?false:true">
         <ul class="paging">
             <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=0,click:$root.Provider">上一页</a></li>

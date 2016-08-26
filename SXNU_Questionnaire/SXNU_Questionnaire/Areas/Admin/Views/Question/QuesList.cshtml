@@ -34,7 +34,7 @@
                 <tr data-bind="style:{ backgroundColor: $index() % 2 ==0? '#f7f8fa' : '#FFFFFF' }">
                     <td class="p-w18"><span  data-bind="text:IsExpire=='y'?'已过期':'正在进行',attr:{ class :IsExpire=='y'?'vol_ash m-r5':'vol_red m-r5'}"></span><!--ko text: wj_Title--><!--/ko--></td>
                     <td class="p-w15" data-bind="text:wj_ProjectSource">小学科学教程难易度的国际比较</td>
-                    <td class="p-w15" data-bind="text:wj_ValidStart+'--'+wj_ValidEnd">2016/03/10--2016/06/12</td>
+                    <td class="p-w15" data-bind="text:wj_ValidStart.split(' ')[0]+'--'+wj_ValidEnd.split(' ')[0]">2016/03/10--2016/06/12</td>
                     <td class="p-w8" data-bind="text:wj_Sponsor">张峰</td>
                     <td class="p-w8" data-bind="text:wj_PublishTime">2016/03/08</td>
                     <td class="p-w15" data-bind="text:wj_Number">VNFDDFDF58552</td>

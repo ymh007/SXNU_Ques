@@ -72,14 +72,12 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
-
             if (dt != null)
             {
                 dt.Columns.Add("IsExpire");
                 DateTime NowDate = DateTime.Now;
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    //DateTime start = DateTime.Parse(dt.Rows[i]["wj_ValidStart"].ToString());
                     DateTime end = DateTime.Parse(dt.Rows[i]["wj_ValidEnd"].ToString());
                     if (NowDate > end)
                     {
@@ -88,6 +86,16 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     else
                     {
                         dt.Rows[i]["IsExpire"] = "n";
+                    }
+                    string title=dt.Rows[i]["wj_Title"].ToString();
+                    string projectso=dt.Rows[i]["wj_ProjectSource"].ToString();
+                    if (title.Length > 10) 
+                    {
+                        dt.Rows[i]["wj_Title"] = title.Substring(0, 10) + "...";
+                    }
+                    if (projectso.Length > 10)
+                    {
+                        dt.Rows[i]["wj_ProjectSource"] = projectso.Substring(0, 10) + "...";
                     }
                 }
             }
