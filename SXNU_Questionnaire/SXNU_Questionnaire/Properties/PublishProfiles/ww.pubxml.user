@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Site_Files</_PublishTargetUrl>
+    <_PublishTargetUrl>F:\mySite</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Data/Aspose.Words.dll">
@@ -43,7 +43,7 @@
       <publishTime>07/28/2016 09:10:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/QuesList.cshtml">
-      <publishTime>08/19/2016 10:19:16</publishTime>
+      <publishTime>08/26/2016 14:34:16</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Question/QuesManage.cshtml">
       <publishTime>06/21/2016 14:40:26</publishTime>
@@ -112,7 +112,7 @@
       <publishTime>06/01/2016 11:21:13</publishTime>
     </File>
     <File Include="bin/SXNU_Questionnaire.dll">
-      <publishTime>08/26/2016 11:18:50</publishTime>
+      <publishTime>08/30/2016 16:36:11</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/09/2013 11:04:48</publishTime>
@@ -127,7 +127,7 @@
       <publishTime>06/27/2016 10:37:49</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>05/13/2016 11:46:28</publishTime>
+      <publishTime>06/27/2016 10:38:28</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
       <publishTime>06/27/2016 10:31:14</publishTime>
@@ -169,7 +169,7 @@
       <publishTime>06/27/2016 10:38:25</publishTime>
     </File>
     <File Include="bin/zh-Hans/System.Web.Http.WebHost.resources.dll">
-      <publishTime>05/13/2016 11:46:33</publishTime>
+      <publishTime>06/27/2016 10:38:33</publishTime>
     </File>
     <File Include="bin/zh-Hans/System.Web.Mvc.resources.dll">
       <publishTime>06/27/2016 10:31:52</publishTime>
@@ -424,7 +424,7 @@
       <publishTime>05/13/2016 11:46:23</publishTime>
     </File>
     <File Include="Content/themes/base/jquery-ui.css">
-      <publishTime>05/13/2016 11:46:23</publishTime>
+      <publishTime>07/29/2016 11:09:23</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.loadmask.css">
       <publishTime>07/28/2016 17:49:02</publishTime>
@@ -549,6 +549,60 @@
     <File Include="Content/themes/base/minified/jquery.ui.theme.min.css">
       <publishTime>05/13/2016 11:46:22</publishTime>
     </File>
+    <File Include="Content/widget/ckplayer/ckplayer.js">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/ckplayer.swf">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/ckplayer.xml">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/language.xml">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/related.xml">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share.xml">
+      <publishTime>08/30/2016 16:23:25</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/feixin.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/google.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/kaixin001.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/msn.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/qq.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/qq2.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/qzone.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/rr.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/sina.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/sohu.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/share/tianya.png">
+      <publishTime>08/30/2016 16:23:24</publishTime>
+    </File>
+    <File Include="Content/widget/ckplayer/style.swf">
+      <publishTime>08/30/2016 16:23:25</publishTime>
+    </File>
     <File Include="Content/widget/layer/layer.js">
       <publishTime>06/06/2016 11:17:05</publishTime>
     </File>
@@ -583,13 +637,13 @@
       <publishTime>07/21/2016 18:02:59</publishTime>
     </File>
     <File Include="Scripts/Admin/anq.js">
-      <publishTime>08/19/2016 10:01:31</publishTime>
+      <publishTime>08/26/2016 12:21:30</publishTime>
     </File>
     <File Include="Scripts/Admin/login.js">
       <publishTime>08/05/2016 09:09:08</publishTime>
     </File>
     <File Include="Scripts/Admin/ques.js">
-      <publishTime>08/26/2016 10:40:06</publishTime>
+      <publishTime>08/30/2016 16:52:30</publishTime>
     </File>
     <File Include="Scripts/jquery-1.8.2.js">
       <publishTime>05/13/2016 11:46:19</publishTime>
@@ -640,7 +694,7 @@
       <publishTime>05/13/2016 11:46:24</publishTime>
     </File>
     <File Include="Scripts/PageJS/index.js">
-      <publishTime>08/26/2016 11:25:27</publishTime>
+      <publishTime>08/30/2016 11:17:25</publishTime>
     </File>
     <File Include="Scripts/uploader.swf">
       <publishTime>07/27/2016 11:03:50</publishTime>
@@ -667,7 +721,7 @@
       <publishTime>08/08/2016 16:16:12</publishTime>
     </File>
     <File Include="Views/Ques/Answer.cshtml">
-      <publishTime>08/25/2016 15:18:29</publishTime>
+      <publishTime>08/30/2016 16:35:49</publishTime>
     </File>
     <File Include="Views/Ques/Preview.cshtml">
       <publishTime>08/12/2016 15:27:48</publishTime>

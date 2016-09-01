@@ -5,44 +5,10 @@
 }
 
 <script type="text/javascript">
-    @*var intDiff = parseInt(@ViewBag.time)*60;//倒计时总秒数量
-    var g_id;
-    function timer(intDiff) {
-        g_id= window.setInterval(function () {
-            var day = 0,
-                hour = 0,
-                minute = 0,
-                second = 0;//时间默认值
-            if (intDiff > 0) {
-                day = Math.floor(intDiff / (60 * 60 * 24));
-                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
-                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
-                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-            }
-            if (minute <= 9) minute = '0' + minute;
-            if (second <= 9) second = '0' + second;
-            //$('#day_show').html(day + "天");
-            //$('#hour_show').html('<s id="h"></s>' + hour + '时');
-            //$('#minute_show').html('<s></s>' + minute + '分');
-            //$('#second_show').html('<s></s>' + second + '秒');
-            hour = hour == 0 ? "00" : hour;
-            var ShowTime = hour + ":" + minute + ":" + second;
-            $('#Countdown').text(ShowTime);
-            intDiff--;
-            if (intDiff == 0) { clearTimeout(g_id) }
-        }, 1000);
-    }*@
     $(function () {
         var pageModel = new SXNU_ViewModel_Answer($);
         ko.applyBindings(pageModel, $("#ko_Question")[0]);
-        //if (intDiff > 0) {
-        //    timer(intDiff);
-        //} else {
-        //    sxnu.answerTime
-        //}
-        
     });
-
 </script> 
 
 <div class="show_h"></div>
@@ -59,7 +25,12 @@
             <!-- 视频图片绑定模板-->
             <script type="text/html" id="pv_temp">
                 <li data-bind="if: pvp.t=='v'">
-                    <video width="310" height="200" controls="controls" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+
+                    @*<embed src="/Content/widget/ckplayer/ckplayer.swf" quality="high" wmode="transparent" align="middle" allowscriptaccess="always" allowfullscreen="true"
+                           data-bind="attr:{flashvars :$root.p_Path()+pvp.n,id: pvp.n.replace('.','')}" type="application/x-shockwave-flash" width="300" height="200" id="20160830051548897flv"
+                           flashvars="f=http://192.168.2.179:8888/WJ_Attachment/1024/20160830051548897.flv">*@
+                    <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
+                    @*<video width="310" height="200" controls="controls" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video> data-bind="attr:{flashvars:$root.pv_Path()+'test1.flv'}"*@
                     @*<video width="310" height="200" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
                 </li>
                 <li data-bind="if: pvp.t=='p'">
@@ -68,7 +39,7 @@
             </script>
 
             <!-- ko if:  type()==1 -->
-            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="volume_list">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -85,7 +56,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==2 -->
-            <h3 ><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
+            <h3 ><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -102,7 +73,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==3 -->
-            <h3 ><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
+            <h3 ><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -126,7 +97,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==4 -->
-            <h3 ><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
+            <h3 ><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -134,7 +105,7 @@
             <div class="m-l25" data-bind="text:st_GaiYao"> </div>
             <!-- /ko -->
             <!-- ko if:  type()==5 -->
-            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -206,5 +177,14 @@
         <div class="dialog-foot m-b20">
             <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.finishWT" value="确定">
         </div>
+    </div>
+
+    <div class="dialog" title="休息时间倒计时" id="time_out_wt">
+        <div class="dialog-body m-t30 m-b10">
+            <!-- 对话框内容 -->
+            <div class="center font_18">
+                <!--ko text: $root.CurrentWT_Msg--><!--/ko--> 。倒计时 <!--ko text: $root.CurrentSleep_Time--><!--/ko--> 后结束休息
+            </div>
+        </div> 
     </div>
 </div>  

@@ -294,6 +294,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\widget\ckplayer\ckplayer.js" />
+    <Content Include="Content\widget\ckplayer\ckplayer.swf" />
+    <Content Include="Content\widget\ckplayer\ckplayer.xml" />
+    <Content Include="Content\widget\ckplayer\language.xml" />
+    <Content Include="Content\widget\ckplayer\style.swf" />
     <Content Include="Content\widget\layer\layer.js" />
     <Content Include="Content\widget\layer\skin\default\icon-ext.png" />
     <Content Include="Content\widget\layer\skin\default\icon.png" />

@@ -213,12 +213,12 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
                 result = false;
                 return false;
             }
-            if (item.b2() == sxnu.EnumControlsType.wbk) {
-                if (!sxnu.IsNumber(item.b3())) {
-                    result = false;
-                    return false;
-                }
-            }
+            //if (item.b2() == sxnu.EnumControlsType.wbk) {
+            //    if (!sxnu.IsNumber(item.b3())) {
+            //        result = false;
+            //        return false;
+            //    }
+            //}
             if (item.b2() == sxnu.EnumControlsType.dxan) {
                 if (!item.b3()) {
                     result = false;
@@ -344,7 +344,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.wj_ID = ko.observable(0);
     sxnu.Globle_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -676,7 +676,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
             disableGlobalDnd: true,
             swf: '../../Scripts/uploader.swf',
             formData: {
@@ -1442,7 +1442,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     sxnu.wj_ID = ko.observable(0);
     sxnu.Parent_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -1708,7 +1708,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
             disableGlobalDnd: true,
             formData: {
                 wjID: $("#WJ_ID").val(),
@@ -2844,6 +2844,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         this.IsShowRe = IsShowRe;
         this.IsShowSl = IsShowSl;
         this.showNumber = showNumber;
+
     }
 
     //===========================================试题展示信息 以及 试题编号=== 结束=====================
@@ -2965,9 +2966,19 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                         }
                     });
 
+                    if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
+                        sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
+                        sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
+                       
+                    } else {
+                        sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
+                        sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
+                    }
+                   
                     var parNum = 1;
                     $.each(sxnu.ST_NumList(), function (i, v) {
                         var t = sxnu.Proc_Str(v.wt_Type, v.wt_Title);
+                        
                         sxnu.s4_DataArray.push(new sxnu.DataMode4(t, v.wt_ID, v.wt_PID, v.wt_WJID, v.wt_OrderNum, v.wt_Pageing, v.wt_LogicRelated, v.wt_Sleep, v.wt_LogicRelated.trim().length == 0, v.wt_Sleep.trim().length == 0, v.wt_Type, parNum));
                         if (v.wt_Type == 4) {
                             var subNum = 1;
@@ -3030,7 +3041,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.sj_ID = ko.observable(0);
     sxnu.Globle_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -3274,7 +3285,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
             disableGlobalDnd: true,
             formData: {
                 wjID: $("#WJ_ID").val(),

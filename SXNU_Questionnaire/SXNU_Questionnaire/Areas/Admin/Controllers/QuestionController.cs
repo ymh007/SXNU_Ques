@@ -68,7 +68,6 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     StrWhere += "  wj_Sponsor='" + Q.LoginName + "'";
                 }
             }
-
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
             DataTable dt = SqlStr_Process.GetListByPage("[SXNU_Questionnaire].[dbo].[WJ]", StrWhere, "wj_ID", BeginIndex, Endindex);
@@ -538,4 +537,4 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         #endregion ========================导出文件==============结束===========
 
     }
-}
+} 

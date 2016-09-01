@@ -27,7 +27,7 @@
                     if (v.wj_Title.length > 13) {
                         v.wj_Title = v.wj_Title.substr(0, 13) + "...";
                     }
-                   
+
                     if (v.wj_BeginPic) {
                         v.wj_BeginPic = sxnu.pv_Path() + v.wj_ID + "/" + v.wj_BeginPic;
                     } else {
@@ -57,13 +57,13 @@
         //data-bind="attr:{class: IsExpire=='y' ? 'ind_hui pos_abs ceng':'ind_lan pos_abs ceng'}"
         $("#questionList div[name]").each(function () {
             if (this.name == "y") {
-                this.className="ind_hui pos_abs ceng";
+                this.className = "ind_hui pos_abs ceng";
             } else {
-                this.className="ind_lan pos_abs ceng";
+                this.className = "ind_lan pos_abs ceng";
             }
         });
-        
-       
+
+
     }
 
 
@@ -82,7 +82,7 @@
         sxnu.pv_Path("/WJ_Attachment/");
         sxnu.GetQuestion();
         sxnu.GetNotices();
-        
+
     }
     sxnu.PageInit();
 
@@ -525,7 +525,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             case 1:
                 var dxModel = new sxnu.ddxST_Model(Te_STMode.wt_ID, showNumber, parseInt(Te_STMode.wt_Type));
                 dxModel.wt_Title(Te_STMode.wt_Title);
-                dxModel.wt_LimitTime(Te_STMode.wt_LimitTime);
+                dxModel.Time(Te_STMode.wt_LimitTime);
+                dxModel.Sleep(Te_STMode.wt_Sleep);
                 dxModel.wt_LogicRelated(Te_STMode.wt_LogicRelated);
                 var tpv = JSON.parse(Te_STMode.wt_Problem == "" ? "[]" : Te_STMode.wt_Problem);
                 $.each(tpv, function (i, val) {
@@ -550,7 +551,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             case 2:
                 var dxModel = new sxnu.ddxST_Model(Te_STMode.wt_ID, showNumber, Te_STMode.wt_Type);
                 dxModel.wt_Title(Te_STMode.wt_Title);
-                dxModel.wt_LimitTime(Te_STMode.wt_LimitTime);
+                dxModel.Time(Te_STMode.wt_LimitTime);
+                dxModel.Sleep(Te_STMode.wt_Sleep);
                 var tpv = JSON.parse(Te_STMode.wt_Problem == "" ? "[]" : Te_STMode.wt_Problem);
                 $.each(tpv, function (i, val) {
                     dxModel.Title_pic_vido.push({ n: val.n, t: val.t });
@@ -573,6 +575,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                 var wtModel = new sxnu.wdST_Model(Te_STMode.wt_ID, showNumber, Te_STMode.wt_Type);
                 wtModel.Title(Te_STMode.wt_Title);
                 wtModel.Time(Te_STMode.wt_LimitTime);
+                wtModel.Sleep(Te_STMode.wt_Sleep);
                 var tpv = JSON.parse(Te_STMode.wt_Problem == "" ? "[]" : Te_STMode.wt_Problem);
                 $.each(tpv, function (i, val) {
                     wtModel.Title_pic_vido.push({ n: val.n, t: val.t });
@@ -595,6 +598,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                 var zhModel = new sxnu.zhST_Model(Te_STMode.wt_ID, showNumber, Te_STMode.wt_Type);
                 zhModel.Title(Te_STMode.wt_Title);
                 zhModel.Time(Te_STMode.wt_LimitTime);
+                zhModel.Sleep(Te_STMode.wt_Sleep);
                 zhModel.st_GaiYao(Te_STMode.wt_Options);
                 var tpv = JSON.parse(Te_STMode.wt_Problem == "" ? "[]" : Te_STMode.wt_Problem);
                 $.each(tpv, function (i, val) {
@@ -606,6 +610,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                 var bgModel = new sxnu.bgST_Model(Te_STMode.wt_ID, showNumber, Te_STMode.wt_Type);
                 bgModel.Title(Te_STMode.wt_Title);
                 bgModel.Time(Te_STMode.wt_LimitTime);
+                bgModel.Sleep(Te_STMode.wt_Sleep);
                 var tpv = JSON.parse(Te_STMode.wt_Problem == "" ? "[]" : Te_STMode.wt_Problem);
                 $.each(tpv, function (i, val) {
                     bgModel.Title_pic_vido.push({ n: val.n, t: val.t });
@@ -645,7 +650,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
         this.type = ko.observable(type);
         this.Title_pic_vido = ko.observableArray();
 
-        this.wt_LimitTime = ko.observable();
+        this.Time = ko.observable();
         this.wt_Title = ko.observable();
         this.wt_Problem = ko.observableArray();
         this.wt_Options = ko.observableArray();
@@ -657,6 +662,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
 
         this.jy = ko.observable(true); // 禁用
         this.msg = ko.observable(""); // 消息提示
+        this.Is_TimeOut = ko.observable(false); // 超时
+        this.Sleep = ko.observable("");
     }
     sxnu.wdST_Model = function (dbID, ShowNum, type) {
         this.dbID = ko.observable(dbID);
@@ -700,6 +707,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
 
         this.jy = ko.observable(true); // 禁用
         this.msg = ko.observable(""); // 消息提示
+        this.Is_TimeOut = ko.observable(false); // 超时
+        this.Sleep = ko.observable("");
     }
     sxnu.zhST_Model = function (dbID, ShowNum, type) {
         this.dbID = ko.observable(dbID);
@@ -714,6 +723,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
 
         this.jy = ko.observable(true); // 禁用
         this.msg = ko.observable(""); // 消息提示
+        this.Is_TimeOut = ko.observable(false); // 超时
+        this.Sleep = ko.observable("");
     }
     sxnu.bgST_Model = function (dbID, ShowNum, type) {
         this.dbID = ko.observable(dbID);
@@ -727,8 +738,9 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
         this.AnswerList = ko.observableArray();
         this.IsExpire = ko.observable(false);
 
-
+        this.Is_TimeOut = ko.observable(false); // 超时
         this.msg = ko.observable(""); // 消息提示
+        this.Sleep = ko.observable("");
     }
     sxnu.m_t_5 = function (t) {
         this.t = ko.observable(t);
@@ -764,7 +776,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             resizable: false,
             closeOnEscape: false,
             open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-            height: 400,
+            height: 300,
             width: 500,
             modal: true
         });
@@ -784,6 +796,17 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             resizable: false,
             height: 300,
             width: 500,
+            modal: true
+        });
+    }
+
+    sxnu.ShowSleep_wt = function () {
+        $("#time_out_wt").dialog({   
+            resizable: false,
+            closeOnEscape: false,
+            open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+            height: 200,
+            width: 400,
             modal: true
         });
     }
@@ -824,7 +847,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             });
         }
     }
-    //    1  点击下一页的时候   2点击提交问卷的时候
+    //    1  点击下一页的时候   2点击提交问卷的时候 
     sxnu.NextPageWT = function () {
         sxnu.SaveAnswer(1);
     }
@@ -841,6 +864,59 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     }
 
 
+
+    sxnu.Current_TimeId = ko.observable(0);
+    sxnu.CurrentWT_Time = ko.observable(0);
+
+
+    sxnu.CurrentSleep_id = ko.observable(0);
+    sxnu.CurrentWT_Msg = ko.observable("");
+    sxnu.CurrentSleep_Time = ko.observable(0);
+
+
+    ///  休息时间提示和 单题时间限制
+    sxnu.StartTime_WT = function () {
+        if (sxnu.ShowSTInfo().length == 1) {
+            if (sxnu.ShowSTInfo()[0].Sleep()) {
+                var sleep_model = JSON.parse(sxnu.ShowSTInfo()[0].Sleep())
+                sxnu.CurrentWT_Msg(sleep_model.n);
+                sxnu.CurrentSleep_Time(parseInt(sleep_model.t));
+                clearTimeout(sxnu.g_id());
+                sxnu.ShowSleep_wt();
+                sxnu.CurrentSleep_id(window.setInterval(function () {
+                    sxnu.CurrentSleep_Time(sxnu.CurrentSleep_Time() - 1);
+                    if (sxnu.CurrentSleep_Time() == 0) {
+                        if (sxnu.intDiff() != 0) {
+                            sxnu.StartTime(sxnu.intDiff());
+                        } else {
+                            sxnu.Empty_StartTime();
+                        }
+                        clearTimeout(sxnu.CurrentSleep_id());
+                        $("#time_out_wt").dialog('close');
+                    }
+                }, 1000));
+            } else {
+                sxnu.CurrentWT_Time(parseInt(sxnu.ShowSTInfo()[0].Time()));
+                if (sxnu.CurrentWT_Time() != 0) {
+                    sxnu.Current_TimeId(window.setInterval(function () {
+                        sxnu.CurrentWT_Time(sxnu.CurrentWT_Time() - 1);
+                        if (sxnu.CurrentWT_Time() == 0) {
+                            sxnu.ShowSTInfo()[0].msg(sxnu.stWareMsg.TimeFinish);
+                            sxnu.ShowSTInfo()[0].Is_TimeOut(true);
+                            if (sxnu.ShowSTInfo()[0].type() != 5) {
+                                sxnu.ShowSTInfo()[0].jy(false);
+                            } else {
+                                $.each(sxnu.ShowSTInfo()[0].TitleLsit(), function (i, v) {
+                                    v.jy(false);
+                                });
+                            }
+                            clearTimeout(sxnu.Current_TimeId());
+                        }
+                    }, 1000));
+                }
+            }
+        }
+    }
     sxnu.SaveAnswer = function (status) {
         var listArray = [];
         var flag = true;
@@ -861,124 +937,131 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             };
             Save_Model.an_wtType = item.type();
             Save_Model.an_wtID = item.dbID();
-            switch (parseInt(item.type())) {
-                case 1:
-                    if (!item.jy()) {
-                        Save_Model.an_leapfrog = "y";
-                        Save_Model.an_Result = "";
-                    } else {
-                        if (item.answer()) {
-                            $.each(item.wt_OtherItem(), function (a, b) {
-                                if (b.item() == item.answer()) {
-                                    if (!$.trim(item.ov())) {
+            if (item.Is_TimeOut()) {
+                Save_Model.an_Invalid = 'y';
+                Save_Model.an_Result = "";
+            } else {
+                switch (parseInt(item.type())) {
+                    case 1:
+                        if (!item.jy()) {
+                            Save_Model.an_leapfrog = "y";
+                            Save_Model.an_Result = "";
+                        } else {
+                            if (item.answer()) {
+                                $.each(item.wt_OtherItem(), function (a, b) {
+                                    if (b.item() == item.answer()) {
+                                        if (!$.trim(item.ov())) {
+                                            flag = false;
+                                            errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
+                                            return false;
+                                        }
+                                    }
+                                })
+                            } else {
+                                flag = false;
+                                errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
+                                return false;
+                            }
+                            var strObj = { an: item.answer(), ov: item.ov() };
+                            Save_Model.an_Result = JSON.stringify(strObj);
+                        }
+
+                        break;
+                    case 2:
+                        if (!item.jy()) {
+                            Save_Model.an_leapfrog = "y";
+                            Save_Model.an_Result = "";
+                        } else {
+                            var duo2 = [];
+                            $.each(item.wt_Options(), function (i, v) {
+                                if (v.ck()) {
+                                    duo2.push({ an: v.item(), ov: "" });
+                                }
+                            });
+
+                            $.each(item.wt_OtherItem(), function (i, v) {
+                                if (v.ck()) {
+                                    if ($.trim(v.ov())) {
+                                        duo2.push({ an: v.item(), ov: v.ov() });
+                                    } else {
                                         flag = false;
                                         errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
                                         return false;
                                     }
                                 }
-                            })
-                        } else {
-                            flag = false;
-                            errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
-                            return false;
-                        }
-                        var strObj = { an: item.answer(), ov: item.ov() };
-                        Save_Model.an_Result = JSON.stringify(strObj);
-                    }
-
-                    break;
-                case 2:
-                    if (!item.jy()) {
-                        Save_Model.an_leapfrog = "y";
-                        Save_Model.an_Result = "";
-                    } else {
-                        var duo2 = [];
-                        $.each(item.wt_Options(), function (i, v) {
-                            if (v.ck()) {
-                                duo2.push({ an: v.item(), ov: "" });
+                            });
+                            if (duo2.length == 0) {
+                                flag = false;
+                                errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
+                                return false;
                             }
-                        });
+                            Save_Model.an_Result = JSON.stringify(duo2);
+                        }
 
-                        $.each(item.wt_OtherItem(), function (i, v) {
-                            if (v.ck()) {
-                                if ($.trim(v.ov())) {
-                                    duo2.push({ an: v.item(), ov: v.ov() });
-                                } else {
+                        break;
+                    case 3:
+                        if (!item.jy()) {
+                            Save_Model.an_leapfrog = "y";
+                            Save_Model.an_Result = "";
+                        } else {
+                            var wd3 = [];
+                            if (item.Customize() == '1') {
+                                $.each(item.inputArray(), function (i, v) {
+                                    if (!$.trim(v.txt)) {
+                                        flag = false;
+                                        errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
+                                        return false;
+                                    } else {
+                                        wd3.push(v.txt);
+                                    }
+                                });
+                            }
+
+                            if (item.IsOnline() == '1' && item.Customize() == '0') {
+                                if (!$.trim(item.Ansure_Content())) {
                                     flag = false;
                                     errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
                                     return false;
+                                } else {
+                                    wd3.push(item.Ansure_Content());
                                 }
                             }
-                        });
-                        if (duo2.length == 0) {
-                            flag = false;
-                            errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
-                            return false;
+                            Save_Model.an_Result = JSON.stringify(wd3);
                         }
-                        Save_Model.an_Result = JSON.stringify(duo2);
-                    }
+                        break;
+                    case 4:
+                        if (!item.jy()) {
+                            Save_Model.an_leapfrog = "y";
+                            Save_Model.an_Result = "";
+                        } else {
+                            Save_Model.an_Result = "";
+                        }
 
-                    break;
-                case 3:
-                    if (!item.jy()) {
-                        Save_Model.an_leapfrog = "y";
-                        Save_Model.an_Result = "";
-                    } else {
-                        var wd3 = [];
-                        if (item.Customize() == '1') {
-                            $.each(item.inputArray(), function (i, v) {
-                                if (!$.trim(v.txt)) {
+                        break;
+                    case 5:
+                        var isGo = item.TitleLsit()[0].jy();
+                        if (!isGo) {
+                            Save_Model.an_leapfrog = "y";
+                            Save_Model.an_Result = "";
+                        } else {
+                            var bg5 = [];
+                            $.each(item.TitleLsit(), function (i, v) {
+                                if (!v.ck()) {
                                     flag = false;
-                                    errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
+                                    errorMsg = "请选择试题 " + item.ShowNum() + " 的  " + v.t() + " 答案！";
                                     return false;
                                 } else {
-                                    wd3.push(v.txt);
+                                    bg5.push(v.ck());
                                 }
                             });
+                            Save_Model.an_Result = JSON.stringify(bg5);
                         }
+                        break;
 
-                        if (item.IsOnline() == '1' && item.Customize() == '0') {
-                            if (!$.trim(item.Ansure_Content())) {
-                                flag = false;
-                                errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
-                                return false;
-                            } else {
-                                wd3.push(item.Ansure_Content());
-                            }
-                        }
-                        Save_Model.an_Result = JSON.stringify(wd3);
-                    }
-                    break;
-                case 4:
-                    if (!item.jy()) {
-                        Save_Model.an_leapfrog = "y";
-                        Save_Model.an_Result = "";
-                    } else {
-                        Save_Model.an_Result = "";
-                    }
-
-                    break;
-                case 5:
-                    var isGo = item.TitleLsit()[0].jy();
-                    if (!isGo) {
-                        Save_Model.an_leapfrog = "y";
-                        Save_Model.an_Result = "";
-                    } else {
-                        var bg5 = [];
-                        $.each(item.TitleLsit(), function (i, v) {
-                            if (!v.ck()) {
-                                flag = false;
-                                errorMsg = "请选择试题 " + item.ShowNum() + " 的  " + v.t() + " 答案！";
-                                return false;
-                            } else {
-                                bg5.push(v.ck());
-                            }
-                        });
-                        Save_Model.an_Result = JSON.stringify(bg5);
-                    }
-                    break;
+                }
 
             }
+
             if (!flag) {
                 return false;
             }
@@ -990,6 +1073,9 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             return false;
         } else {
             CommonMode.dataArrayStr = JSON.stringify(listArray);
+            clearTimeout(sxnu.Current_TimeId());
+            clearTimeout(sxnu.CurrentSleep_id());
+            sxnu.CurrentWT_Time(0);
             $.ajax("/Ques/SaveAnswer", { async: true, type: "POST", data: CommonMode, dataType: "json", }).then(function (result) {
                 if (result) {
                     if (result.IsSuccess) {
@@ -1006,6 +1092,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                             });
                             sxnu.CloseConfirm();
                             sxnu.PageCount(sxnu.PageCount() - 1);
+                            sxnu.StartTime_WT();
                         }
                         if (status == 2) {
                             sxnu.ShowSubmitedInfo();
@@ -1071,6 +1158,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                         }
                         sxnu.ShowSTByLoccation(item, item.wt_OrderNum);
                     });
+                    sxnu.StartTime_WT();
                     $("body").unmask();
                 }
             }).fail(function () {
@@ -1102,6 +1190,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             var ShowTime = hour + ":" + minute + ":" + second;
             $('#Countdown').text(ShowTime);
             intDiff--;
+            sxnu.intDiff(sxnu.intDiff()-1);
             sxnu.Answer_Time(sxnu.Answer_Time() + 1);
             if (intDiff < 0) {
                 sxnu.TimeOut_Mask();
@@ -1447,7 +1536,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
             resizable: false,
             closeOnEscape: false,
             open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-            height: 300,
+            height: 200,
             width: 500,
             modal: true
         });

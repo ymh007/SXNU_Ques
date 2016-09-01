@@ -460,15 +460,16 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
         sxnu.WJ_List.removeAll();
         $.ajax("/Admin/Question/QuesListByPage", { async: true, cache: false, type: "GET", data: parmentMode, dataType: "json" }).then(function (result) {
             if (result) {
-                $.each(result.Data, function (i, v) {
-                    if (v.wj_Title.length > 10) {
-                        v.wj_Title = v.wj_Title.substr(0, 10) + "...";
-                    }
-                    if (v.wj_ProjectSource.length > 10) {
-                        v.wj_ProjectSource = v.wj_ProjectSource.substr(0, 10) + "...";
-                    }
-                    sxnu.WJ_List.push(v);
-                });
+                //$.each(result.Data, function (i, v) {
+                //    if (v.wj_Title.length > 10) {
+                //        v.wj_Title = v.wj_Title.substr(0, 10) + "...";
+                //    }
+                //    if (v.wj_ProjectSource.length > 10) {
+                //        v.wj_ProjectSource = v.wj_ProjectSource.substr(0, 10) + "...";
+                //    }
+                //    sxnu.WJ_List.push(v);
+                //});
+                sxnu.WJ_List(result.Data);
                 sxnu.am_TotalPage(result.TotalPages);
                 sxnu.am_TotalRecord(result.TotalRecords);
             }

@@ -20,7 +20,7 @@ namespace SXNU_Questionnaire.Common
 
         private void InsertControles(DocumentBuilder builder, WT_Model wt_Model)
         {
-
+ 
             string type = wt_Model.wt_Type;
             string pic_list = "";
             if (wt_Model.wt_LimitTime != 0)
