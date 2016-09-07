@@ -110,7 +110,7 @@ namespace SXNU_Questionnaire.Common
         {
             string SqlStr = "UPDATE [dbo].[AccountManage] SET [am_PWD] =@am_PWD   WHERE  [am_ID]=@am_ID";
             SqlParameter[] commandParameters = new SqlParameter[]{
-                new SqlParameter("@am_PWD",Rand.Str(6,false)),
+                new SqlParameter("@am_PWD","snnu111111"),
                 new SqlParameter("@am_ID",ID)
             };
             return Modify_Userinfo(SqlStr, commandParameters);

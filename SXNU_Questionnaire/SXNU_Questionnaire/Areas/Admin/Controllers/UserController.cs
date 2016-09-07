@@ -78,7 +78,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             {
                 u.CreateTime = DateTime.Now.ToString();
                 u.U_Role = "1";
-                u.U_PWD = Rand.Str(6, true);
+                u.U_PWD = "snnu111111";// 随机6位密码
                 jm= Sql_AccounrManage.Add_Userinfo(u);
                 
                 

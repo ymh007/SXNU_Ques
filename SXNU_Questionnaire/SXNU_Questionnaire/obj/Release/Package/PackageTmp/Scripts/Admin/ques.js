@@ -676,7 +676,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
             disableGlobalDnd: true,
             swf: '../../Scripts/uploader.swf',
             formData: {
@@ -686,7 +686,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             pick: '#' + element_id + '',
             accept: {
                 title: 'Images',
-                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls'
+                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls,ogg,3gp'
             }
         });
         uploader.on('uploadSuccess', function (file, response) {
@@ -1708,7 +1708,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 6 * 1024 * 1024,   // 50 M
             disableGlobalDnd: true,
             formData: {
                 wjID: $("#WJ_ID").val(),
@@ -1718,7 +1718,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             pick: '#' + element_id + '',
             accept: {
                 title: 'Images',
-                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls'
+                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls,ogg,3gp'
             }
         });
         uploader.on('uploadSuccess', function (file, response) {
@@ -3285,7 +3285,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             auto: true,
             duplicate: true,
             prepareNextFile: true,
-            fileSingleSizeLimit: 20 * 1024 * 1024,   // 50 M
+            fileSingleSizeLimit: 6 * 1024 * 1024,   // 6 M
             disableGlobalDnd: true,
             formData: {
                 wjID: $("#WJ_ID").val(),
@@ -3295,7 +3295,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             pick: '#' + element_id + '',
             accept: {
                 title: 'Images',
-                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls'
+                extensions: 'gif,jpg,jpeg,png,flv,mp4,avi,doc,docx,xlsx,xls,ogg,3gp'
             }
         });
         uploader.on('uploadSuccess', function (file, response) {

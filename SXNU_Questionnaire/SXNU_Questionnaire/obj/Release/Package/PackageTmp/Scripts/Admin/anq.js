@@ -18,17 +18,20 @@
     sxnu.accountList = ko.observableArray();
 
     sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
-    sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
+    sxnu.am_PageSize = ko.observable(10); //一页显示多少条数据
     sxnu.am_TotalPage = ko.observable(1); // 页总数
     sxnu.am_TotalRecord = ko.observable();//总记录数
     sxnu.UserIsExits = ko.observable(false);
 
 
     sxnu.Provider = function () {
-        if (sxnu.am_CurrenPageIndex() > 0) {
-            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
-            sxnu.GetByPageingData();
+        if (sxnu.am_CurrenPageIndex() == 0) {
+            return;
         }
+
+        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
+        sxnu.GetByPageingData();
+
     }
     sxnu.NextPage = function () {
         if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
@@ -269,17 +272,18 @@ var SXNU_ViewModel_NoticeManage = function ($, currentDom) {
     sxnu.NoticeList = ko.observableArray();
 
     sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
-    sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
+    sxnu.am_PageSize = ko.observable(10); //一页显示多少条数据
     sxnu.am_TotalPage = ko.observable(1); // 页总数
     sxnu.am_TotalRecord = ko.observable();//总记录数
     sxnu.UserIsExits = ko.observable(false);
 
 
     sxnu.Provider = function () {
-        if (sxnu.am_CurrenPageIndex() > 0) {
-            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
-            sxnu.GetByPageingData();
+        if (sxnu.am_CurrenPageIndex() == 0) {
+            return;
         }
+        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
+        sxnu.GetByPageingData();
     }
     sxnu.NextPage = function () {
         if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
@@ -419,7 +423,7 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
     sxnu.WJ_List = ko.observableArray();
 
     sxnu.am_CurrenPageIndex = ko.observable(0);//当前第几页
-    sxnu.am_PageSize = ko.observable(8); //一页显示多少条数据
+    sxnu.am_PageSize = ko.observable(10); //一页显示多少条数据
     sxnu.am_TotalPage = ko.observable(1); // 页总数
     sxnu.am_TotalRecord = ko.observable();//总记录数
     sxnu.UserIsExits = ko.observable(false);
@@ -430,10 +434,11 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
         sxnu.GetByPageingData();
     }
     sxnu.Provider = function () {
-        if (sxnu.am_CurrenPageIndex() > 0) {
-            sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
-            sxnu.GetByPageingData();
+        if (sxnu.am_CurrenPageIndex() == 0) {
+            return;
         }
+        sxnu.am_CurrenPageIndex(sxnu.am_CurrenPageIndex() - 1);
+        sxnu.GetByPageingData();
     }
     sxnu.NextPage = function () {
         if ((sxnu.am_CurrenPageIndex() + 1) == sxnu.am_TotalPage()) { return; }
@@ -451,7 +456,7 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
 
     sxnu.GetByPageingData = function () {
         var parmentMode = {
-            StrWhere: sxnu.SearchValue().trim(),
+            StrWhere:  $.trim(sxnu.SearchValue()),
             CurrenPageIndex: sxnu.am_CurrenPageIndex(),
             PageSize: sxnu.am_PageSize(),
             LoginName: $("#golUserLogin").val(),

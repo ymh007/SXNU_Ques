@@ -39,7 +39,7 @@
             </tbody>
         </table>
     </div>
-    <div class="waiks">
+    <div class="waiks" data-bind="visible: $root.am_TotalPage() != 0">
         <ul class="paging">
             <li><a href="#" data-bind="visible:$root.am_CurrenPageIndex()!=0,click:$root.Provider">上一页</a></li>
             <li><a href="javascript:void(0)" data-bind="visible:$root.am_CurrenPageIndex()!=0,text:$root.am_CurrenPageIndex(),click:function(){$root.GotoPage($root.am_CurrenPageIndex()-1)} ">1</a></li>

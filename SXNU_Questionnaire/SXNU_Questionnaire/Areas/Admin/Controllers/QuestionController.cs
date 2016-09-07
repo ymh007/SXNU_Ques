@@ -214,6 +214,15 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             string PhysicalPath = Path.Combine(Request.MapPath("~/WJ_Attachment/"), wj.wj_ID.ToString());
             if (!Directory.Exists(PhysicalPath))
             {
+                //try
+                //{
+                   
+                //}
+                //catch(Exception ex)
+                //{
+
+                //    System.IO.File.AppendAllText(Request.MapPath("~/Generate/error.log"), DateTime.Now.ToString() + "=================error==============\r\n" + ex.ToString());
+                //}
                 Directory.CreateDirectory(PhysicalPath);
             }
 

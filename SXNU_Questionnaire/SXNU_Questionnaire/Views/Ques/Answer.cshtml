@@ -25,13 +25,7 @@
             <!-- 视频图片绑定模板-->
             <script type="text/html" id="pv_temp">
                 <li data-bind="if: pvp.t=='v'">
-
-                    @*<embed src="/Content/widget/ckplayer/ckplayer.swf" quality="high" wmode="transparent" align="middle" allowscriptaccess="always" allowfullscreen="true"
-                           data-bind="attr:{flashvars :$root.p_Path()+pvp.n,id: pvp.n.replace('.','')}" type="application/x-shockwave-flash" width="300" height="200" id="20160830051548897flv"
-                           flashvars="f=http://192.168.2.179:8888/WJ_Attachment/1024/20160830051548897.flv">*@
                     <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
-                    @*<video width="310" height="200" controls="controls" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video> data-bind="attr:{flashvars:$root.pv_Path()+'test1.flv'}"*@
-                    @*<video width="310" height="200" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
                 </li>
                 <li data-bind="if: pvp.t=='p'">
                     <div class="left"></div><img style="width:200px;height:160px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">

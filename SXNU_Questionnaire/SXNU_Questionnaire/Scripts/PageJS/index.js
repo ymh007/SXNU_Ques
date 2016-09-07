@@ -1248,6 +1248,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
     var sxnu = currentDom || this;
     sxnu.wj_ID = ko.observable(0);
     sxnu.au_id = ko.observable(0);
+    sxnu.p_Path = ko.observable("");
     sxnu.AnswerTime = ko.observable(0);
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
@@ -1822,6 +1823,8 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
                 }
             }
         });
+
+        sxnu.StartTime_WT();
         $("#pageListNum :button").removeClass("page_bck");
         $("#pageListNum :input[name='" + val.na + "']").addClass("page_bck");
 
@@ -1848,6 +1851,27 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
         }
     }
 
+    // ---加载视频
+    ///  休息时间提示和 单题时间限制
+    sxnu.StartTime_WT = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
+
+                });
+            });
+        }
+    }
+
+    //
+
+    
     // 分页
     sxnu.CurrentStart_num = ko.observable(0);
     sxnu.CurrentEnd_num = ko.observable(0);
@@ -1909,6 +1933,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
                     sxnu.AnswerName(result.Name);
                     sxnu.BaseInfo(result.baseinfo);
                     sxnu.AnswerTime((Math.floor(parseInt(result.time) / 60) + '分' + (parseInt(result.time) - (Math.floor(parseInt(result.time) / 60) * 60)) + '秒'));
+                    sxnu.StartTime_WT();
                     $("body").unmask();
                 }
             }).fail(function () {
@@ -1931,7 +1956,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
         sxnu.wj_ID($("#wj_id").val());
         sxnu.au_id($("#au_id").val());
         sxnu.pv_Path("/WJ_Attachment/" + $("#wj_id").val() + "/");
-
+        sxnu.p_Path("f=../../../WJ_Attachment/" + $("#wj_id").val() + "/");
 
         sxnu.Load_ST_List();
     }
