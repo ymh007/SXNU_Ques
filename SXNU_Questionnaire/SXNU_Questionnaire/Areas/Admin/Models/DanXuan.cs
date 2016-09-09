@@ -48,6 +48,8 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
 
         public string defaultPic { get; set; }
         public string defaultVido { get; set; }
+
+        public string Http_url { get; set; }
     }
      
 }

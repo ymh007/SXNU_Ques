@@ -104,6 +104,15 @@ namespace SXNU_Questionnaire.Common
             };
             return Modify_Userinfo(SqlStr, commandParameters);
         }
+        public static JsMessage StartEnableAccount(int ID)
+        {
+            string SqlStr = "UPDATE [dbo].[AccountManage] SET [am_Status] =@am_Status  WHERE  [am_ID]=@am_ID";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@am_Status","y"),
+                new SqlParameter("@am_ID",ID)
+            };
+            return Modify_Userinfo(SqlStr, commandParameters);
+        }
 
 
         public static JsMessage ResetPwd(int ID)

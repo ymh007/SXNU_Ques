@@ -115,7 +115,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             ResultStr = JsonTool.ObjToJson(jm);
             return Content(ResultStr);
         }
-
+        public ActionResult StartEnableAccount(int ID)
+        {
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm = Sql_AccounrManage.StartEnableAccount(ID);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
 
         public ActionResult ResetPwd(int ID)
         {

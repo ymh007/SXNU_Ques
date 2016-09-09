@@ -254,8 +254,6 @@ namespace SXNU_Questionnaire.Common
                     insertAfterNode = newNode;
                 }
             }
-
-
         }
 
         static void InsertDocument(Node insertAfterNode, Aspose.Words.Document srcDoc)

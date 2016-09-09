@@ -518,6 +518,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             pm.defaultPic = pm.BasePath + @"\Content\images\no.png";
             pm.BasePath = pm.BasePath + "WJ_Attachment\\" + wjid.ToString() + "\\";
             pm.savepath = pm.savepath + pm.FileName;
+            pm.Http_url = Request.Url.Authority;
             Question_Export qe = new Question_Export(pm);
             qe.Generate(wjid, wj_Title, wj_BeginBody);//=================
             FileStream fs = new FileStream(pm.savepath, FileMode.Open);

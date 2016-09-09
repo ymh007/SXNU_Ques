@@ -18,7 +18,7 @@ namespace SXNU_Questionnaire.Common
             this.pm = pm;
         }
 
-        private void InsertControles(DocumentBuilder builder, WT_Model wt_Model)
+        private void InsertControles(DocumentBuilder builder, WT_Model wt_Model,int wjid)
         {
  
             string type = wt_Model.wt_Type;
@@ -48,7 +48,7 @@ namespace SXNU_Questionnaire.Common
                     else
                     {
                         //builder.InsertHtml(" <a href='" + pm.BasePath + pv.n + "'>视频</a>");
-                        pic_list += " <a href='" + pm.BasePath + pv.n + "'>视频</a>";
+                        pic_list += " <a href='" + pm.Http_url + "/WJ_Attachment/" + wjid + "/" + pv.n + "'>视频</a>";
                     }
                 }
             }
@@ -317,14 +317,13 @@ namespace SXNU_Questionnaire.Common
             builder.InsertBreak(BreakType.PageBreak);
             foreach (WT_Model P_wt in WT_List)
             {
-                InsertControles(builder, P_wt);
+                InsertControles(builder, P_wt, wjid);
                 if (P_wt.wt_Type == "4")
                 {
                     foreach (WT_Model wt in P_wt.Sublist)
                     {
-                        InsertControles(builder, wt);
+                        InsertControles(builder, wt, wjid);
                     }
-
                 }
             }
 

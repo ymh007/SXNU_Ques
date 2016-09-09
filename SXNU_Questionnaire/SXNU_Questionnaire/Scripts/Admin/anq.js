@@ -165,6 +165,20 @@
             alert("系统异常！");
         });
     }
+
+    sxnu.StartEnableAccount = function (val) {
+        $.ajax("/Admin/User/StartEnableAccount", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
+            if (result.IsSuccess) {
+                alert("操作成功");
+                sxnu.GetByPageingData();
+            }
+        }).fail(function () {
+            alert("系统异常！");
+        });
+    }
+
+
+
     sxnu.ResetPwd = function (val) {
         $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {

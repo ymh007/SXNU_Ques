@@ -23,21 +23,21 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
 
 
     sxnu.Submited_Step1 = function () {
-        var wj_Title =  $("[name='wj_Title']").val();
+        var wj_Title = $("[name='wj_Title']").val();
         var wj_ProjectSource = $("[name='wj_ProjectSource']").val();
         var wj_Time = $("[name='wj_Time']").val();
         var wj_BeginBody = $("[name='wj_BeginBody']").val();
-        if (!$.trim(wj_Title)   || !$.trim(wj_BeginBody)) {
+        if (!$.trim(wj_Title) || !$.trim(wj_BeginBody)) {
             alert("问卷信息不完整！");
             return false;
         }
-        if ($.trim(wj_Time)!="") {
+        if ($.trim(wj_Time) != "") {
             if (!sxnu.IsNumber($.trim(wj_Time))) {
                 alert("问卷时间格式不正确");
                 return false;
             }
         }
-       
+
         if (!sxnu.ValidStart() || !sxnu.ValidEnd()) {
             alert("请设置问卷有效期！");
             return false;
@@ -278,8 +278,8 @@ var SXNU_ViewModel_Ques2 = function ($, currentDom) {
         } else {
             flag = true;
         }
-       
-        return flag  ;
+
+        return flag;
     }
 
     sxnu.Submited_Step2 = function () {
@@ -344,7 +344,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.wj_ID = ko.observable(0);
     sxnu.Globle_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi", ".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -434,7 +434,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             ItemArray.push(Temp);
             strArray.push(Temp.t);
         });
-         
+
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -867,7 +867,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             ItemArray.push(Temp);
             strArray.push(Temp.t);
         });
-       
+
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -1442,7 +1442,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     sxnu.wj_ID = ko.observable(0);
     sxnu.Parent_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi", ".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -2540,7 +2540,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
 }
 var SXNU_ViewModel_Ques4 = function ($, currentDom) {
 
-     
+
     var sxnu = currentDom || this;
     sxnu.Globle_OrderNum = ko.observable(0);
     sxnu.s4_DataArray = ko.observableArray();
@@ -2602,7 +2602,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             if (result.IsSuccess) {
                 sxnu.Load_ST_List();
                 alert(val.pageing == 'n' ? "添加分页成功！" : "取消分页成功！");
-                
+
             } else {
                 alert(val.pageing == 'n' ? "添加分页失败！" : "取消分页失败！");
             }
@@ -2748,7 +2748,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                 sxnu.Relation_NumList.push(v);
             }
         });
-        
+
         $("#s4_relation").dialog({
             resizable: false,
             height: 700,
@@ -2770,7 +2770,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
     }
 
 
-    sxnu.Set_RelationToDB = function (val,rowM) {
+    sxnu.Set_RelationToDB = function (val, rowM) {
         var fromDataModel = {
             wt_ID: val == 'y' ? sxnu.ShowSTInfo()[0].dbID() : rowM.ID,
             wt_LogicRelated: val,
@@ -2783,7 +2783,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             $.each(sxnu.ShowSTInfo()[0].wt_Options(), function (i, item) {
                 var Temp = { t: item.item(), f: item.fz(), pv: [], r: item.r() };
                 flag = item.r() == "" ? true : false;
-                if (item.r() == "") { index--}
+                if (item.r() == "") { index-- }
                 $.each(item.pv(), function (ii, item1) {
                     Temp.pv.push({ n: item1.n, t: item1.t });
                 });
@@ -2797,14 +2797,14 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                 });
                 ItemArray.push(Temp);
             });
-            if (index==0) { alert("最少添加一个关联！"); return false;}
+            if (index == 0) { alert("最少添加一个关联！"); return false; }
 
         } else {
             // 调用 页面刚加载的时候保存的所有试题对象进行 删除逻辑操作  sxnu.Globle_STList();
-            $.each(sxnu.Globle_STList(), function (val,item) {
+            $.each(sxnu.Globle_STList(), function (val, item) {
                 if (item.wt_ID == fromDataModel.wt_ID) {
                     var tempA = JSON.parse(item.wt_Options);
-                    $.each(tempA, function (i,v) {
+                    $.each(tempA, function (i, v) {
                         v.r = "";
                         ItemArray.push(v);
                     })
@@ -2951,50 +2951,51 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             $("#MaskMain").mask("正在加载.......");
             $.ajax("/Admin/Question/GetSTBy_WJID", { async: true, type: "GET", cache: false, data: { ID: sxnu.wj_ID() }, dataType: "json", }).then(function (result) {
                 if (result) {
-                    sxnu.ST_NumList.removeAll();
-                    sxnu.subNumList.removeAll();
-                    sxnu.s4_DataArray.removeAll();
-                    sxnu.Globle_STList.removeAll();
+                    if (result.length != 0) {
+                        sxnu.ST_NumList.removeAll();
+                        sxnu.subNumList.removeAll();
+                        sxnu.s4_DataArray.removeAll();
+                        sxnu.Globle_STList.removeAll();
 
 
-                    sxnu.Globle_STList(result);
-                    $.each(result, function (i, v) {
-                        if (v.wt_PID != 0) {
-                            sxnu.subNumList.push(v); // 记录子级试题编号
+                        sxnu.Globle_STList(result);
+                        $.each(result, function (i, v) {
+                            if (v.wt_PID != 0) {
+                                sxnu.subNumList.push(v); // 记录子级试题编号
+                            } else {
+                                sxnu.ST_NumList.push(v);
+                            }
+                        });
+
+                        if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
+                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
+                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
+
                         } else {
-                            sxnu.ST_NumList.push(v);
+                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
+                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
                         }
-                    });
 
-                    if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
-                        sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
-                        sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
-                       
-                    } else {
-                        sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
-                        sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
-                    }
-                   
-                    var parNum = 1;
-                    $.each(sxnu.ST_NumList(), function (i, v) {
-                        var t = sxnu.Proc_Str(v.wt_Type, v.wt_Title);
-                        
-                        sxnu.s4_DataArray.push(new sxnu.DataMode4(t, v.wt_ID, v.wt_PID, v.wt_WJID, v.wt_OrderNum, v.wt_Pageing, v.wt_LogicRelated, v.wt_Sleep, v.wt_LogicRelated.trim().length == 0, v.wt_Sleep.trim().length == 0, v.wt_Type, parNum));
-                        if (v.wt_Type == 4) {
-                            var subNum = 1;
-                            $.each(sxnu.subNumList(), function (i1, item) {
-                                if (v.wt_ID == item.wt_PID) {
-                                    var t = sxnu.Proc_Str(item.wt_Type, item.wt_Title);
-                                    sxnu.s4_DataArray.push(new sxnu.DataMode4(t, item.wt_ID, item.wt_PID, item.wt_WJID, item.wt_OrderNum, item.wt_Pageing, item.wt_LogicRelated, item.wt_Sleep, item.wt_LogicRelated.trim().length == 0, item.wt_Sleep.trim().length == 0, item.wt_Type, parNum + "." + subNum));
-                                    subNum++;
-                                }
-                            });
-                            subNum = 1;
-                        }
-                        parNum++;
-                    });
-                    $("#MaskMain").unmask();
-                }
+                        var parNum = 1;
+                        $.each(sxnu.ST_NumList(), function (i, v) {
+                            var t = sxnu.Proc_Str(v.wt_Type, v.wt_Title);
+
+                            sxnu.s4_DataArray.push(new sxnu.DataMode4(t, v.wt_ID, v.wt_PID, v.wt_WJID, v.wt_OrderNum, v.wt_Pageing, v.wt_LogicRelated, v.wt_Sleep, v.wt_LogicRelated.trim().length == 0, v.wt_Sleep.trim().length == 0, v.wt_Type, parNum));
+                            if (v.wt_Type == 4) {
+                                var subNum = 1;
+                                $.each(sxnu.subNumList(), function (i1, item) {
+                                    if (v.wt_ID == item.wt_PID) {
+                                        var t = sxnu.Proc_Str(item.wt_Type, item.wt_Title);
+                                        sxnu.s4_DataArray.push(new sxnu.DataMode4(t, item.wt_ID, item.wt_PID, item.wt_WJID, item.wt_OrderNum, item.wt_Pageing, item.wt_LogicRelated, item.wt_Sleep, item.wt_LogicRelated.trim().length == 0, item.wt_Sleep.trim().length == 0, item.wt_Type, parNum + "." + subNum));
+                                        subNum++;
+                                    }
+                                });
+                                subNum = 1;
+                            }
+                            parNum++;
+                        });
+                    } else { $("#MaskMain").unmask(); }
+                } else { $("#MaskMain").unmask(); }
             }).fail(function () {
                 alert("系统异常！");
             });
@@ -3041,7 +3042,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.sj_ID = ko.observable(0);
     sxnu.Globle_OrderNum = ko.observable(0);
     sxnu.g_picExt = [".jpg", ".png", ".gif"];  //(图片格式：jpg、png、gif格式，最佳尺寸130*130;
-    sxnu.g_vidoExt = [".flv", ".mp4", ".avi",".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
+    sxnu.g_vidoExt = [".flv", ".mp4", ".avi", ".ogg"];   //视频格式：flv、mp4、avi格式，最大支持5M)
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -3473,7 +3474,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             ItemArray.push(Temp);
             strArray.push(Temp.t);
         });
-        
+
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -3573,7 +3574,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
         if (IsRepeat(strArray)) {
             alert("不能添加重复项！");
             return false;
-        } 
+        }
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================多选题   结束===========
@@ -3745,7 +3746,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             bg.a.push({ t: $.trim(item.a()), f: $.trim(item.f()) });
             strArray.push($.trim(item.a()));
         });
-        
+
         if (!flag) {
             alert("输入信息有误！");
             return false;
@@ -4137,7 +4138,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
 }
 var SXNU_ViewModel_AnswerDeail = function ($, currentDom) {
-    var sxnu = currentDom || this; 
+    var sxnu = currentDom || this;
     sxnu.wj_ID = ko.observable(0);
     sxnu.SearchValue = ko.observable("");
 
@@ -4213,8 +4214,8 @@ var SXNU_ViewModel_AnswerDeail = function ($, currentDom) {
     sxnu.PageInit();
 
 
-}
- 
+} 
+
 
 function IsRepeat(arr) {
     //var arrStr = JSON.stringify(arr), str;

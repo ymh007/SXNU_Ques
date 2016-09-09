@@ -40,7 +40,15 @@
                     <td class="p-w15" data-bind="text: am_Status=='y'?'正常':'禁用',style: { color: am_Status !='y' ? '#fe2525':'' }"></td>
                     <td>
                         <span class="ico vol_ico3 m-r20"><a data-bind="attr:{href:'/Admin/User/AccountModify?ID='+am_ID+'&loginName='+encodeURIComponent(am_LoginUser)+'&Email='+encodeURIComponent(am_Email)+''}">修改</a></span>
+
+                        <!-- ko if: am_Status=='y' -->
                         <span class="ico_red vol_ico7 m-r20"><a href="#" data-bind="click:$root.EnableAccount">禁用</a></span>
+                        <!-- /ko -->
+
+                        <!-- ko if:  am_Status=='n' -->
+                        <span class=" ico_red vol_ico7 m-r20"><a href="#" style="color:green" data-bind="click:$root.StartEnableAccount">启用</a></span>
+                        <!-- /ko -->
+
                         <span class="ico vol_ico8"><a href="#" data-bind="click:$root.ResetPwd">密码重置</a></span>
                     </td>
                 </tr>
