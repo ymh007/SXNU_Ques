@@ -19,7 +19,8 @@
         <!-- 视频图片绑定模板-->
         <script type="text/html" id="pv_temp">
             <li data-bind="if: pvp.t=='v'">
-                <video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                @*<video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
+                <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
             </li>
             <li data-bind="if: pvp.t=='p'">
                 <div class="left"></div><img style="width:310px;height:200px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">

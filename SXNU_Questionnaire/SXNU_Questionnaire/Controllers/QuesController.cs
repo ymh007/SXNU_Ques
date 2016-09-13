@@ -224,7 +224,25 @@ namespace SXNU_Questionnaire.Controllers
             }
             return View();
         }
+        public ActionResult Preview(int wjid)
+        {
 
+            ViewBag.id = wjid;
+            ViewBag.time = 0;
+            DataTable dt = SqlStr_Process.GetWJByID_Answer(wjid);
+            if (dt != null)
+            {
+                ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                ViewBag.time = dt.Rows[0]["wj_Time"].ToString() == "" ? "0" : dt.Rows[0]["wj_Time"].ToString();
+            }
+            else
+            {
+                return Content("问卷不存在！");
+            }
+            return View();
+        }
+
+        
 
         public ActionResult GetAnswerFinish(int wjid,int auid)
         {

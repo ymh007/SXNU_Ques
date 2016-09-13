@@ -470,7 +470,7 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
 
     sxnu.GetByPageingData = function () {
         var parmentMode = {
-            StrWhere:  $.trim(sxnu.SearchValue()),
+            StrWhere: $.trim(sxnu.SearchValue()),
             CurrenPageIndex: sxnu.am_CurrenPageIndex(),
             PageSize: sxnu.am_PageSize(),
             LoginName: $("#golUserLogin").val(),
@@ -654,7 +654,9 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
             });
         }
     }
-
+    sxnu.Preview_F = function (val) {
+        window.open("/Ques/Preview?wjid=" + val.wj_ID);
+    }
     sxnu.LoadWJ = function () {
         if (sxnu.wj_ID() != 0) {
             $.ajax("/Admin/Question/GetWJByID", { async: true, type: "GET", cache: true, data: { ID: sxnu.wj_ID() }, dataType: "json", }).then(function (result) {
@@ -684,7 +686,7 @@ var SXNU_ViewModel_QuesList = function ($, currentDom) {
 
 var SXNU_ViewModel_ChangePWD = function ($, currentDom) {
     var sxnu = currentDom || this;
-     
+
 
 
     sxnu.LoginName = ko.observable("");
@@ -698,12 +700,12 @@ var SXNU_ViewModel_ChangePWD = function ($, currentDom) {
         var newPWD = $.trim(sxnu.newPWD());
         var repeatPWD = $.trim(sxnu.repeatPWD());
 
-        if (!old ) {
+        if (!old) {
             sxnu.ErrorMsg("密码不能为空");
             sxnu.IsError(1)
             return false;
         }
-        if ( !newPWD ) {
+        if (!newPWD) {
             sxnu.ErrorMsg("新密码不能为空");
             sxnu.IsError(2)
             return false;
@@ -724,10 +726,10 @@ var SXNU_ViewModel_ChangePWD = function ($, currentDom) {
         var mode = {
             U_ID: $("#golUserID").val(),
             U_LoginName: $.trim(sxnu.LoginName()),
-            U_PWD: old ,  // 老密码
+            U_PWD: old,  // 老密码
             U_Name: newPWD   // 新密码
         };
-       
+
         $.ajax("/Admin/User/ChangePWD_DB", { async: true, type: "POST", data: mode, dataType: "json" }).then(function (result) {
             if (result.IsSuccess) {
                 alert(result.ErrorMsg);
@@ -740,7 +742,7 @@ var SXNU_ViewModel_ChangePWD = function ($, currentDom) {
         });
 
     }
-     
+
 
     sxnu.ResetPwd = function (val) {
         $.ajax("/Admin/User/ResetPwd", { async: true, type: "GET", data: { ID: val.am_ID }, dataType: "json", }).then(function (result) {

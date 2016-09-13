@@ -39,7 +39,7 @@
                     <td class="p-w8" data-bind="text:wj_PublishTime">2016/03/08</td>
                     <td class="p-w15" data-bind="text:wj_Number">VNFDDFDF58552</td>
                     <td>
-                        @*<span class="ico vol_ico1 m-r15"><a href="#">预览</a></span>*@
+                        <span class="ico vol_ico1 m-r15"><a href="#" data-bind="click:$root.Preview_F">预览</a></span>
                         <span class="ico vol_ico2 m-r20" data-bind="visible:wj_Status=='n'"><a href="#" data-bind="click:$root.publishWJ">发布</a></span>
                         <span class="ico vol_ico6 m-r20" data-bind="visible:wj_Status=='y'"><a href="#" data-bind="click:$root.recall_WJ">撤回</a></span>
                         <span class="ico vol_ico5 m-r20" data-bind="visible:wj_Status=='y'"><a data-bind="attr: { href: '/admin/Question/AnswerDetails?ID='+wj_ID }">查看回收数据</a></span>

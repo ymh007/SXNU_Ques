@@ -33,7 +33,7 @@
                             <h2 class="m-b10 m-t5" data-bind="text:wj_Title">企业员工满意度调查</h2><!--ko text:'项目来源：'+wj_ProjectSource--><!--/ko--><br>
                             <!--ko text:'有效期：'+wj_ValidStart+'-'+wj_ValidEnd --><!--/ko--><br><!--ko text:'发布者：'+wj_Sponsor --><!--/ko--><br>
                             <!--ko text:'发布时间：'+wj_PublishTime --><!--/ko--><br>
-                            <button class="ind_bott m-t10" data-bind="text:IsExpire=='y'?'已过期':'进行中'"></button>
+                            <button class="ind_bott m-t10" data-bind="text:IsExpire=='y'?'已过期':'进行中',click:$root.OpenAnswer"></button>
                         </div>
                     </div>
                 </li>

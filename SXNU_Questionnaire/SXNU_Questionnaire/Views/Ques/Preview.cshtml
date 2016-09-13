@@ -1,29 +1,31 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "问卷中心-试题预览";
+    ViewBag.Title = "问卷中心";
     ViewBag.flgStyle = "ques";
 }
 
 <script type="text/javascript">
     $(function () {
-        var pageModel = new SXNU_ViewModel_Answer($);
-        ko.applyBindings(pageModel, $("#ko_Question")[0]);
+        var pageModel = new SXNU_ViewModel_Preview($);
+        ko.applyBindings(pageModel, $("#ko_preview")[0]);
     });
 </script>
+
 <div class="show_h"></div>
-<div class="wrapper m-t30 m-b80" id="ko_Question">
-    <input type="hidden" value="@ViewBag.time" id="wj_time">
+<div class="wrapper m-t30 m-b80" id="ko_preview">
+    
     <input type="hidden" value="@ViewBag.id" id="wj_id">
-    <input type="hidden" value="@ViewBag.aid" id="au_id">
-    <div class="left volume_left w-160 center"><h1>15:49:35</h1>剩余时间</div>
+    <input type="hidden" value="@ViewBag.time" id="wj_time">
+    <div class="left volume_left w-160 center" data-bind="visible:$root.IsShowTime()"><h1 id="Countdown"> </h1>&nbsp;剩余时间</div>
     <div class="left volume_right w-816">
         <h2>@ViewBag.wj_Title</h2>
+        @*<input type="button" data-bind="click:TestData" value="测试结果" />*@
         <div class="volume_bj m-l15 m-r15 m-b50" data-bind="foreach:$root.ShowSTInfo">
 
             <!-- 视频图片绑定模板-->
             <script type="text/html" id="pv_temp">
                 <li data-bind="if: pvp.t=='v'">
-                    <video width="310" height="200" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                    <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
                 </li>
                 <li data-bind="if: pvp.t=='p'">
                     <div class="left"></div><img style="width:200px;height:160px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">
@@ -31,41 +33,41 @@
             </script>
 
             <!-- ko if:  type()==1 -->
-            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="volume_list">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
             </div>
             <div class="wly_volume">
                 <ul data-bind="foreach:wt_Options">
-                    <li><input type="radio" data-bind="attr:{name:'dxst_'+$parent.dbID()},value:item,checked:$parent.answer" />&nbsp;&nbsp;&nbsp;<!--ko text: item--><!--/ko--></li>
+                    <li><input type="radio" data-bind="enable:$parent.jy,event: { change: function(){ $root.StartRelation($parent,this) }},attr:{name:'dxst_'+$parent.dbID()},value:item,checked:$parent.answer" />&nbsp;&nbsp;&nbsp;<!--ko text: item--><!--/ko--></li>
                     <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                 </ul>
                 <ul data-bind="foreach:wt_OtherItem">
-                    <li><input type="radio" name="" data-bind="attr:{name:'dxst_'+$parent.dbID()},value:item,checked:$parent.answer">&nbsp;&nbsp;&nbsp;<!--ko text: item--><!--/ko-->  <input class="vol_inp w-330" data-bind="value:$parent.ov"></li>
+                    <li><input type="radio" name="" data-bind="enable:$parent.jy,event: { change: function(){ $root.StartRelation($parent,this) }},attr:{name:'dxst_'+$parent.dbID()},value:item,checked:$parent.answer">&nbsp;&nbsp;&nbsp;<!--ko text: item--><!--/ko-->  <input class="vol_inp w-330" data-bind="enable:$parent.jy,value:$parent.ov"></li>
                     <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                 </ul>
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==2 -->
-            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
             </div>
             <div class="wly_volume">
                 <ul data-bind="foreach:wt_Options">
-                    <li><input type="checkbox" data-bind="value:item,checked:ck" />&nbsp;&nbsp;&nbsp;<!--ko text:item--><!--/ko--></li>
+                    <li><input type="checkbox" data-bind="enable:$parent.jy,value:item,checked:ck" />&nbsp;&nbsp;&nbsp;<!--ko text:item--><!--/ko--></li>
                     <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                 </ul>
                 <ul data-bind="foreach:wt_OtherItem">
-                    <li><input type="checkbox" data-bind="value:item,checked:ck"> &nbsp;&nbsp;&nbsp;<!--ko text:item--><!--/ko--><input class="vol_inp w-330" data-bind="value:ov"></li>
+                    <li><input type="checkbox" data-bind="enable:$parent.jy,value:item,checked:ck"> &nbsp;&nbsp;&nbsp;<!--ko text:item--><!--/ko--><input class="vol_inp w-330" data-bind="enable:$parent.jy,value:ov"></li>
                     <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
                 </ul>
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==3 -->
-            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -74,22 +76,22 @@
             <div data-bind="foreach:inputArray">
                 <div class="m-t15">
                     <div class="m-l25 m-t10">
-                        <input class="vol_inp w-640 left" maxlength="255" data-bind="value:txt">
-                        <input class="volume_jia m-l10" type="button" data-bind="click :function(){ $parent.Add_wdSTItem($parent)}">
-                        <input class="volume_jian m-l5" type="button" data-bind="click :function(){$parent.Del_wdSTItem($parent,this)}">
+                        <input class="vol_inp w-640 left" maxlength="255" data-bind="enable:$parent.jy,value:txt">
+                        <input class="volume_jia m-l10" type="button" data-bind="enable:$parent.jy,click :function(){ $parent.Add_wdSTItem($parent)}">
+                        <input class="volume_jian m-l5" type="button" data-bind="enable:$parent.jy,click :function(){$parent.Del_wdSTItem($parent,this)}">
                     </div>
                 </div>
             </div>
             <!-- /ko -->
             <div data-bind="if :(IsOnline()=='1')&&(Customize()=='0')">
                 <div class="volume_kuang m-t15 m-r15">
-                    <textarea clos="20" rows="5" data-bind="value:Ansure_Content "> </textarea>
+                    <textarea clos="20" rows="5" data-bind="enable:jy,value:Ansure_Content "> </textarea>
                     <div class="cen_rig m-t10"><!--ko text:Clac_Len --><!--/ko-->/<!--ko text:Contentlength --><!--/ko--></div>
                 </div>
             </div>
             <!-- /ko -->
             <!-- ko if:  type()==4 -->
-            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -97,7 +99,7 @@
             <div class="m-l25" data-bind="text:st_GaiYao"> </div>
             <!-- /ko -->
             <!-- ko if:  type()==5 -->
-            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+            <h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:$root.CurrentWT_Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: $root.CurrentWT_Time--><!--/ko--></span></span><span class="vol vol_red" data-bind="text:msg,visible:msg().length!=0"></span></h3>
             <div class="lume_img m-t10">
                 <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                 <div class="clear"></div>
@@ -105,7 +107,7 @@
             <div class="m-l25 m-r15">
                 <table border=0 cellspacing=0 cellpadding=0 width="100%" class="volume_table">
                     <tr class="volu_bj">
-                        @*<td class="center">内容项</td>*@
+                        <td class="center">内容项</td>
                         <!-- ko foreach:AnswerList -->
                         <td class="center" width="10%" data-bind="text:a"></td>
                         <!-- /ko -->
@@ -114,7 +116,7 @@
                     <tr>
                         <td class="volu_keft" data-bind="text:t"></td>
                         <!-- ko foreach:$parent.AnswerList -->
-                        <td class="center"><input type="radio" data-bind="value:a,attr:{name: $parent.name},checked:$parent.ck,event:{change:$parent.getF} " /></td>
+                        <td class="center"><input type="radio" data-bind="enable:$parent.jy,value:a,attr:{name: $parent.name},checked:$parent.ck,event:{change:$parent.getF} " /></td>
                         <!-- /ko -->
                     </tr>
                     <!-- /ko -->
@@ -143,8 +145,8 @@
             </div>
         </div>
         <div class="dialog-foot m-b20">
-            <input class="sub w-120 m-l10" type="submit" name="" data-bind="click:$root.NextPageWT" value="确定">
-            <input class="sub_h w-120 m-l10" type="submit" name="" data-bind="click:$root.CloseConfirm" value="取消">
+            <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.NextPageWT" value="确定">
+            <input class="sub_h w-120 m-l10" type="button" name="" data-bind="click:$root.CloseConfirm" value="取消">
         </div>
     </div>
 
@@ -156,8 +158,27 @@
             </div>
         </div>
         <div class="dialog-foot m-b20">
-            <input class="sub w-120 m-l10" type="submit" name="" data-bind="click:$root.finishWT" value="确定">
+            <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.finishWT" value="确定">
+        </div>
+    </div>
+    <div class="dialog" title="问卷超时" id="time_out">
+        <div class="dialog-body m-t30 m-b10">
+            <!-- 对话框内容 -->
+            <div class="center font_18">
+                对不起你已超时,点击确定回到主页！
+            </div>
+        </div>
+        <div class="dialog-foot m-b20">
+            <input class="sub w-120 m-l10" type="button" name="" data-bind="click:$root.finishWT" value="确定">
         </div>
     </div>
 
+    <div class="dialog" title="休息时间倒计时" id="time_out_wt">
+        <div class="dialog-body m-t30 m-b10">
+            <!-- 对话框内容 -->
+            <div class="center font_18">
+                <!--ko text: $root.CurrentWT_Msg--><!--/ko--> 。倒计时 <!--ko text: $root.CurrentSleep_Time--><!--/ko--> 后结束休息
+            </div>
+        </div>
+    </div>
 </div>  

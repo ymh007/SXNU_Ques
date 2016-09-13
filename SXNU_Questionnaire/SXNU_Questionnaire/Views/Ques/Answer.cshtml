@@ -16,7 +16,7 @@
     <input type="hidden" value="@ViewBag.time" id="wj_time">
     <input type="hidden" value="@ViewBag.id" id="wj_id">
     <input type="hidden" value="@ViewBag.aid" id="au_id">
-    <div class="left volume_left w-160 center"><h1 id="Countdown"> </h1>&nbsp;剩余时间</div>
+    <div class="left volume_left w-160 center" data-bind="visible:$root.IsShowTime()"><h1 id="Countdown"> </h1>&nbsp;剩余时间</div>
     <div class="left volume_right w-816">
         <h2>@ViewBag.wj_Title</h2>
         @*<input type="button" data-bind="click:TestData" value="测试结果" />*@

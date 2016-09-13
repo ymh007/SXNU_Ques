@@ -84,7 +84,7 @@ img {
 
 .conter{ background:url(../images/bj.jpg) #fdf1f1 no-repeat bottom}
 .search_k{ border:1px solid #d6d6d6; border-radius: 3px; padding: 8px 5px;}
-.search{ border: 0px; color: #d0d0d0; height: 20px; line-height: 20px;}
+.search{ border: 0px; color: #d0d0d0; height: 20px; line-height: 20px;outline: none;}
 .blue{ background: #f3f8ff}
 
 .ind_new{ border-top: 1px solid #c1c1c1}

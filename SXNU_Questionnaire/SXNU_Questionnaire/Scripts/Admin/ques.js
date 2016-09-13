@@ -1269,8 +1269,23 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 sxnu.ShowSTInfo.push(bgModel);
                 break;
         }
+        sxnu.Init_Vido();
     }
+    sxnu.Init_Vido = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
 
+                });
+            });
+        }
+    }
     // 试题 编号 试题展示 
     sxnu.pv_Path = ko.observable("");
 
@@ -1404,10 +1419,13 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             });
         }
     }
+
+    sxnu.p_Path = ko.observable();
     sxnu.PageInit = function () {
 
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.pv_Path("/WJ_Attachment/" + $("#WJ_ID").val() + "/");
+        sxnu.p_Path("f=../../../WJ_Attachment/" + $("#WJ_ID").val() + "/");
         $(".type ul li").click(function () {
             if (sxnu.Title_pic_vido().length > 1 || sxnu.Item().length > 2 || sxnu.other().length > 2) {
                 if (confirm("你还没有保存当前数据.确定要放弃保存吗？")) {
@@ -1451,25 +1469,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         bg: "表格题"
     }
 
-    sxnu.ShowSTByLoccation = function (val) {
-        // 元素id  'StNum_'+dbID()
-        var dbid = 0;
-        $("#st_numLisr a").removeClass("wly_menber_hov");
-        if ("subNum" in val) {
-            $("#dbid_" + val.dbID()).addClass("wly_menber_hov");
-            dbid = val.dbID();
-        } else {
-            $("#dbid_" + val.dbID).addClass("wly_menber_hov");
-            dbid = val.dbID;
-        }
-
-
-        $.each(sxnu.Globle_STList(), function (index, val) {
-            if (val.wt_ID == dbid) {
-                console.log(dbid + '==========' + val.wt_ID);
-            }
-        });
-    }
+  
 
     //================== 单选题  开始==========
 
@@ -2367,6 +2367,42 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             }
         }, this);
     }
+
+    //sxnu.ShowSTByLoccation = function (val) {
+    //    // 元素id  'StNum_'+dbID()
+    //    var dbid = 0;
+    //    $("#st_numLisr a").removeClass("wly_menber_hov");
+    //    if ("subNum" in val) {
+    //        $("#dbid_" + val.dbID()).addClass("wly_menber_hov");
+    //        dbid = val.dbID();
+    //    } else {
+    //        $("#dbid_" + val.dbID).addClass("wly_menber_hov");
+    //        dbid = val.dbID;
+    //    }
+
+
+    //    $.each(sxnu.Globle_STList(), function (index, val) {
+    //        if (val.wt_ID == dbid) {
+    //            console.log(dbid + '==========' + val.wt_ID);
+    //        }
+    //    });
+    //}
+
+    sxnu.Init_Vido = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
+
+                });
+            });
+        }
+    }
     sxnu.ShowSTByLoccation = function (val) {
         // 元素id  'StNum_'+dbID()
         var dbid = 0;
@@ -2489,6 +2525,8 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 sxnu.ShowSTInfo.push(bgModel);
                 break;
         }
+
+        sxnu.Init_Vido();
     }
 
     // 试题 编号 试题展示 
@@ -2505,7 +2543,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     //===========================================试题展示信息 以及 试题编号=== 结束=====================
 
 
-
+    sxnu.p_Path = ko.observable("");
     sxnu.PageInit = function () {
         $(".type ul li").click(function () {
             if (sxnu.Title_pic_vido().length > 1 || sxnu.Item().length > 2 || sxnu.other().length > 2) {
@@ -2531,6 +2569,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.ParentSJ_ID($("#ParentSJ_ID").val());
         sxnu.pv_Path("/WJ_Attachment/" + $("#WJ_ID").val() + "/");
+        sxnu.p_Path("f=../../../WJ_Attachment/" + $("#WJ_ID").val() + "/");
         sxnu.Load_ST_List();
         sxnu.GetMaxSubList();
     }
@@ -2757,8 +2796,26 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         });
         sxnu.ShowSTByLoccation(Row_Model);
         sxnu.CurrentClickGet_StMode(Row_Model);// 获取当前修改的试题对象
+        sxnu.Init_Vido();
 
     }
+
+    sxnu.Init_Vido = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
+
+                });
+            });
+        }
+    }
+
     sxnu.Submited_Relation = function () {
         // 添加关联
         sxnu.Set_RelationToDB('y');
@@ -2994,6 +3051,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                             }
                             parNum++;
                         });
+                        $("#MaskMain").unmask();
                     } else { $("#MaskMain").unmask(); }
                 } else { $("#MaskMain").unmask(); }
             }).fail(function () {
@@ -3025,10 +3083,11 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         t = str.substr(0, 15);
         return t1 + t + "......";
     }
-
+    sxnu.p_Path = ko.observable();
     sxnu.PageInit = function () {
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.pv_Path("/WJ_Attachment/" + $("#WJ_ID").val() + "/");
+        sxnu.p_Path("f=../../../WJ_Attachment/" + $("#WJ_ID").val() + "/");
         sxnu.Load_ST_List();
     }
     sxnu.PageInit();
@@ -3766,7 +3825,21 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     //==================表格题   结束=========== 
 
 
+    sxnu.Init_Vido = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
 
+                });
+            });
+        }
+    }
     //===========================================试题展示信息 以及 试题编号=== 结束=====================
     sxnu.zhST_Model = function (dbID, ShowNum, type) {
         this.dbID = ko.observable(dbID);
@@ -3900,8 +3973,23 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
                 sxnu.ShowSTInfo.push(bgModel);
                 break;
         }
+        sxnu.Init_Vido();
     }
+    sxnu.Init_Vido = function () {
+        if (sxnu.ShowSTInfo().length > 0) {
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
 
+                });
+            });
+        }
+    }
     // 试题 编号 试题展示 
     sxnu.pv_Path = ko.observable("");
 
@@ -4124,12 +4212,13 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             });
         }
     }
-
+    sxnu.p_Path = ko.observable("");
     sxnu.PageInit = function () {
         sxnu.wj_ID($("#WJ_ID").val());
         sxnu.sj_ID($("#sj_ID").val());
         sxnu.pv_Path("/WJ_Attachment/" + $("#WJ_ID").val() + "/");
         $(".type ul li").addClass("type_hover");
+        sxnu.p_Path("f=../../../WJ_Attachment/" + $("#WJ_ID").val() + "/");
         sxnu.LoadST_Model();
         sxnu.Load_ST_List();
     }

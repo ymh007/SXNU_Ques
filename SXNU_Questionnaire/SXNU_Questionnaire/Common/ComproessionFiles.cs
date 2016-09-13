@@ -31,6 +31,7 @@ namespace SXNU_Questionnaire.Common
             {
                 for (int i = 0; i < subFile.Length; i++)
                 {
+                    
                     FileStream fileStream = File.OpenRead(subFile[i]);
                     byte[] buffer = new byte[fileStream.Length];
                     fileStream.Read(buffer, 0, buffer.Length);

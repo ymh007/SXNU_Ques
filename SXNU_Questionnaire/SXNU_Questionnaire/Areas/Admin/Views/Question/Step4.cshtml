@@ -103,7 +103,8 @@
                 <!-- 视频图片绑定模板-->
                 <script type="text/html" id="pv_temp">
                     <li data-bind="if: pvp.t=='v'">
-                        <video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>
+                        @*<video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
+                        <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
                     </li>
                     <li data-bind="if: pvp.t=='p'">
                         <div class="left"></div><img style="width:310px;height:200px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">
@@ -112,7 +113,7 @@
 
 
                 <!-- ko if:  type()==1 -->
-                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko-->@*<span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span>*@</h3>
                 <div class="lume_img m-t10">
                     <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                     <div class="clear"></div>
@@ -149,7 +150,7 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if:  type()==2 -->
-                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+                <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko-->@*<span class="vol" data-bind="visible:wt_LimitTime!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span>*@</h3>
                 <div class="lume_img m-t10">
                     <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
                     <div class="clear"></div>
