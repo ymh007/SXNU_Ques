@@ -3029,14 +3029,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                             }
                         });
 
-                        if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
-                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
-                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
-
-                        } else {
-                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
-                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
-                        }
+                       
 
                         var parNum = 1;
                         $.each(sxnu.ST_NumList(), function (i, v) {
@@ -3056,6 +3049,15 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                             }
                             parNum++;
                         });
+
+                        //if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
+                        //    sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
+                        //    sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
+
+                        //} else {
+                        //    sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
+                        //    sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
+                        //}
                         $("#MaskMain").unmask();
                     } else { $("#MaskMain").unmask(); }
                 } else { $("#MaskMain").unmask(); }
