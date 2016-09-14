@@ -41,8 +41,16 @@ namespace SXNU_Questionnaire.Common
     {
         public string an { get; set; }
         public string ov { get; set; }
-    }
 
+        public string fz { get; set; }
+    }
+    public class BiaoGeTi_M
+    {
+        
+        public string a { get; set; }
+      
+        public string f { get; set; }
+    }
     #endregion
 
 
@@ -105,15 +113,15 @@ namespace SXNU_Questionnaire.Common
         /// </summary>
         /// <param name="SourceTable"></param>
         /// <returns></returns>
-        public static Stream RenderDataTableToExcel(int wjid, string wjTitle)
+        public static Stream RenderDataTableToExcel(int wjid,DataTable wjTable)
         {
             List<WT_Model> WtList = Export_Excle.ProcessDataOrder(wjid);
             DataTable AnserInfo_all = SqlStr_Process.Get_AnswerInfoByWJID(wjid);
-
+            string wjTitle = wjTable.Rows[0]["wj_Title"].ToString();
             HSSFWorkbook workbook = new HSSFWorkbook();
             MemoryStream ms = new MemoryStream();
             ISheet sheet = workbook.CreateSheet();
-            sheet.SetColumnWidth(0, 50 * 256);
+            //sheet.SetColumnWidth(0, 50 * 256);
 
             #region 表头及样式
 
@@ -160,10 +168,7 @@ namespace SXNU_Questionnaire.Common
             ICellStyle Row0_C0 = workbook.CreateCellStyle();
             Row0_C0.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             Row0_C0.VerticalAlignment = VerticalAlignment.Center;
-            //Row0_C0.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row0_C0.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row0_C0.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row0_C0.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+         
             IFont rc_font = workbook.CreateFont();
             rc_font.FontHeight = 12;
             //rc_font.Color = (short)FontColor.Normal;
@@ -177,24 +182,23 @@ namespace SXNU_Questionnaire.Common
             ICellStyle Row_list = workbook.CreateCellStyle();
             Row_list.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             Row_list.VerticalAlignment = VerticalAlignment.Center;
-            //Row_list.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row_list.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row_list.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-            //Row_list.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
-           
-
-
-
+        
             IRow ParentNum = sheet.CreateRow(1);
-            ParentNum.HeightInPoints = 20;
+            //ParentNum.HeightInPoints = 20;
 
             IRow SubNum = sheet.CreateRow(2);
-            SubNum.HeightInPoints = 20;
-
-
-            ParentNum.CreateCell(0).SetCellValue("填表人 / 题号");
-            SubNum.CreateCell(0).SetCellValue("");
-            int num_p = 0;
+            //SubNum.HeightInPoints = 20;
+            ParentNum.CreateCell(0).SetCellValue("填表人 / 题号"); 
+            SubNum.CreateCell(0).SetCellValue("姓名");
+            List<Auswer_Filed> Baseinfo_list = JsonTool.JSONStringToList<Auswer_Filed>(wjTable.Rows[0]["wj_BaseInfo"].ToString());
+            
+            for (int x = 0; x < Baseinfo_list.Count; x++) 
+            {
+                ParentNum.CreateCell(x + 1).SetCellValue("");
+                SubNum.CreateCell(x+1).SetCellValue(Baseinfo_list[x].tit);
+            }
+            sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, Baseinfo_list.Count));
+            int num_p = Baseinfo_list.Count;
             for (int p = 0; p < WtList.Count; p++)
             {
                 if (WtList[p].wt_Type != "4")
@@ -219,10 +223,10 @@ namespace SXNU_Questionnaire.Common
                     sheet.AddMergedRegion(new CellRangeAddress(1, 1, (num_p - WtList[p].Sublist.Count + 1), num_p));
                 }
             }
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 0, 0));
+            
             ParentNum.GetCell(0).CellStyle = Row0_C0;
             #endregion
-
+            int base_col = Baseinfo_list.Count+1;
 
             #region ======== 添加答题答案=====
 
@@ -234,37 +238,29 @@ namespace SXNU_Questionnaire.Common
                 {
                     IRow Answer_row = sheet.CreateRow(x + 3);
                     List<Auswer_Filed> Item_list = JsonTool.JSONStringToList<Auswer_Filed>(AnserInfo_all.Rows[x]["au_AnswerUserInfo"].ToString());
-                    u_info =AnserInfo_all.Rows[x]["au_Name"].ToString() + "\n";
-                    foreach (Auswer_Filed af in Item_list)
-                    {
-                        u_info += af.tit + ":" + af.iv + "\n";
-                    }
+                    u_info =AnserInfo_all.Rows[x]["au_Name"].ToString();
                     Answer_row.CreateCell(0).SetCellValue(u_info);
-                    //Answer_row.GetCell(0).CellStyle = Row_list;
+                    for (int g = 0; g < Item_list.Count; g++)
+                    {
+                        Answer_row.CreateCell(g + 1).SetCellValue(Item_list[g].iv);
+                    }
                     int AU_ID = int.Parse(AnserInfo_all.Rows[x]["au_ID"].ToString());
                     DataTable a_list = SqlStr_Process.GetAnswer_Excel(wjid,AU_ID); // 开始处理数据
 
-                    for (int y = 1; y < a_list.Rows.Count + 1; y++)
+                    for (int y = 0; y < a_list.Rows.Count; y++)
                     {
-                        string type=a_list.Rows[y-1]["an_wtType"].ToString();
-                        string an_leapfrog=a_list.Rows[y-1]["an_leapfrog"].ToString();
-                        string an_Invalid=a_list.Rows[y-1]["an_Invalid"].ToString();
+                        string type=a_list.Rows[y]["an_wtType"].ToString();
+                        string an_leapfrog=a_list.Rows[y]["an_leapfrog"].ToString();
+                        string an_Invalid=a_list.Rows[y]["an_Invalid"].ToString();
                         string value = "";
-                        string Answer_Json = a_list.Rows[y - 1]["an_Result"].ToString() == "" ? "[]" : a_list.Rows[y - 1]["an_Result"].ToString();
+                        string Answer_Json = a_list.Rows[y]["an_Result"].ToString() == "" ? "[]" : a_list.Rows[y]["an_Result"].ToString();
                         if (an_leapfrog != "y" || an_Invalid != "y")
                         {
                             switch (type)
                             {
                                 case "1":
                                     dx Answer_dx = (dx)JsonTool.ConvertToList(Answer_Json, new dx().GetType());
-                                    if (Answer_dx.ov != "")
-                                    {
-                                        value = Answer_dx.an + "," + Answer_dx.ov;
-                                    }
-                                    else 
-                                    {
-                                        value = Answer_dx.an;
-                                    }
+                                    value = Answer_dx.fz;
                                     break;
                                 case "2":
                                     List<dx> Answer_dux = JsonTool.JSONStringToList<dx>(Answer_Json);
@@ -272,11 +268,11 @@ namespace SXNU_Questionnaire.Common
                                     {
                                         if (d.ov == "")
                                         {
-                                            value += d.an + ",";
+                                            value += d.fz + ",";
                                         }
-                                        else 
+                                        else
                                         {
-                                            value += d.an+",";
+                                            value += d.fz + ",";
                                         }
                                     }
                                     if (value.Length > 1)
@@ -290,31 +286,45 @@ namespace SXNU_Questionnaire.Common
                                     {
                                         value += d + ",";
                                     }
-                                    if (Answer_wd.Count > 1) 
+                                    if (Answer_wd.Count > 1)
                                     {
-                                        value = Answer_wd.Count+" ;"+value;
+                                        value = Answer_wd.Count + " ;" + value;
                                     }
                                     if (value.Length > 1)
                                     {
                                         value.Substring(0, value.Length - 1);
                                     }
-                                   
+
                                     break;
                                 //case "4":
-                                     
+
                                 //    break;
                                 case "5":
-                                    List<string> Answer_bg = JsonTool.JSONStringToList<string>(Answer_Json);
-                                    foreach (string  d in Answer_bg)
+                                    List<BiaoGeTi_M> Answer_bg = null;
+                                    try
+                                    { 
+                                     Answer_bg = JsonTool.JSONStringToList<BiaoGeTi_M>(Answer_Json);
+                                    }
+                                    catch(Exception ex)
                                     {
-                                        value += d + ";";
+                                        Answer_bg = new List<BiaoGeTi_M>();
+                                        value = "";
+                                    }
+                                    
+                                    foreach (BiaoGeTi_M d in Answer_bg)
+                                    {
+                                        value += d.f + ";";
                                     }
                                     //value.Substring(0, value.Length - 1);
                                     break;
                             }
+
                         }
-                        Answer_row.CreateCell(y).SetCellValue(value);
-                        //Answer_row.GetCell(y).CellStyle = Row_list;
+                        else {
+                            value = "未作答";
+                        }
+                        Answer_row.CreateCell(y + base_col).SetCellValue(value);
+                        Answer_row.GetCell(y + base_col).CellStyle = Row_list;
                     }
                 }
             }

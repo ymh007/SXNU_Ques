@@ -108,7 +108,7 @@ var SXNU_ViewModel_Index_Notice = function ($, currentDom) {
                     $.each(result.Data, function (index, item) {
                         if (v.No_Year == item.No_Year) {
                             if (item.no_Content.length > 50) {
-                                item.no_Content = item.no_Title.substr(0, 50) + "...";
+                                item.no_Content = item.no_Content.substr(0, 50) + "...";
                             }
                             temp.YearList.push(item);
                         }
@@ -963,6 +963,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             } else {
                 switch (parseInt(item.type())) {
                     case 1:
+                        var T_fz = 0;
                         if (!item.jy()) {
                             Save_Model.an_leapfrog = "y";
                             Save_Model.an_Result = "";
@@ -970,6 +971,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                             if (item.answer()) {
                                 $.each(item.wt_OtherItem(), function (a, b) {
                                     if (b.item() == item.answer()) {
+                                        T_fz = b.fz();
                                         if (!$.trim(item.ov())) {
                                             flag = false;
                                             errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
@@ -982,7 +984,13 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                 errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
                                 return false;
                             }
-                            var strObj = { an: item.answer(), ov: item.ov() };
+                           
+                            $.each(item.wt_Options(), function (x,y) {
+                                if (y.item() == item.answer()) {
+                                    T_fz = y.fz();
+                                }
+                            });
+                            var strObj = { an: item.answer(), ov: item.ov(), fz: T_fz };
                             Save_Model.an_Result = JSON.stringify(strObj);
                         }
 
@@ -995,14 +1003,14 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                             var duo2 = [];
                             $.each(item.wt_Options(), function (i, v) {
                                 if (v.ck()) {
-                                    duo2.push({ an: v.item(), ov: "" });
+                                    duo2.push({ an: v.item(), ov: "",fz:v.fz() });
                                 }
                             });
 
                             $.each(item.wt_OtherItem(), function (i, v) {
                                 if (v.ck()) {
                                     if ($.trim(v.ov())) {
-                                        duo2.push({ an: v.item(), ov: v.ov() });
+                                        duo2.push({ an: v.item(), ov: v.ov(),fz:v.fz() });
                                     } else {
                                         flag = false;
                                         errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
@@ -1015,6 +1023,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                 errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
                                 return false;
                             }
+
                             Save_Model.an_Result = JSON.stringify(duo2);
                         }
 
@@ -1071,7 +1080,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                     errorMsg = "请选择试题 " + item.ShowNum() + " 的  " + v.t() + " 答案！";
                                     return false;
                                 } else {
-                                    bg5.push(v.ck());
+                                    bg5.push({ a: v.ck(), f: v.f() });
                                 }
                             });
                             Save_Model.an_Result = JSON.stringify(bg5);

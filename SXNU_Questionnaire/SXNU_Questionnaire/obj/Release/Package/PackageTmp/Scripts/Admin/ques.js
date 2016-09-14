@@ -389,6 +389,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
 
     sxnu.Save_dx = function () {
+        $("#MaskMain").mask("正在处理.......");
         var flag = true;
         sxnu.ST_Type(1);
         //       Math.floor(33.99)
@@ -436,14 +437,17 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         });
 
         if (!flag) {
+            $("#MaskMain").unmask();
             alert("输入信息有误！");
             return false;
         }
         if (!sxnu.Title().trim() || sxnu.Item().length < 1 || !sxnu.IsFZandTime(sxnu.Time())) {
+            $("#MaskMain").unmask();
             alert("输入信息有误！");
             return false;
         }
         if (IsRepeat(strArray)) {
+            $("#MaskMain").unmask();
             alert("不能添加重复项！");
             return false;
         }
@@ -462,11 +466,14 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 var temp = new sxnu.ST_Model(result.ReturnADD_ID, sxnu.Globle_OrderNum(), DataModel.wt_Type);
                 sxnu.ShowSTByLoccation(temp);
                 sxnu.Globle_OrderNum(sxnu.Globle_OrderNum() + 1);
+                $("#MaskMain").unmask();
             } else {
                 alert("保存失败！");
+                $("#MaskMain").unmask();
             }
         }).fail(function () {
             alert("保存失败！");
+            $("#MaskMain").unmask();
         });
     }
 
@@ -791,19 +798,19 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
             }
         });
         uploader.on('fileQueued', function (file) {
-
+            console.log("==============f1");
         });
         uploader.on('uploadProgress', function (file, percentage) {
-
+            console.log("==============2");
         });
         uploader.on('uploadError', function (file) {
-
+            console.log("==============3");
         });
         uploader.on('uploadComplete', function (file) {
-
+            console.log("==============k4");
         });
         uploader.on("uploadFinished", function () {
-
+            console.log("==============fck5");
         });
     }
 
@@ -823,6 +830,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.other2 = ko.observableArray();
 
     sxnu.Save_duox = function () {
+        $("#MaskMain").mask("正在处理.......");
         sxnu.ST_Type(2);
         var flag = true;
         var fromDataModel = {
@@ -902,6 +910,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
 
     // 保存问答题
     sxnu.Save_wd = function () {
+        $("#MaskMain").mask("正在处理.......");
         sxnu.ST_Type(3);
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
@@ -940,6 +949,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
     sxnu.Time4 = ko.observable(0);
     sxnu.Title_pic_vido4 = ko.observableArray();
     sxnu.Save_zh = function () {
+        $("#MaskMain").mask("正在处理.......");
         sxnu.ST_Type(4);
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
@@ -971,9 +981,11 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
                 window.location.href = "/Admin/Question/Subst?ID=" + result.ReturnADD_ID + "&wjID=" + fromDataModel.wt_WJID;
             } else {
                 alert("保存失败！");
+                $("#MaskMain").unmask();
             }
         }).fail(function () {
             alert("保存失败！");
+            $("#MaskMain").unmask();
         });
     }
 
@@ -1013,6 +1025,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         sxnu.AnswerList.remove(val);
     }
     sxnu.Save_bg = function () {
+        $("#MaskMain").mask("正在处理.......");
         sxnu.ST_Type(5);
         var fromDataModel = {
             wt_WJID: $("#WJ_ID").val(),
@@ -1840,6 +1853,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     }
 
     sxnu.Save_dx = function () {
+        
         var flag = true;
         sxnu.ST_Type(1);
         var sunDbOrder = (sxnu.CurrentST_SubSTMaxNum() + 1) < 10 ? ".0" + (sxnu.CurrentST_SubSTMaxNum() + 1) : "." + (sxnu.CurrentST_SubSTMaxNum() + 1);
@@ -1887,17 +1901,21 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
         });
         fromDataModel.wt_Options = JSON.stringify(ItemArray);
         if (!flag) {
+            
             alert("输入信息有误！");
             return false;
         }
         if (!sxnu.Title().trim() || sxnu.Item().length < 1 || !sxnu.IsFZandTime(sxnu.Time())) {
+            
             alert("输入信息有误！");
             return false;
         }
         if (IsRepeat(strArray)) {
+             
             alert("不能添加重复项！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
 
     }
@@ -1912,11 +1930,14 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
                 sxnu.GetMaxSubList();
                 var temp = { dbID: result.ReturnADD_ID, type: DataModel.wt_Type, ShowNum: sxnu.Parent_OrderNum() + '.' + (sxnu.CurrentST_SubSTMaxNum()) };
                 sxnu.Load_ST_List(temp);
+                $("#MaskMain").unmask();
             } else {
                 alert("保存失败！");
+                $("#MaskMain").unmask();
             }
         }).fail(function () {
             alert("保存失败！");
+            $("#MaskMain").unmask();
         });
     }
 
@@ -1934,6 +1955,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
     sxnu.other2 = ko.observableArray();
 
     sxnu.Save_duox = function () {
+        
         sxnu.ST_Type(2);
         var flag = true;
         var sunDbOrder = (sxnu.CurrentST_SubSTMaxNum() + 1) < 10 ? ".0" + (sxnu.CurrentST_SubSTMaxNum() + 1) : "." + (sxnu.CurrentST_SubSTMaxNum() + 1)
@@ -1992,6 +2014,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             alert("不能添加重复项！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================多选题   结束===========
@@ -2013,6 +2036,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
 
     // 保存问答题
     sxnu.Save_wd = function () {
+        
         sxnu.ST_Type(3);
         var sunDbOrder = (sxnu.CurrentST_SubSTMaxNum() + 1) < 10 ? ".0" + (sxnu.CurrentST_SubSTMaxNum() + 1) : "." + (sxnu.CurrentST_SubSTMaxNum() + 1)
         var fromDataModel = {
@@ -2039,6 +2063,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================问答题   结束===========
@@ -2130,6 +2155,7 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             alert("答案 或 内容项存在重复！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
     }
 
@@ -2367,27 +2393,6 @@ var SXNU_ViewModel_sjSub = function ($, currentDom) {
             }
         }, this);
     }
-
-    //sxnu.ShowSTByLoccation = function (val) {
-    //    // 元素id  'StNum_'+dbID()
-    //    var dbid = 0;
-    //    $("#st_numLisr a").removeClass("wly_menber_hov");
-    //    if ("subNum" in val) {
-    //        $("#dbid_" + val.dbID()).addClass("wly_menber_hov");
-    //        dbid = val.dbID();
-    //    } else {
-    //        $("#dbid_" + val.dbID).addClass("wly_menber_hov");
-    //        dbid = val.dbID;
-    //    }
-
-
-    //    $.each(sxnu.Globle_STList(), function (index, val) {
-    //        if (val.wt_ID == dbid) {
-    //            console.log(dbid + '==========' + val.wt_ID);
-    //        }
-    //    });
-    //}
-
     sxnu.Init_Vido = function () {
         if (sxnu.ShowSTInfo().length > 0) {
             $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
@@ -3491,6 +3496,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
 
     sxnu.Save_dx = function () {
+        
         var flag = true;
         sxnu.ST_Type(1);
         var fromDataModel = {
@@ -3546,6 +3552,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             alert("不能添加重复项！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         fromDataModel.wt_Options = JSON.stringify(ItemArray);
         sxnu.Save_Ajax(fromDataModel);
 
@@ -3554,12 +3561,15 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
         $.ajax("/Admin/Question/Modeify_ST", { async: true, type: "POST", cache: false, data: DataModel, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 alert("修改成功！");
+                $("#MaskMain").unmask();
                 window.location.href = "/Admin/Question/Step4?ID=" + DataModel.wt_WJID;
             } else {
                 alert("修改失败！");
+                $("#MaskMain").unmask();
             }
         }).fail(function () {
             alert("请求失败！");
+            $("#MaskMain").unmask();
         });
     }
     //==================单选题   结束===========
@@ -3576,6 +3586,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
     sxnu.other2 = ko.observableArray();
 
     sxnu.Save_duox = function () {
+        
         sxnu.ST_Type(2);
         var flag = true;
         var fromDataModel = {
@@ -3634,6 +3645,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             alert("不能添加重复项！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================多选题   结束===========
@@ -3655,6 +3667,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
 
     // 保存问答题
     sxnu.Save_wd = function () {
+       
         sxnu.ST_Type(3);
         var fromDataModel = {
             wt_ID: sxnu.sj_ID(),
@@ -3681,6 +3694,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
     }
     //==================问答题   结束===========
@@ -3715,6 +3729,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             alert("输入信息有误！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         sxnu.Save_Ajax(fromDataModel);
         //$.ajax("/Admin/Question/Save_ZHST", { async: true, type: "POST", cache: false, data: fromDataModel, dataType: "json", }).then(function (result) {
         //    if (result.IsSuccess) {
@@ -3764,6 +3779,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
         sxnu.AnswerList.remove(val);
     }
     sxnu.Save_bg = function () {
+        
         sxnu.ST_Type(5);
         var fromDataModel = {
             wt_ID: sxnu.sj_ID(),
@@ -3818,6 +3834,7 @@ var SXNU_ViewModel_ModifyST = function ($, currentDom) {
             alert("答案 或 内容项存在重复！");
             return false;
         }
+        $("#MaskMain").mask("正在处理.......");
         fromDataModel.wt_Options = JSON.stringify(bg);
         sxnu.Save_Ajax(fromDataModel);
     }

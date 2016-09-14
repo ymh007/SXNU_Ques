@@ -486,14 +486,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             DataTable wj = SqlStr_Process.GetWJByID_Answer(wjid);
             string wj_Title = wj.Rows[0]["wj_Title"].ToString();
-            Stream fs = Export_Excle.RenderDataTableToExcel(wjid, wj_Title);
+            Stream fs = Export_Excle.RenderDataTableToExcel(wjid,wj);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);
             fs.Close();
             Response.Charset = "UTF-8";
             Response.ContentEncoding = System.Text.Encoding.GetEncoding("UTF-8");
             Response.ContentType = "application/octet-stream";
-            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode(wj_Title + ".xls"));
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlEncode(wj_Title.Trim() + ".xls"));
             Response.BinaryWrite(bytes);
             Response.Flush();
             Response.End();
