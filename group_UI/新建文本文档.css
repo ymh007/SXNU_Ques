@@ -1,0 +1,104 @@
+.wly_make {
+    display: block;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    background: #841c21;
+    color: #FFF;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+    border: 0px;
+    font-family: "Î¢ÈíÑÅºÚ";
+    border-radius: 5px;
+}
+
+.wly_more {
+    width: 330px;
+    height: 180px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #FFF;
+    border-radius: 10px;
+    z-index: 12;
+    overflow: hidden;
+    display: none;
+}
+
+.wly_more_z {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #000;
+    z-index: 11;
+    filter: alpha(opacity=50);
+    /*IEÂË¾µ£¬Í¸Ã÷¶È50%*/
+    -moz-opacity: 0.5;
+    /*FirefoxË½ÓÐ£¬Í¸Ã÷¶È50%*/
+    opacity: 0.5;
+    /*ÆäËû£¬Í¸Ã÷¶È50%*/
+    display: none;
+}
+.wly_more_title{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background: #e4e7ea;
+    color: #841c21;
+}
+.wly_more_main{
+    position: relative;
+}
+.wly_more_main input{
+    width: 130px;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid #841c21;
+    border-radius: 5px;
+}
+.wly_Null{
+    position: absolute;
+    color: red;
+    left: 155px;
+    top:35px;
+    display: none;
+}
+.wly_more_button{
+    width: 240px;
+    margin: 0 auto;
+}
+.wly_more_button input{
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Î¢ÈíÑÅºÚ";
+}
+.wly_more_Y{
+    background: #841c21;
+    color: #FFF;
+    float: left;
+}
+.wly_more_N{
+    background: #e4e7ea;
+    color: #000;
+    float: right;
+}
+.wly_zz input{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    background: #841c21;
+    color: #FFF;
+    padding: 0 10px;
+    cursor: pointer;
+    border: 0px;
+    margin: 10px 10px 0 0; 
+    font-family: "Î¢ÈíÑÅºÚ";
+}
