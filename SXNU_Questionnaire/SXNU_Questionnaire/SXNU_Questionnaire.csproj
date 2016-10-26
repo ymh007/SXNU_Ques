@@ -14,8 +14,7 @@
     <RootNamespace>SXNU_Questionnaire</RootNamespace>
     <AssemblyName>SXNU_Questionnaire</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -329,6 +328,7 @@
     <Content Include="Areas\Admin\Views\Question\Modst.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_StShow.cshtml" />
     <Content Include="Views\Ques\ViewAnswer.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Group.cshtml" />
     <None Include="Properties\PublishProfiles\ww.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\add_data.js" />
@@ -408,7 +408,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3085</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

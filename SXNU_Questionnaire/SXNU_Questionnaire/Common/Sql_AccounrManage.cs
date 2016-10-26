@@ -238,7 +238,7 @@ namespace SXNU_Questionnaire.Common
 
 
     /// <summary>
-    /// 账号管理
+    /// 通知管理
     /// </summary>
     public class Sql_NoticeManage
     {
@@ -280,7 +280,7 @@ namespace SXNU_Questionnaire.Common
 
 
         /// <summary>
-        /// 修改用户信息
+        /// 修改通知信息
         /// </summary>
         /// <param name="u"></param>
         /// <returns></returns>
@@ -615,6 +615,122 @@ namespace SXNU_Questionnaire.Common
             return js;
         }
 
+
+
+        /// <summary>
+        /// 添加分组
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Add_Group(Total_Group DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" INSERT INTO [dbo].[Total_Group]
+                               ([GroupName]
+                               ,[WJID]
+                               ,[IDValue] )
+                         VALUES
+                               (@GroupName,
+                                @WJID,
+                                @IDValue);SELECT @ID=SCOPE_IDENTITY();";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@GroupName",DX.GroupName),
+                new SqlParameter("@WJID",DX.WJID),
+                new SqlParameter("@IDValue",DX.IDValue), 
+                new SqlParameter("@ID",SqlDbType.Int){Direction = ParameterDirection.Output}
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                    js.ReturnADD_ID = int.Parse(commandParameters[3].Value.ToString());
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+        /// <summary>
+        ///  删除分组
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Del_Group(int ID)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" DELETE [SXNU_Questionnaire].[dbo].[Total_Group]  WHERE ID=@ID ";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@ID", ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
+
+
+        /// <summary>
+        ///  修改分组
+        /// </summary>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static JsMessage Modify_Group(Total_Group DX)
+        {
+            JsMessage js = new JsMessage();
+            string SqlStr = @" UPDATE [dbo].[Total_Group]
+                           SET [GroupName]= @GroupName,
+                              [WJID]      =  @WJID,
+                              [IDValue]     =  @IDValue, 
+                         WHERE ID=@ID ";
+            SqlParameter[] commandParameters = new SqlParameter[]{
+                new SqlParameter("@GroupName",SqlDbType.NVarChar,50){Value=DX.GroupName},
+                new SqlParameter("@WJID",DX.WJID),
+                new SqlParameter("@IDValue",DX.IDValue), 
+                new SqlParameter("@ID",DX.ID)
+            };
+            try
+            {
+                int flg = SqlHelper.ExecteNonQueryText(SqlStr, commandParameters);
+                if (flg == 1)
+                {
+                    js.IsSuccess = true;
+                }
+                else
+                {
+                    js.IsSuccess = false;
+                }
+            }
+            catch (SqlException ex)
+            {
+                js.IsSuccess = false;
+                js.ErrorMsg = ex.ToString();
+            }
+            return js;
+        }
     }
 
 
@@ -971,18 +1087,7 @@ namespace SXNU_Questionnaire.Common
                 js.ErrorMsg = ex.ToString();
             }
             return js;
-        }
-
-
-
-
-
-
-
-
-
-
-
+        }  
     }
 
 

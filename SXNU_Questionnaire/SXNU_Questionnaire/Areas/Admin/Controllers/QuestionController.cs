@@ -86,9 +86,9 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
                     {
                         dt.Rows[i]["IsExpire"] = "n";
                     }
-                    string title=dt.Rows[i]["wj_Title"].ToString();
-                    string projectso=dt.Rows[i]["wj_ProjectSource"].ToString();
-                    if (title.Length > 10) 
+                    string title = dt.Rows[i]["wj_Title"].ToString();
+                    string projectso = dt.Rows[i]["wj_ProjectSource"].ToString();
+                    if (title.Length > 10)
                     {
                         dt.Rows[i]["wj_Title"] = title.Substring(0, 10) + "...";
                     }
@@ -153,7 +153,18 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             }
         }
 
-
+        public ActionResult Group(int ID)
+        {
+            if (ID > 0)
+            {
+                ViewBag.WJ_ID = ID;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Step1", "Question", new { ID = 0 });
+            }
+        }
         public ActionResult GetWJByID(int ID)
         {
             string Fields = "wj_ID ,wj_Number,wj_Status,wj_Title,wj_BeginPic,wj_PageSize,wj_ProjectSource,wj_Time, CONVERT(varchar(100),  wj_ValidStart, 23) As wj_ValidStart,CONVERT(varchar(100),  wj_ValidEnd, 23) As wj_ValidEnd ,wj_BeginBody,wj_BaseInfo";
@@ -216,7 +227,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             {
                 //try
                 //{
-                   
+
                 //}
                 //catch(Exception ex)
                 //{
@@ -486,7 +497,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
         {
             DataTable wj = SqlStr_Process.GetWJByID_Answer(wjid);
             string wj_Title = wj.Rows[0]["wj_Title"].ToString();
-            Stream fs = Export_Excle.RenderDataTableToExcel(wjid,wj);
+            Stream fs = Export_Excle.RenderDataTableToExcel(wjid, wj);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);
             fs.Close();
@@ -546,5 +557,63 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
         #endregion ========================导出文件==============结束===========
 
+
+        /// <summary>
+        /// 删除组名称
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Delete_Group(int ID)
+        {
+            JsMessage jm = null;
+            string ResultStr = string.Empty;
+            jm = Sql_QuestionManage.Del_Group(ID);
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
+        /// <summary>
+        /// 保存分组信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Save_Group(Total_Group dx)
+        {
+            JsMessage jm = null;
+            string ResultStr = string.Empty;
+            if (dx.ID != 0)
+            {
+                jm = Sql_QuestionManage.Modify_Group(dx);
+            }
+            else
+            {
+                if (!SqlStr_Process.GetGroupByID(dx.WJID, dx.GroupName))
+                {
+                    jm = Sql_QuestionManage.Add_Group(dx);
+                }
+                else
+                {
+                    jm.ErrorMsg = "组别名称重复";
+                }
+            }
+            ResultStr = JsonTool.ObjToJson(jm);
+            return Content(ResultStr);
+        }
+
+        /// <summary>
+        /// 获取分组列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetGroupsBy_WJID(int ID)
+        {
+            DataTable dt = SqlStr_Process.GetGroupByID(ID);
+            return Content(JsonTool.DtToJson(dt));
+        }
+        public ActionResult CheckGroupName(int ID, string Name)
+        {
+            JsMessage jm = new JsMessage();
+            string ResultStr = string.Empty;
+            jm.IsExist = SqlStr_Process.GetGroupByID(ID, Name);
+            return Content(JsonTool.ObjToJson(jm));
+        }
+
     }
-} 
+}

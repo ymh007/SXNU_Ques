@@ -51,5 +51,14 @@ namespace SXNU_Questionnaire.Areas.Admin.Models
 
         public string Http_url { get; set; }
     }
+
+    public class Total_Group
+    {
+        public int  ID { get; set; }
+        public string GroupName { get; set; }
+        public int WJID { get; set; }
+        public string IDValue { get; set; }
+        
+    }
      
 }

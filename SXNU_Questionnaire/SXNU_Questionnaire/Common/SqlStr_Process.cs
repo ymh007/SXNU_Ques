@@ -128,8 +128,38 @@ namespace SXNU_Questionnaire.Common
 
         }
 
+        /// <summary>
+        /// 根据问卷id 获取分组
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetGroupByID(int wjid)
+        {
 
+            string SqlStr = "SELECT  [ID],[GroupName] ,[WJID] ,[IDValue] FROM [SXNU_Questionnaire].[dbo].[Total_Group] WHERE WJID=" + wjid +" order by ID";
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            return SqlHelper.GetTable(CommandType.Text, SqlStr, commandParameters)[0];
 
+        }
+
+        /// <summary>
+        /// 检查名称是否重复
+        /// </summary>
+        /// <param name="wjid"></param>
+        /// <param name="name"></param>
+        /// <returns> 返回 true 存在</returns>
+        public static bool GetGroupByID(int wjid,string name)
+        {
+            string SqlStr = "SELECT  count(1) FROM [SXNU_Questionnaire].[dbo].[Total_Group] WHERE WJID=" + wjid + "and  GroupName='"+name+"'";
+            SqlParameter[] commandParameters = new SqlParameter[] { };
+            int result =int.Parse(SqlHelper.ExecuteScalar(CommandType.Text, SqlStr, commandParameters).ToString());
+            if (result > 0)
+            {
+                return true;
+            }
+            else {
+                return false;
+            } 
+        }
         /// <summary>
         /// 分页获取数据  可自定义字段  CONVERT(varchar(100), GETDATE(), 23): 2006-05-16
         /// </summary>
@@ -271,7 +301,7 @@ namespace SXNU_Questionnaire.Common
         /// <returns></returns>
         public static DataTable GetAnswer_Excel(int wjid, int AuID)
         {
-            string SqlStr = "select  wt.wt_OrderNum ,answer.an_leapfrog,answer.an_Invalid,answer.an_Result,answer.an_wtType "
+            string SqlStr = "select  wt.wt_OrderNum ,answer.an_leapfrog,answer.an_Invalid,answer.an_Result,answer.an_wtType , wt.wt_ID "
             + "from [dbo].[WT] wt join  [dbo].[Answer] answer  on wt.wt_ID=answer.an_wtID  where wt.wt_WJID=" + wjid + "  and   an_wtType!='4' and  answer.an_auID=" + AuID + " order by  cast(wt.wt_OrderNum as float)  ";
             return SqlStr_Process.GetIndexData(SqlStr);
         }

@@ -20,7 +20,7 @@
 			<Metadata Name="IsVisible" Value="True" />
 			<Metadata Name="IsModelAware" Value="True" />
 			<Metadata Name="SkipCreationIfEmpty" Value="True" />
-			<Metadata Name="AssemblySymbolsName" Value="G:\gitup_project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\SXNU_SqlScript.pdb" />
+			<Metadata Name="AssemblySymbolsName" Value="G:\Gitup_Project\SXNU_Questionnaire\SXNU_SqlScript\obj\Debug\SXNU_SqlScript.pdb" />
 		</CustomData>
 		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
 	</Header>

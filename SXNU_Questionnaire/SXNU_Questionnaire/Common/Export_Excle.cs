@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using NPOI.SS.Util;
 using System.Collections.Generic;
 
+
 namespace SXNU_Questionnaire.Common
 {
 
@@ -34,10 +35,10 @@ namespace SXNU_Questionnaire.Common
         public string iv { get; set; }
     }
 
-    #region============== 答案json 对象 
+    #region============== 答案json 对象
 
 
-    public class dx 
+    public class dx
     {
         public string an { get; set; }
         public string ov { get; set; }
@@ -46,15 +47,12 @@ namespace SXNU_Questionnaire.Common
     }
     public class BiaoGeTi_M
     {
-        
+
         public string a { get; set; }
-      
+
         public string f { get; set; }
     }
     #endregion
-
-
-
 
 
     public class Export_Excle
@@ -113,7 +111,7 @@ namespace SXNU_Questionnaire.Common
         /// </summary>
         /// <param name="SourceTable"></param>
         /// <returns></returns>
-        public static Stream RenderDataTableToExcel(int wjid,DataTable wjTable)
+        public static Stream RenderDataTableToExcel(int wjid, DataTable wjTable)
         {
             List<WT_Model> WtList = Export_Excle.ProcessDataOrder(wjid);
             DataTable AnserInfo_all = SqlStr_Process.Get_AnswerInfoByWJID(wjid);
@@ -125,7 +123,7 @@ namespace SXNU_Questionnaire.Common
 
             #region 表头及样式
 
-          
+
 
 
 
@@ -168,7 +166,7 @@ namespace SXNU_Questionnaire.Common
             ICellStyle Row0_C0 = workbook.CreateCellStyle();
             Row0_C0.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             Row0_C0.VerticalAlignment = VerticalAlignment.Center;
-         
+
             IFont rc_font = workbook.CreateFont();
             rc_font.FontHeight = 12;
             //rc_font.Color = (short)FontColor.Normal;
@@ -182,20 +180,20 @@ namespace SXNU_Questionnaire.Common
             ICellStyle Row_list = workbook.CreateCellStyle();
             Row_list.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             Row_list.VerticalAlignment = VerticalAlignment.Center;
-        
+
             IRow ParentNum = sheet.CreateRow(1);
             //ParentNum.HeightInPoints = 20;
 
             IRow SubNum = sheet.CreateRow(2);
             //SubNum.HeightInPoints = 20;
-            ParentNum.CreateCell(0).SetCellValue("填表人 / 题号"); 
+            ParentNum.CreateCell(0).SetCellValue("填表人 / 题号");
             SubNum.CreateCell(0).SetCellValue("姓名");
             List<Auswer_Filed> Baseinfo_list = JsonTool.JSONStringToList<Auswer_Filed>(wjTable.Rows[0]["wj_BaseInfo"].ToString());
-            
-            for (int x = 0; x < Baseinfo_list.Count; x++) 
+            DataTable Groups = SqlStr_Process.GetGroupByID(wjid);
+            for (int x = 0; x < Baseinfo_list.Count; x++)
             {
                 ParentNum.CreateCell(x + 1).SetCellValue("");
-                SubNum.CreateCell(x+1).SetCellValue(Baseinfo_list[x].tit);
+                SubNum.CreateCell(x + 1).SetCellValue(Baseinfo_list[x].tit);
             }
             sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, Baseinfo_list.Count));
             int num_p = Baseinfo_list.Count;
@@ -223,10 +221,31 @@ namespace SXNU_Questionnaire.Common
                     sheet.AddMergedRegion(new CellRangeAddress(1, 1, (num_p - WtList[p].Sublist.Count + 1), num_p));
                 }
             }
-            
+
+
+            // 分组
+            Dictionary<int, List<int>> Group_Cell_Num = new Dictionary<int, List<int>>();
+            if (Groups != null)
+            {
+                for (int f = 0; f < Groups.Rows.Count; f++)
+                {
+                    num_p++;
+                    ParentNum.CreateCell(num_p).SetCellValue(Groups.Rows[f]["GroupName"].ToString());
+                    SubNum.CreateCell(num_p).SetCellValue("");
+                    ParentNum.GetCell(num_p).CellStyle = headStyle2;
+                    SubNum.GetCell(num_p).CellStyle = headStyle2;
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, num_p, num_p));
+                    List<int> IdList = JsonTool.JSONStringToList<int>(Groups.Rows[f]["IDValue"].ToString());
+                    Group_Cell_Num.Add(num_p, IdList);
+                }
+            }
+
+            // end 分组
+
+
             ParentNum.GetCell(0).CellStyle = Row0_C0;
             #endregion
-            int base_col = Baseinfo_list.Count+1;
+            int base_col = Baseinfo_list.Count + 1;
 
             #region ======== 添加答题答案=====
 
@@ -238,100 +257,127 @@ namespace SXNU_Questionnaire.Common
                 {
                     IRow Answer_row = sheet.CreateRow(x + 3);
                     List<Auswer_Filed> Item_list = JsonTool.JSONStringToList<Auswer_Filed>(AnserInfo_all.Rows[x]["au_AnswerUserInfo"].ToString());
-                    u_info =AnserInfo_all.Rows[x]["au_Name"].ToString();
+                    u_info = AnserInfo_all.Rows[x]["au_Name"].ToString();
                     Answer_row.CreateCell(0).SetCellValue(u_info);
                     for (int g = 0; g < Item_list.Count; g++)
                     {
                         Answer_row.CreateCell(g + 1).SetCellValue(Item_list[g].iv);
                     }
                     int AU_ID = int.Parse(AnserInfo_all.Rows[x]["au_ID"].ToString());
-                    DataTable a_list = SqlStr_Process.GetAnswer_Excel(wjid,AU_ID); // 开始处理数据
-
+                    DataTable a_list = SqlStr_Process.GetAnswer_Excel(wjid, AU_ID); // 开始处理数据
+                    int Total_FZ = 0;
+                    foreach (var cv in Group_Cell_Num)
+                    {
+                        Answer_row.CreateCell(cv.Key).SetCellValue(0);
+                    }
                     for (int y = 0; y < a_list.Rows.Count; y++)
                     {
-                        string type=a_list.Rows[y]["an_wtType"].ToString();
-                        string an_leapfrog=a_list.Rows[y]["an_leapfrog"].ToString();
-                        string an_Invalid=a_list.Rows[y]["an_Invalid"].ToString();
+                        int WTID = int.Parse(a_list.Rows[y]["wt_ID"].ToString());
+                        string type = a_list.Rows[y]["an_wtType"].ToString();
+                        string an_leapfrog = a_list.Rows[y]["an_leapfrog"].ToString();
+                        string an_Invalid = a_list.Rows[y]["an_Invalid"].ToString();
                         string value = "";
                         string Answer_Json = a_list.Rows[y]["an_Result"].ToString() == "" ? "[]" : a_list.Rows[y]["an_Result"].ToString();
-                        if (an_leapfrog != "y" || an_Invalid != "y")
+                        //if (an_leapfrog != "y" || an_Invalid != "y")
+                        //{
+                        switch (type)
                         {
-                            switch (type)
-                            {
-                                case "1":
-                                    dx Answer_dx = (dx)JsonTool.ConvertToList(Answer_Json, new dx().GetType());
+                            case "1":
+                                dx Answer_dx = (dx)JsonTool.ConvertToList(Answer_Json, new dx().GetType());
+                                if (Answer_dx != null)
+                                {
                                     value = Answer_dx.fz;
-                                    break;
-                                case "2":
-                                    List<dx> Answer_dux = JsonTool.JSONStringToList<dx>(Answer_Json);
-                                    foreach (dx d in Answer_dux)
+                                }
+                                else { value = ""; }
+                                Total_FZ = int.Parse(value);
+                                break;
+                            case "2":
+                                List<dx> Answer_dux = JsonTool.JSONStringToList<dx>(Answer_Json);
+                                foreach (dx d in Answer_dux)
+                                {
+                                    if (d.ov == "")
                                     {
-                                        if (d.ov == "")
-                                        {
-                                            value += d.fz + ",";
-                                        }
-                                        else
-                                        {
-                                            value += d.fz + ",";
-                                        }
+                                        value += d.fz + ",";
                                     }
-                                    if (value.Length > 1)
+                                    else
                                     {
-                                        value.Substring(0, value.Length - 1);
+                                        value += d.fz + ",";
                                     }
-                                    break;
-                                case "3":
-                                    List<string> Answer_wd = JsonTool.JSONStringToList<string>(Answer_Json);
-                                    foreach (string d in Answer_wd)
-                                    {
-                                        value += d + ",";
-                                    }
-                                    if (Answer_wd.Count > 1)
-                                    {
-                                        value = Answer_wd.Count + " ;" + value;
-                                    }
-                                    if (value.Length > 1)
-                                    {
-                                        value.Substring(0, value.Length - 1);
-                                    }
+                                    Total_FZ += int.Parse(d.fz);
+                                }
+                                if (value.Length > 1)
+                                {
+                                    value.Substring(0, value.Length - 1);
+                                }
+                                break;
+                            case "3":
+                                List<string> Answer_wd = JsonTool.JSONStringToList<string>(Answer_Json);
+                                foreach (string d in Answer_wd)
+                                {
+                                    value += d + ",";
+                                }
+                                if (Answer_wd.Count > 1)
+                                {
+                                    value = Answer_wd.Count + " ;" + value;
+                                }
+                                if (value.Length > 1)
+                                {
+                                    value.Substring(0, value.Length - 1);
+                                }
 
-                                    break;
-                                //case "4":
+                                break;
+                            //case "4":
 
-                                //    break;
-                                case "5":
-                                    List<BiaoGeTi_M> Answer_bg = null;
-                                    try
-                                    { 
-                                     Answer_bg = JsonTool.JSONStringToList<BiaoGeTi_M>(Answer_Json);
-                                    }
-                                    catch(Exception ex)
-                                    {
-                                        Answer_bg = new List<BiaoGeTi_M>();
-                                        value = "";
-                                    }
-                                    
-                                    foreach (BiaoGeTi_M d in Answer_bg)
-                                    {
-                                        value += d.f + ";";
-                                    }
-                                    //value.Substring(0, value.Length - 1);
-                                    break;
-                            }
+                            //    break;
+                            case "5":
+                                List<BiaoGeTi_M> Answer_bg = null;
+                                try
+                                {
+                                    Answer_bg = JsonTool.JSONStringToList<BiaoGeTi_M>(Answer_Json);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Answer_bg = new List<BiaoGeTi_M>();
+                                    value = "";
+                                }
 
+                                foreach (BiaoGeTi_M d in Answer_bg)
+                                {
+                                    value += d.f + ";";
+                                    Total_FZ += int.Parse(d.f);
+                                }
+                                //value.Substring(0, value.Length - 1);
+                                break;
                         }
-                        else {
-                            value = "未作答";
+
+                        // }
+                        if (an_Invalid == "y")
+                        {
+                            value = "超时";
+                        }
+                        if (an_leapfrog == "y")
+                        {
+                            value = "关联跳过";
                         }
                         Answer_row.CreateCell(y + base_col).SetCellValue(value);
                         Answer_row.GetCell(y + base_col).CellStyle = Row_list;
+
+                        foreach (var cv in Group_Cell_Num)
+                        {
+                            if (cv.Value.Contains(WTID))
+                            {
+                                int tempValue = int.Parse(Answer_row.GetCell(cv.Key).NumericCellValue.ToString());
+                                Answer_row.GetCell(cv.Key).SetCellValue(Total_FZ + tempValue);
+                                break;
+                            }
+                        }
                     }
                 }
             }
 
 
             #endregion
-             
+
             workbook.Write(ms);
             ms.Flush();
             ms.Position = 0;

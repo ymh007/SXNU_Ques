@@ -36,7 +36,7 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
                 alert("问卷时间格式不正确");
                 return false;
             }
-        }
+       }
 
         if (!sxnu.ValidStart() || !sxnu.ValidEnd()) {
             alert("请设置问卷有效期！");
@@ -76,11 +76,14 @@ var SXNU_ViewModel_Ques1 = function ($, currentDom) {
         return false;
     }
     sxnu.IsNumber = function (val) {
-        var patrn = /^\+?[1-9][0-9]*$/;
+		 
+			 var patrn = /^\+?[1-9][0-9]*$/;
         if (patrn.test(val)) {
             return true;
         }
         return false;
+		 
+       
     }
 
 
@@ -971,6 +974,7 @@ var SXNU_ViewModel_Ques3 = function ($, currentDom) {
         fromDataModel.wt_Problem = baseInfo.length == 0 ? "" : JSON.stringify(baseInfo);
         if (!sxnu.Title4().trim() || !sxnu.IsFZandTime(sxnu.Time4())) {
             alert("输入信息有误！");
+            $("#MaskMain").unmask();
             return false;
         }
         //sxnu.Save_Ajax(fromDataModel);
@@ -2696,7 +2700,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
     }
     sxnu.ST_up = function (val) {
         if (val.index == 0) { return; }
-        //$("#MaskMain").mask("正在加载.......");
+        $("#MaskMain").mask("正在加载.......");
         var Up_Down = {
             Pro_ID: val.ID,
             Pro_Num: sxnu.s4_DataArray()[val.index - 1].stNum,
@@ -2705,7 +2709,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             Next_Num: val.stNum,
             Next_PID: val.pID
         }
-        if (Up_Down.Pro_PID != Up_Down.Next_PID) { alert("子试题无法进行次操作！"); $("#MaskMain").unmask(); return false; }
+      if (Up_Down.Pro_PID != Up_Down.Next_PID) { alert("子试题无法进行次操作！"); $("#MaskMain").unmask(); return false; }
 
         $.ajax("/Admin/Question/Set_UP_Down", { async: true, cache: false, type: "GET", data: Up_Down, dataType: "json" }).then(function (result) {
             if (result.IsSuccess) {
@@ -2739,7 +2743,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
         if (sxnu.s4_DataArray().length == 1 || (sxnu.s4_DataArray().length - 1) == val.index) {
             return;
         }
-        //$("#MaskMain").mask("正在加载.......");
+        $("#MaskMain").mask("正在加载.......");
         var Up_Down = {
             Pro_ID: sxnu.s4_DataArray()[val.index + 1].ID,
             Pro_Num: val.stNum,
@@ -2768,6 +2772,7 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
             }
         }).fail(function () {
             alert("系统异常！");
+            $("#MaskMain").unmask();
         });
 
     }
@@ -3029,14 +3034,14 @@ var SXNU_ViewModel_Ques4 = function ($, currentDom) {
                             }
                         });
 
-                        if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
-                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
-                            sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
+                        //if (sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID != "0") {
+                        //    sxnu.subNumList()[sxnu.subNumList().length - 1].wt_PID = "-1";
+                        //    sxnu.subNumList()[sxnu.subNumList().length - 1].wt_Type = "0";
 
-                        } else {
-                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
-                            sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
-                        }
+                        //} else {
+                        //    sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_PID = "-1";
+                        //    sxnu.ST_NumList()[sxnu.ST_NumList().length - 1].wt_Type = "0";
+                        //}
 
                         var parNum = 1;
                         $.each(sxnu.ST_NumList(), function (i, v) {

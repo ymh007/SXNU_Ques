@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutQues.cshtml";
+    ViewBag.flgStyle = "q";
+    ViewBag.Title = "问卷管理-问卷管理列表";
+}
+<script type="text/javascript">
+    $(function () {
+        var pageModel = new SXNU_ViewModel_Group($);
+        ko.applyBindings(pageModel, $("#ko_Question")[0]);
+    });
+</script>
+<div class="right p-w92">
+    <div class="admin_name admin_zi">问卷管理 -- <span>组别设置</span></div>
+    <div class="admin_frame min_h p-b30" id="ko_Question">
+        <div class="newly">
+            <ul >
+                <li><a href="/admin/Question/Step1?ID=@ViewBag.WJ_ID">1.填写问卷基本信息</a></li>
+                <li><a href="/admin/Question/Step2?ID=@ViewBag.WJ_ID">2.答卷人信息设置</a></li>
+                <li><a href="/admin/Question/Step3?ID=@ViewBag.WJ_ID">3.添加试题</a></li>
+                <li><a href="/admin/Question/Step4?ID=@ViewBag.WJ_ID">4.规则设置</a></li>
+                <li><a class="newly_hover" href="/admin/Question/Group?ID=@ViewBag.WJ_ID">5.组别设置</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
+        <div class="left p-w27 newly_bj">
+            <h3 class="h3">组别列表</h3>
+            <div class="newly_pad">
+                <div class="new_img m-t15">
+                    <ul data-bind="foreach:$root.Groups">
+                        <li>
+                            <a href="javascript:void(0)" data-bind="text:GroupName,click:$root.ViewSTList"></a>
+                            <img class="right m-t4" data-bind="click:$root.DeleteGroup" src="~/Content/images/admin/img3.jpg">
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div> 
+               
+                <div class="w-100 centers m-t40">
+                    <input value="添加分组" class="a_red w-120" type="button" data-bind="click:$root.AddGroup">
+                </div>
+            </div>
+        </div>
+
+        <div class="right wly m-l30 p-w70">
+            <div class="wly_name">已创建的试题编号：</div>
+            <div class="wly_menber">
+                <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
+                    <li> <input type="checkbox" /><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation"></a></li>
+                    <!-- ko if:  type()==4 -->
+                    <ul class="wly_ber" data-bind="foreach:subNum">
+                        <li> <input type="checkbox" /><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:'dbid_'+dbID},click:$root.ShowSTByLoccation">1.1</a></li>
+                    </ul>
+                    <!-- /ko -->
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+         
+        <div class="right wly m-l30 p-w70">
+            <div class="wly_name">组别1</div>
+            <div class="wly_menber">
+                <ul data-bind="foreach:$root.Group_NumList" id="st_numLisr">
+                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation">1</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div> 
+        
+        <div class="w-100 centers m-t40">
+            <input type="submit" value="保存分組信息" class="a_red w-120" data-bind="click:$root.Save_Ajax" />
+        </div>
+
+        <div class="dialog" id="s5_Group" title="添加分组">
+            <div class="dialog-body m-t10 m-b10">
+                <div class="m-t15">
+                    <div class="inf_left w-100"><span class="ind_red">*</span> 组名称：</div>
+                    <input maxlength="30" class="inf_text p-w98 left m-t10" data-bind="value:$root.GroupName,event: { blur: $root.CheckGroupName }" type="text">
+                    <div class="clear"></div>
+                </div>
+                <div class="w-100 centers m-t40">
+                    <input value="保 存" class="a_red w-120" type="button" data-bind="click:Save_Ajax">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

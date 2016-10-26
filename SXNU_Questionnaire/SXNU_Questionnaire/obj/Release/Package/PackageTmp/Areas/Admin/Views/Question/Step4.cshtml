@@ -47,14 +47,14 @@
                         @*<span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="javascript:void(0)" data-bind="click:function(){ $root.Set_Pageing(this)}">添加分页</a></span>
                             <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="#" data-bind="click:function(){ $root.Set_Pageing(this)}">取消分页</a></span>*@
 
-                        <!-- ko if:  pID==0 -->
+                        
                         <span class="ico vol_ico14 m-r20" data-bind="visible:pageing=='n'"><a href="javascript:void(0)" data-bind="click: $root.Set_Pageing">添加分页</a></span>
                         <span class="hei vol_ico14 m-r20" data-bind="visible:pageing=='y'"><a href="#" data-bind="click: $root.Set_Pageing">取消分页</a></span>
-                        <!-- /ko -->
-                        <!-- ko if:  pID==0 -->
+                        
+                        
                         <span class="hei vol_ico9 m-r20" data-bind="visible:!IsShowSl"><a href="javascript:void(0)" data-bind="click:$root.Cancel_Sleep">取消休息</a></span>
                         <span class="ico vol_ico9 m-r20" data-bind="visible:IsShowSl"><a class=" button button-big bg-main dialogs" data-bind="click:$root.Set_Sleep" href="#">设置休息</a></span>
-                        <!-- /ko -->
+                         
                         <!-- ko if: type==1 -->
                         <span class="ico vol_ico15" data-bind="visible:IsShowRe"><a class="button button-big bg-main dialogs" data-bind="click:$root.Set_Relation" href="#">相加关联</a></span>
                         <span class="ico_red vol_ico15" data-bind="visible:!IsShowRe"><a href="#" data-bind="click:$root.Del_Relation">删除关联</a></span>

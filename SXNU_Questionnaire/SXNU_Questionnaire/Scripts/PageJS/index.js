@@ -37,7 +37,7 @@
                     } else {
                         var max = 8, min = 1;
                         var name = parseInt(Math.random() * (max - min + 1) + min, 10);
-                        var defPath = "/Content/images/com/d" + name + ".jpg";
+                        var defPath = "/Content/images/com/" + name + ".jpg";
                         v.wj_BeginPic = defPath;
                     }
                     sxnu.newQuestion.push(v);
@@ -443,7 +443,7 @@ var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
         });
     }
     sxnu.GoTwoStep = function () {
-        //$("body").mask("正在加载.......");
+        $("body").mask("正在保存个人信息.......");
         var mode = {
             au_ID: "",
             au_wjID: sxnu.wj_id(),
@@ -472,13 +472,14 @@ var SXNU_ViewModel_Index_BaseInfo = function ($, currentDom) {
         }
         if (!flag) { $("body").unmask(); alert(msg); return false; }
         mode.au_AnswerUserInfo = JSON.stringify(dataArray);
-        $.ajax("/Ques/InsertBaseInfo", { async: true, type: "GET", cache: true, data: mode, dataType: "json", }).then(function (result) {
+        $.ajax("/Ques/InsertBaseInfo", { async: true, type: "POST", cache: true, data: mode, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
                 window.location.href = "/Ques/Answer?id=" + sxnu.wj_id() + "&aid=" + result.ReturnADD_ID;
             } else {
-                //$("body").unmask();
+                $("body").unmask();
             }
         }).fail(function () {
+            $("body").unmask();
             alert("系统异常！");
         });
     }
@@ -502,6 +503,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     sxnu.wj_ID = ko.observable(0);
     sxnu.au_id = ko.observable(0);
     sxnu.answerTime = ko.observable(0);
+    sxnu.Time_Desc = ko.observable("");
     sxnu.stType = {   //  数据库分别代表  1 2 3 4 5
         dx: "单选题",
         dux: "多选题",
@@ -853,10 +855,12 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     }
     //    1  点击下一页的时候   2点击提交问卷的时候 
     sxnu.NextPageWT = function () {
+        
         sxnu.SaveAnswer(1);
     }
 
     sxnu.SubmitedWJ = function () {
+        
         sxnu.SaveAnswer(2);
     }
 
@@ -890,7 +894,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                 sxnu.CurrentSleep_id(window.setInterval(function () {
                     sxnu.CurrentSleep_Time(sxnu.CurrentSleep_Time() - 1);
                     if (sxnu.CurrentSleep_Time() == 0) {
-                        if (sxnu.intDiff() != 0) {
+                        if (sxnu.intDiff() != 0 && !isNaN(sxnu.intDiff())) {
                             sxnu.StartTime(sxnu.intDiff());
                         } else {
                             sxnu.Empty_StartTime();
@@ -984,8 +988,8 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                 errorMsg = "请选择试题 " + item.ShowNum() + " 的答案！";
                                 return false;
                             }
-                           
-                            $.each(item.wt_Options(), function (x,y) {
+
+                            $.each(item.wt_Options(), function (x, y) {
                                 if (y.item() == item.answer()) {
                                     T_fz = y.fz();
                                 }
@@ -1003,14 +1007,14 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                             var duo2 = [];
                             $.each(item.wt_Options(), function (i, v) {
                                 if (v.ck()) {
-                                    duo2.push({ an: v.item(), ov: "",fz:v.fz() });
+                                    duo2.push({ an: v.item(), ov: "", fz: v.fz() });
                                 }
                             });
 
                             $.each(item.wt_OtherItem(), function (i, v) {
                                 if (v.ck()) {
                                     if ($.trim(v.ov())) {
-                                        duo2.push({ an: v.item(), ov: v.ov(),fz:v.fz() });
+                                        duo2.push({ an: v.item(), ov: v.ov(), fz: v.fz() });
                                     } else {
                                         flag = false;
                                         errorMsg = "请输入试题 " + item.ShowNum() + " 的答案！";
@@ -1080,7 +1084,14 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                     errorMsg = "请选择试题 " + item.ShowNum() + " 的  " + v.t() + " 答案！";
                                     return false;
                                 } else {
-                                    bg5.push({ a: v.ck(), f: v.f() });
+                                    var temp_f = 0;
+                                    $.each(item.AnswerList(), function (vx,vv) {
+                                        if (v.ck() == vv.a()) {
+                                            temp_f = vv.f()
+                                            return false
+                                        }
+                                    });
+                                    bg5.push({ a: v.ck(), f: temp_f });
                                 }
                             });
                             Save_Model.an_Result = JSON.stringify(bg5);
@@ -1105,6 +1116,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
             clearTimeout(sxnu.Current_TimeId());
             clearTimeout(sxnu.CurrentSleep_id());
             sxnu.CurrentWT_Time(0);
+            $("body").mask("正在保存答案.......");
             $.ajax("/Ques/SaveAnswer", { async: true, type: "POST", data: CommonMode, dataType: "json", }).then(function (result) {
                 if (result) {
                     if (result.IsSuccess) {
@@ -1126,11 +1138,14 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                         if (status == 2) {
                             sxnu.ShowSubmitedInfo();
                         }
+                        $("body").unmask();
                     } else {
+                        $("body").unmask(); 
                         alert("答案保存失败！");
                     }
                 }
             }).fail(function () {
+                $("body").unmask();
                 alert("添加答案保存失败！");
             });
 
@@ -1229,9 +1244,26 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
 
     }
     sxnu.Empty_StartTime = function () {
-        sxnu.IsShowTime(false);
+        sxnu.IsShowTime(true);
         sxnu.g_id(window.setInterval(function () {
             sxnu.Answer_Time(sxnu.Answer_Time() + 1);
+            var intDiff = sxnu.Answer_Time();
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+
+            day = Math.floor(intDiff / (60 * 60 * 24));
+            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            hour = hour == 0 ? "00" : hour;
+            var ShowTime = hour + ":" + minute + ":" + second;
+            $('#Countdown').text(ShowTime);
+
         }, 1000));
 
     }
@@ -1245,9 +1277,11 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
         sxnu.p_Path("f=../../../WJ_Attachment/" + $("#wj_id").val() + "/");
 
         sxnu.Load_ST_List();
-        if (sxnu.intDiff() != 0) {
+        if (sxnu.intDiff() != 0 && !isNaN(sxnu.intDiff())) {
+            sxnu.Time_Desc("剩余时间");
             sxnu.StartTime(sxnu.intDiff());
         } else {
+            sxnu.Time_Desc("总计时间");
             sxnu.Empty_StartTime();
         }
 
@@ -1901,7 +1935,7 @@ var SXNU_ViewModel_ViewAnswer = function ($, currentDom) {
     sxnu.Load_ST_List = function () {
         $("body").mask("正在加载.......");
         if (sxnu.wj_ID() != 0) {
-            $.ajax("/Ques/GetAnswerFinish", { async: true, type: "GET", cache: true, data: { wjid: sxnu.wj_ID(), auid: sxnu.au_id() }, dataType: "json", }).then(function (result) {
+            $.ajax("/Ques/GetAnswerFinish", { async: true, type: "POST", cache: true, data: { wjid: sxnu.wj_ID(), auid: sxnu.au_id() }, dataType: "json", }).then(function (result) {
                 if (result) {
                     sxnu.TotalWJ(result.aw.length);
                     var par_num = 1;
@@ -2533,12 +2567,29 @@ var SXNU_ViewModel_Preview = function ($, currentDom) {
 
     }
     sxnu.Empty_StartTime = function () {
-        sxnu.IsShowTime(false);
+        sxnu.IsShowTime(true);
         sxnu.g_id(window.setInterval(function () {
             sxnu.Answer_Time(sxnu.Answer_Time() + 1);
+            var intDiff = sxnu.Answer_Time();
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+
+            day = Math.floor(intDiff / (60 * 60 * 24));
+            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            hour = hour == 0 ? "00" : hour;
+            var ShowTime = hour + ":" + minute + ":" + second;
+            $('#Countdown').text(ShowTime);
         }, 1000));
 
     }
+    sxnu.Time_Desc = ko.observable("");
     sxnu.IsShowTime = ko.observable(true);
     sxnu.PageInit = function () {
         //$(window).bind('beforeunload', function () {
@@ -2551,8 +2602,10 @@ var SXNU_ViewModel_Preview = function ($, currentDom) {
 
         sxnu.Load_ST_List();
         if (sxnu.intDiff() != 0) {
+            sxnu.Time_Desc("剩余时间");
             sxnu.StartTime(sxnu.intDiff());
         } else {
+            sxnu.Time_Desc("总计时间");
             sxnu.Empty_StartTime();
         }
 
