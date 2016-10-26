@@ -178,6 +178,7 @@
     <Content Include="App_Data\Aspose.Words.dll" />
     <Content Include="App_Data\ICSharpCode.SharpZipLib.dll" />
     <Content Include="App_Data\NPOI.dll" />
+    <Content Include="Areas\Admin\Views\Question\Group.cshtml" />
     <Content Include="Content\css\admin.css" />
     <Content Include="Content\images\admin\1.jpg" />
     <Content Include="Content\images\admin\admin_logo.png" />
@@ -328,7 +329,6 @@
     <Content Include="Areas\Admin\Views\Question\Modst.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_StShow.cshtml" />
     <Content Include="Views\Ques\ViewAnswer.cshtml" />
-    <Content Include="Areas\Admin\Views\Question\Group.cshtml" />
     <None Include="Properties\PublishProfiles\ww.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\add_data.js" />
