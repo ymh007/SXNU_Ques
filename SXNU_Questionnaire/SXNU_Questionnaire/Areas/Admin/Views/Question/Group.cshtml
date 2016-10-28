@@ -9,11 +9,129 @@
         ko.applyBindings(pageModel, $("#ko_Question")[0]);
     });
 </script>
+<style>
+    .wly_make {
+        display: block;
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        background: #841c21;
+        color: #FFF;
+        margin: 0 auto;
+        text-align: center;
+        cursor: pointer;
+        border: 0px;
+        font-family: "微软雅黑";
+        border-radius: 5px;
+    }
+
+    .wly_more {
+        width: 330px;
+        height: 180px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #FFF;
+        border-radius: 10px;
+        z-index: 12;
+        overflow: hidden;
+        display: none;
+    }
+
+    .wly_more_z {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background: #000;
+        z-index: 11;
+        filter: alpha(opacity=50);
+        /*IE滤镜，透明度50%*/
+        -moz-opacity: 0.5;
+        /*Firefox私有，透明度50%*/
+        opacity: 0.5;
+        /*其他，透明度50%*/
+        display: none;
+    }
+
+    .wly_more_title {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        background: #e4e7ea;
+        color: #841c21;
+    }
+
+    .wly_more_main {
+        position: relative;
+    }
+
+        .wly_more_main input {
+            width: 130px;
+            height: 30px;
+            padding: 0 5px;
+            border: 1px solid #841c21;
+            border-radius: 5px;
+        }
+
+    .wly_Null {
+        position: absolute;
+        color: red;
+        left: 155px;
+        top: 35px;
+        display: none;
+    }
+
+    .wly_more_button {
+        width: 240px;
+        margin: 0 auto;
+    }
+
+        .wly_more_button input {
+            width: 90px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 0px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "微软雅黑";
+        }
+
+    .wly_more_Y {
+        background: #841c21;
+        color: #FFF;
+        float: left;
+    }
+
+    .wly_more_N {
+        background: #e4e7ea;
+        color: #000;
+        float: right;
+    }
+
+    .wly_zz input {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        background: #841c21;
+        color: #FFF;
+        padding: 0 10px;
+        cursor: pointer;
+        border: 0px;
+        margin: 10px 10px 0 0;
+        font-family: "微软雅黑";
+    }
+    .group_back {
+        background: #393c4e !important;
+    }
+</style>
 <div class="right p-w92">
     <div class="admin_name admin_zi">问卷管理 -- <span>组别设置</span></div>
     <div class="admin_frame min_h p-b30" id="ko_Question">
         <div class="newly">
-            <ul >
+            <ul>
                 <li><a href="/admin/Question/Step1?ID=@ViewBag.WJ_ID">1.填写问卷基本信息</a></li>
                 <li><a href="/admin/Question/Step2?ID=@ViewBag.WJ_ID">2.答卷人信息设置</a></li>
                 <li><a href="/admin/Question/Step3?ID=@ViewBag.WJ_ID">3.添加试题</a></li>
@@ -24,59 +142,166 @@
         </div>
         <div class="clear"></div>
         <input type="hidden" value="@ViewBag.WJ_ID" id="WJ_ID" name="WJ_nID" />
-        <div class="left p-w27 newly_bj">
-            <h3 class="h3">组别列表</h3>
-            <div class="newly_pad">
-                <div class="new_img m-t15">
-                    <ul data-bind="foreach:$root.Groups">
-                        <li>
-                            <a href="javascript:void(0)" data-bind="text:GroupName,click:$root.ViewSTList"></a>
-                            <img class="right m-t4" data-bind="click:$root.DeleteGroup" src="~/Content/images/admin/img3.jpg">
-                        </li>
-                    </ul>
-                    <div class="clear"></div>
-                </div> 
-               
-                <div class="w-100 centers m-t40">
-                    <input value="添加分组" class="a_red w-120" type="button" data-bind="click:$root.AddGroup">
-                </div>
-            </div>
-        </div>
 
-        <div class="right wly m-l30 p-w70">
+        <div class="clear"></div>
+        <div class="left wly m-l30 p-w95">
             <div class="wly_name">已创建的试题编号：</div>
             <div class="wly_menber">
                 <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
-                    <li> <input type="checkbox" /><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation"></a></li>
+                    <li> <a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation">1</a><input type="checkbox" data-bind="checked:check,visible:visable"></li>
                     <!-- ko if:  type()==4 -->
                     <ul class="wly_ber" data-bind="foreach:subNum">
-                        <li> <input type="checkbox" /><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:'dbid_'+dbID},click:$root.ShowSTByLoccation">1.1</a></li>
+                        <li><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:'dbid_'+dbID},click:$root.ShowSTByLoccation">1.1</a><input type="checkbox" data-bind="checked:check,visible:visable"></li>
                     </ul>
                     <!-- /ko -->
                 </ul>
-                <div class="clear"></div>
-            </div>
-        </div>
-         
-        <div class="right wly m-l30 p-w70">
-            <div class="wly_name">组别1</div>
-            <div class="wly_menber">
-                <ul data-bind="foreach:$root.Group_NumList" id="st_numLisr">
-                    <li><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation">1</a></li>
-                </ul>
-                <div class="clear"></div>
-            </div>
-        </div> 
-        
-        <div class="w-100 centers m-t40">
-            <input type="submit" value="保存分組信息" class="a_red w-120" data-bind="click:$root.Save_Ajax" />
-        </div>
 
+                <div class="clear"></div>
+            </div>
+            <div class="width100 wly_zz m-b30 m-t10">
+                <div  >
+                    已创建的试题组： 
+                </div>
+                <div data-bind="foreach:$root.Groups" id="g_grouops">
+                    <div>
+                        <input type="button" data-bind="value:GroupName,click:$root.ViewSTList,attr:{id:'group_'+ID}" />
+                        @*<img class="m-t4" data-bind="click:$root.DeleteGroup" src="~/Content/images/admin/img3.jpg">*@
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="all_wly">
+                <div class="wly_yl">试题预览</div>
+                <div data-bind="foreach:$root.ShowSTInfo">
+                    <!-- 视频图片绑定模板-->
+                    <script type="text/html" id="pv_temp">
+                        <li data-bind="if: pvp.t=='v'">
+                            @*<video width="400" height="130" controls="controls" preload="auto" data-bind="attr:{src:$root.pv_Path()+pvp.n}"></video>*@
+                            <div data-bind="attr:{id: pvp.n.replace('.','')}"></div>
+                        </li>
+                        <li data-bind="if: pvp.t=='p'">
+                            <div class="left"></div><img style="width:310px;height:200px" data-bind="attr:{src:$root.pv_Path()+pvp.n}">
+                        </li>
+                    </script>
+                    <!-- ko if:  type()==1 -->
+                    <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+                    <div class="lume_img m-t10">
+                        <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="wly_volume vol_col">
+                        <ul data-bind="foreach:wt_Options">
+                            <li><input type="radio" value=" " data-bind="attr:{name:'dxst_'+$parent.dbID()}" /><!--ko text: item--><!--/ko--></li>
+                            <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                        </ul>
+                        <ul data-bind="foreach:wt_OtherItem">
+                            <li><input type="radio" name="" value="" data-bind="attr:{name:'dxst_'+$parent.dbID()}"><!--ko text: item--><!--/ko-->  <input class="vol_inp w-330" value=""></li>
+                            <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                        </ul>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if:  type()==2 -->
+                    <h3 class="vol_col"><!--ko text: ShowNum()+'、'+wt_Title()--><!--/ko--><span class="vol" data-bind="visible:wt_LimitTime()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: wt_LimitTime--><!--/ko--></span></span></h3>
+                    <div class="lume_img m-t10">
+                        <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="wly_volume vol_col">
+                        <ul data-bind="foreach:wt_Options">
+                            <li><input type="checkbox" /><!--ko text:item--><!--/ko--></li>
+                            <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                        </ul>
+                        <ul data-bind="foreach:wt_OtherItem">
+                            <li><input type="checkbox"> <!--ko text: item--><!--/ko--><input class="vol_inp w-330" value=""></li>
+                            <ul data-bind="template: { name: 'pv_temp', foreach: pv, as: 'pvp' }"></ul>
+                        </ul>
+                    </div>
+                    <!-- /ko -->
+                    @*<h3>2、您的专业方向是什么？请选择最贴近您实际的一项：</h3>
+                        <div class="volume_img m-t10">
+                            <ul>
+                                <li>
+                                    <div class="left m-r10"><input checked="checked" type="radio" name="" value="male" /> </div>
+                                    <video width="130" height="130" controls>
+                                        <source src="~/WJ_Attachment/1/20160720095626589.mp4" type="video/mp4">
+                                    </video>
+                                </li>
+                                <li><div class="left"><input type="radio" name="" value="male" /></div><img src="~/Content/images/img6.jpg"></li>
+
+                            </ul><div class="clear"></div>
+                        </div>*@
+
+                    <!-- ko if:  type()==3 -->
+                    @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+                    <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+                    <div class="lume_img m-t10">
+                        <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <!-- ko if :Customize()=="1" -->
+                    <div data-bind="foreach:inputArray">
+                        <div class="m-t15">
+                            <input class="inf_text p-w83 left" maxlength="255" type="text" data-bind="value:txt">
+                            <div class="right m-t8"><img src="~/Content/images/admin/img16.png"></div>
+                            <div class="right m-t8 m-r10"><img src="~/Content/images/admin/img13.png" data-bind="click :$root.Del_wdSTItem"></div>
+                            <div class="right m-t8 m-r10 m-l10"><img src="~/Content/images/admin/img12.png" data-bind="click:$root.Add_wdSTItem"> </div>
+                            @*<div class="m-t15"><div class="a_red  vol_ico12" id="filePicker1">点此添加图片或视频，一次可上传多个</div></div>*@
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                    <div data-bind="if :(IsOnline()=='1')&&(Customize()=='0')">
+                        <div class="volume_kuang m-t15 m-r15">
+                            <textarea clos="20" rows="3" data-bind="value:Ansure_Content "> </textarea>
+                            <div class="cen_rig m-t10"><!--ko text:Clac_Len --><!--/ko-->/<!--ko text:Contentlength --><!--/ko--></div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if:  type()==4 -->
+                    @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+                    <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+                    <div class="lume_img m-t10">
+                        <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="m-l25" data-bind="text:st_GaiYao"> </div>
+                    <!-- /ko -->
+                    <!-- ko if:  type()==5 -->
+                    @*<h3><!--ko text: ShowNum()+'、'+Title()--><!--/ko--></h3>*@
+                    <h3 class="vol_col"><!--ko text: ShowNum()+'、'+Title()--><!--/ko--><span class="vol" data-bind="visible:Time()!=0">本题剩余时间/秒：<span class="wly_red"><!--ko text: Time--><!--/ko--></span></span></h3>
+                    <div class="lume_img m-t10">
+                        <ul data-bind="template: { name: 'pv_temp', foreach: Title_pic_vido, as: 'pvp' }"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="m-l25 m-r15">
+                        <table border=0 cellspacing=0 cellpadding=0 width="100%" class="volume_table">
+                            <tr class="volu_bj">
+                                <td class="center">内容项</td>
+                                <!-- ko foreach:AnswerList -->
+                                <td class="center" width="10%" data-bind="text:a"></td>
+                                <!-- /ko -->
+                            </tr>
+                            <!-- ko foreach:TitleLsit -->
+                            <tr>
+                                <td class="volu_keft" data-bind="text:t"></td>
+                                <!-- ko foreach:$parent.AnswerList -->
+                                <td class="center"><input type="radio" data-bind="attr:{name: $parent.name}" /></td>
+                                <!-- /ko -->
+                            </tr>
+                            <!-- /ko -->
+                        </table>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
         <div class="dialog" id="s5_Group" title="添加分组">
             <div class="dialog-body m-t10 m-b10">
                 <div class="m-t15">
-                    <div class="inf_left w-100"><span class="ind_red">*</span> 组名称：</div>
-                    <input maxlength="30" class="inf_text p-w98 left m-t10" data-bind="value:$root.GroupName,event: { blur: $root.CheckGroupName }" type="text">
+                    <div class="inf_left w-100" style="line-height: 60px"><span class="ind_red">*</span> 组名称：</div>
+                    <input maxlength="30" class="inf_text   left m-t10" data-bind="value:$root.GroupName,event: { blur: $root.CheckGroupName }" type="text">
                     <div class="clear"></div>
                 </div>
                 <div class="w-100 centers m-t40">
@@ -84,5 +309,101 @@
                 </div>
             </div>
         </div>
+        <div class="width100 m-t20">
+        <input type="button" class="wly_make" value="创建试题组" data-bind="click:$root.AddGroup" />&nbsp;&nbsp;
+            <input type="button" class="wly_make" value="保存组员" data-bind="click:$root.Save_GroupOwen" />
+        </div>
+        <div class="wly_more_z"></div>
+        <script type="text/javascript">
+            $(".type ul li").click(function () {
+                $(".type ul li").removeClass("type_hover");
+                $(this).addClass("type_hover");
+                var Index = $(this).index();
+                $(".ti").hide();
+                $(".ti:eq(" + Index + ")").show();
+
+            })
+
+            //$(".wly_menber li a").click(function () {
+            //    $(this).addClass("wly_menber_hov");
+            //})
+
+            //var WinW = $(window).width();
+            //var WinH = $(window).height();
+            //var TopV = (WinH - 180) / 2;
+            //var LeftV = (WinW - 330) / 2;
+            //$(".wly_make").click(function () {
+            //    $(".wly_more_z").show();
+            //    $(".wly_more").css({
+            //        left: LeftV,
+            //        top: TopV
+            //    })
+            //    $(".wly_more").fadeIn(300);
+            //})
+
+            //$(".wly_more_N").click(function () {
+            //    $(".wly_more").fadeOut(300);
+            //    $(".wly_more_z").hide();
+            //})
+            //$(".wly_more_Y").click(function () {
+            //    var Val = $(".wly_more_main").find("input").val();
+            //    if (Val == "") {
+            //        $(".wly_more_main").find("b").show();
+            //        return false
+            //    } else {
+            //        $(".wly_more_main").find("b").hide();
+            //        return true
+            //    }
+            //})
+        </script>
+        @*<div class="left p-w27 newly_bj">
+                <h3 class="h3">组别列表</h3>
+                <div class="newly_pad">
+                    <div class="new_img m-t15">
+                        <ul data-bind="foreach:$root.Groups">
+                            <li>
+                                <a href="javascript:void(0)" data-bind="text:GroupName,click:$root.ViewSTList"></a>
+                                <img class="right m-t4" data-bind="click:$root.DeleteGroup" src="~/Content/images/admin/img3.jpg">
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="w-100 centers m-t40">
+                        <input value="添加分组" class="a_red w-120" type="button" data-bind="click:$root.AddGroup">
+                    </div>
+                </div>
+            </div>
+
+            <div class="right wly m-l30 p-w70">
+                <div class="wly_name">已创建的试题编号：</div>
+                <div class="wly_menber">
+                    <ul data-bind="foreach:$root.ST_NumList" id="st_numLisr">
+                        <li> <input type="checkbox" /><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation"></a></li>
+                        <!-- ko if:  type()==4 -->
+                        <ul class="wly_ber" data-bind="foreach:subNum">
+                            <li> <input type="checkbox" /><a href="javascript:void(0)" data-bind="text:ShowNum ,attr:{id:'dbid_'+dbID},click:$root.ShowSTByLoccation">1.1</a></li>
+                        </ul>
+                        <!-- /ko -->
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="right wly m-l30 p-w70">
+                <div class="wly_name">组别1</div>
+                <div class="wly_menber">
+                    <ul data-bind="foreach:$root.Group_NumList" id="st_numLisr">
+                        <li><a href=" javascript:void(0)" data-bind="text:ShowNum,attr:{id:'dbid_'+dbID()},click:$root.ShowSTByLoccation">1</a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="w-100 centers m-t40">
+                <input type="submit" value="保存分組信息" class="a_red w-120" data-bind="click:$root.Save_Ajax" />
+            </div>
+
+        *@
     </div>
 </div>

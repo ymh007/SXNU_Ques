@@ -701,14 +701,17 @@ namespace SXNU_Questionnaire.Common
         public static JsMessage Modify_Group(Total_Group DX)
         {
             JsMessage js = new JsMessage();
-            string SqlStr = @" UPDATE [dbo].[Total_Group]
-                           SET [GroupName]= @GroupName,
-                              [WJID]      =  @WJID,
-                              [IDValue]     =  @IDValue, 
+//            string SqlStr = @" UPDATE [dbo].[Total_Group]
+//                           SET [GroupName]= @GroupName,
+//                              [WJID]      =  @WJID,
+//                              [IDValue]     =  @IDValue, 
+//                         WHERE ID=@ID ";
+            string SqlStr = @" UPDATE [dbo].[Total_Group] 
+                            SET  [IDValue] =  @IDValue
                          WHERE ID=@ID ";
             SqlParameter[] commandParameters = new SqlParameter[]{
-                new SqlParameter("@GroupName",SqlDbType.NVarChar,50){Value=DX.GroupName},
-                new SqlParameter("@WJID",DX.WJID),
+                //new SqlParameter("@GroupName",SqlDbType.NVarChar,50){Value=DX.GroupName},
+                //new SqlParameter("@WJID",DX.WJID),
                 new SqlParameter("@IDValue",DX.IDValue), 
                 new SqlParameter("@ID",DX.ID)
             };
