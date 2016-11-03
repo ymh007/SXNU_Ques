@@ -587,6 +587,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             {
                 if (!SqlStr_Process.GetGroupByID(dx.WJID, dx.GroupName))
                 {
+                    dx.IDValue = "";
                     jm = Sql_QuestionManage.Add_Group(dx);
                 }
                 else

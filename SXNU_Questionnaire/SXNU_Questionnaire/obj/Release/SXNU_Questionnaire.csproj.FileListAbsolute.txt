@@ -87,9 +87,7 @@ G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\System.Web.WebPages.x
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\System.Web.WebPages.Deployment.xml
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\System.Web.WebPages.Razor.xml
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\EntityFramework.resources.dll
-G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Net.Http.resources.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
-G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Net.Http.WebRequest.resources.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.Http.resources.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.Http.WebHost.resources.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.Mvc.resources.dll

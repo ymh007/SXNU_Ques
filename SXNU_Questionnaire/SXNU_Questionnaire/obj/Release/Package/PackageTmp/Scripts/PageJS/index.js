@@ -855,12 +855,12 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     }
     //    1  点击下一页的时候   2点击提交问卷的时候 
     sxnu.NextPageWT = function () {
-        
+
         sxnu.SaveAnswer(1);
     }
 
     sxnu.SubmitedWJ = function () {
-        
+
         sxnu.SaveAnswer(2);
     }
 
@@ -885,8 +885,43 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
     ///  休息时间提示和 单题时间限制
     sxnu.StartTime_WT = function () {
         if (sxnu.ShowSTInfo().length == 1) {
-            if (sxnu.ShowSTInfo()[0].Sleep()) {
-                var sleep_model = JSON.parse(sxnu.ShowSTInfo()[0].Sleep())
+            sxnu.CurrentWT_Time(parseInt(sxnu.ShowSTInfo()[0].Time()));
+            if (sxnu.CurrentWT_Time() != 0) {
+                sxnu.Current_TimeId(window.setInterval(function () {
+                    sxnu.CurrentWT_Time(sxnu.CurrentWT_Time() - 1);
+                    if (sxnu.CurrentWT_Time() == 0) {
+                        sxnu.ShowSTInfo()[0].msg(sxnu.stWareMsg.TimeFinish);
+                        sxnu.ShowSTInfo()[0].Is_TimeOut(true);
+                        if (sxnu.ShowSTInfo()[0].type() != 5) {
+                            sxnu.ShowSTInfo()[0].jy(false);
+                        } else {
+                            $.each(sxnu.ShowSTInfo()[0].TitleLsit(), function (i, v) {
+                                v.jy(false);
+                            });
+                        }
+                        clearTimeout(sxnu.Current_TimeId());
+                    }
+                }, 1000));
+            }
+        }
+        if (sxnu.ShowSTInfo().length > 0) {
+            var temp_sleep="-1";
+            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
+                if (pv.Sleep()) {
+                    temp_sleep = pv.Sleep();
+                }
+                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
+                    if (subpv.t == "v") {
+                        var id = subpv.n.replace('.', '');
+                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
+                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
+                        $("#" + id).append(str);
+                    }
+
+                });
+            });
+            if (temp_sleep != "-1") {
+                var sleep_model = JSON.parse(temp_sleep)
                 sxnu.CurrentWT_Msg(sleep_model.n);
                 sxnu.CurrentSleep_Time(parseInt(sleep_model.t));
                 clearTimeout(sxnu.g_id());
@@ -903,39 +938,9 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                         $("#time_out_wt").dialog('close');
                     }
                 }, 1000));
-            } else {
-                sxnu.CurrentWT_Time(parseInt(sxnu.ShowSTInfo()[0].Time()));
-                if (sxnu.CurrentWT_Time() != 0) {
-                    sxnu.Current_TimeId(window.setInterval(function () {
-                        sxnu.CurrentWT_Time(sxnu.CurrentWT_Time() - 1);
-                        if (sxnu.CurrentWT_Time() == 0) {
-                            sxnu.ShowSTInfo()[0].msg(sxnu.stWareMsg.TimeFinish);
-                            sxnu.ShowSTInfo()[0].Is_TimeOut(true);
-                            if (sxnu.ShowSTInfo()[0].type() != 5) {
-                                sxnu.ShowSTInfo()[0].jy(false);
-                            } else {
-                                $.each(sxnu.ShowSTInfo()[0].TitleLsit(), function (i, v) {
-                                    v.jy(false);
-                                });
-                            }
-                            clearTimeout(sxnu.Current_TimeId());
-                        }
-                    }, 1000));
-                }
             }
-        }
-        if (sxnu.ShowSTInfo().length > 0) {
-            $.each(sxnu.ShowSTInfo(), function (pvindex, pv) {
-                $.each(pv.Title_pic_vido(), function (subindex, subpv) {
-                    if (subpv.t == "v") {
-                        var id = subpv.n.replace('.', '');
-                        var str = "<embed src='/Content/widget/ckplayer/ckplayer.swf' quality='high' wmode='transparent' align='middle' allowscriptaccess='always' allowfullscreen='true'";
-                        str += "flashvars='" + sxnu.p_Path() + subpv.n + "&p=2' type='application/x-shockwave-flash' width='300' height='200' >";
-                        $("#" + id).append(str);
-                    }
+           
 
-                });
-            });
         }
 
 
@@ -1085,7 +1090,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                                     return false;
                                 } else {
                                     var temp_f = 0;
-                                    $.each(item.AnswerList(), function (vx,vv) {
+                                    $.each(item.AnswerList(), function (vx, vv) {
                                         if (v.ck() == vv.a()) {
                                             temp_f = vv.f()
                                             return false
@@ -1140,7 +1145,7 @@ var SXNU_ViewModel_Answer = function ($, currentDom) {
                         }
                         $("body").unmask();
                     } else {
-                        $("body").unmask(); 
+                        $("body").unmask();
                         alert("答案保存失败！");
                     }
                 }

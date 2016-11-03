@@ -99,7 +99,6 @@ G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.We
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.dll
 G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.pdb
-G:\gitup_project\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.csprojResolveAssemblyReference.cache
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\bin\SXNU_Questionnaire.dll.config
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\bin\SXNU_Questionnaire.dll
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\bin\SXNU_Questionnaire.pdb

@@ -4629,13 +4629,16 @@ var SXNU_ViewModel_Group = function ($, currentDom) {
         });
         if (idList.length == 0) {
             alert("最少选择一个试题！");
+            $("#MaskMain").unmask();
             return false;
         }
 
-        Groupo_model.IDValue = idList.length == 0 ? "" : JSON.stringify(idList);
+        Groupo_model.IDValue = JSON.stringify(idList);
         $.ajax("/Admin/Question/Save_Group", { async: true, type: "POST", cache: false, data: Groupo_model, dataType: "json", }).then(function (result) {
             if (result.IsSuccess) {
+                sxnu.Groups.removeAll();
                 alert("保存成功！");
+                sxnu.Load_Group_List();
                 $("#MaskMain").unmask();
             } else {
                 alert("保存失败！");
@@ -4690,7 +4693,7 @@ var SXNU_ViewModel_Group = function ($, currentDom) {
         $("#g_grouops :button").removeClass("group_back");
         $("#group_" + val.ID).addClass("group_back");
         //if (val.IDValue == "") {val.IDValue="[]"}
-        var idlist = JSON.parse(val.IDValue);
+        var idlist = JSON.parse(val.IDValue == "" ? "[]" : val.IDValue);
         sxnu.CurrentGroup(val.ID);
         $.each(sxnu.ST_NumList(), function (i, v) {
             if (v.type() == 4) {
