@@ -368,9 +368,10 @@ namespace SXNU_Questionnaire.Common
                             {
                                 int tempValue = int.Parse(Answer_row.GetCell(cv.Key).NumericCellValue.ToString());
                                 Answer_row.GetCell(cv.Key).SetCellValue(Total_FZ + tempValue);
-                                break;
+                               // break;
                             }
                         }
+                        Total_FZ = 0;
                     }
                 }
             }

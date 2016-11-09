@@ -148,3 +148,4 @@ G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.dll
 G:\SXNU_Ques-master\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.pdb
+G:\Gitup_Project\SXNU_Questionnaire\SXNU_Questionnaire\obj\Debug\SXNU_Questionnaire.csprojResolveAssemblyReference.cache
