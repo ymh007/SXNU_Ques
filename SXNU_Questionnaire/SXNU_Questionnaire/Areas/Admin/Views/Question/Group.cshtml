@@ -126,6 +126,24 @@
     .group_back {
         background: #393c4e !important;
     }
+	.change_off{
+		float:left;
+		position:relative;
+	}
+	.change_button{
+		width:15px;
+		height:15px;
+		border-radius:7px;
+		background:#841c21;
+		position:absolute;
+		color:#FFF;
+		right:5px;
+		top:5px;
+		font-size:10px;
+		text-align:center;
+		line-height:15px;
+		cursor:pointer;
+	}
 </style>
 <div class="right p-w92">
     <div class="admin_name admin_zi">问卷管理 -- <span>组别设置</span></div>
@@ -163,9 +181,9 @@
                     已创建的试题组： 
                 </div>
                 <div data-bind="foreach:$root.Groups" id="g_grouops">
-                    <div>
-                        <input type="button" data-bind="value:GroupName,click:$root.ViewSTList,attr:{id:'group_'+ID}" />
-                        @*<img class="m-t4" data-bind="click:$root.DeleteGroup" src="~/Content/images/admin/img3.jpg">*@
+                    <div class="change_off">
+                        <input type="button" data-bind="value:GroupName,click:$root.ViewSTList,attr:{id:'group_'+ID}" /> 
+                        <div class="change_button" data-bind="event:{click:$root.DeleteGroup}">x</div>
                     </div>
                 </div>
                 <div class="clear"></div>

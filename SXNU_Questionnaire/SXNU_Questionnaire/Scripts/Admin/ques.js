@@ -4638,7 +4638,7 @@ var SXNU_ViewModel_Group = function ($, currentDom) {
             if (result.IsSuccess) {
                 sxnu.Groups.removeAll();
                 alert("保存成功！");
-                sxnu.Load_Group_List();
+                window.location.reload();
                 $("#MaskMain").unmask();
             } else {
                 alert("保存失败！");
