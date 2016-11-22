@@ -480,7 +480,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
             string StrWhere = "";
             if (!string.IsNullOrEmpty(Q.StrWhere))
             {
-                StrWhere = "au_wjID¡¡= " + Q.StrWhere;
+                StrWhere = "au_wjID = " + Q.StrWhere;
             }
             int BeginIndex = Q.CurrenPageIndex == 0 ? 0 : Q.CurrenPageIndex * Q.PageSize + 1;
             int Endindex = BeginIndex + Q.PageSize - (Q.CurrenPageIndex == 0 ? 0 : 1);
