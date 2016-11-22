@@ -286,43 +286,54 @@ namespace SXNU_Questionnaire.Common
                                 dx Answer_dx = (dx)JsonTool.ConvertToList(Answer_Json, new dx().GetType());
                                 if (Answer_dx != null)
                                 {
-                                    value = Answer_dx.fz;
+                                    if (Answer_dx != null)
+                                    {
+                                        value = Answer_dx.fz;
+                                    }
+                                    else { value = ""; }
+                                    Total_FZ = int.Parse(value);
                                 }
-                                else { value = ""; }
-                                Total_FZ = int.Parse(value);
+
                                 break;
                             case "2":
                                 List<dx> Answer_dux = JsonTool.JSONStringToList<dx>(Answer_Json);
-                                foreach (dx d in Answer_dux)
+                                if (Answer_dux != null)
                                 {
-                                    if (d.ov == "")
+                                    foreach (dx d in Answer_dux)
                                     {
-                                        value += d.fz + ",";
+                                        if (d.ov == "")
+                                        {
+                                            value += d.fz + ",";
+                                        }
+                                        else
+                                        {
+                                            value += d.fz + ",";
+                                        }
+                                        Total_FZ += int.Parse(d.fz);
                                     }
-                                    else
+                                    if (value.Length > 1)
                                     {
-                                        value += d.fz + ",";
+                                        value.Substring(0, value.Length - 1);
                                     }
-                                    Total_FZ += int.Parse(d.fz);
                                 }
-                                if (value.Length > 1)
-                                {
-                                    value.Substring(0, value.Length - 1);
-                                }
+
                                 break;
                             case "3":
                                 List<string> Answer_wd = JsonTool.JSONStringToList<string>(Answer_Json);
-                                foreach (string d in Answer_wd)
+                                if (Answer_wd != null)
                                 {
-                                    value += d + ",";
-                                }
-                                if (Answer_wd.Count > 1)
-                                {
-                                    value = Answer_wd.Count + " ;" + value;
-                                }
-                                if (value.Length > 1)
-                                {
-                                    value.Substring(0, value.Length - 1);
+                                    foreach (string d in Answer_wd)
+                                    {
+                                        value += d + ",";
+                                    }
+                                    if (Answer_wd.Count > 1)
+                                    {
+                                        value = Answer_wd.Count + " ;" + value;
+                                    }
+                                    if (value.Length > 1)
+                                    {
+                                        value.Substring(0, value.Length - 1);
+                                    }
                                 }
 
                                 break;
@@ -330,23 +341,15 @@ namespace SXNU_Questionnaire.Common
 
                             //    break;
                             case "5":
-                                List<BiaoGeTi_M> Answer_bg = null;
-                                try
+                                List<BiaoGeTi_M> Answer_bg = JsonTool.JSONStringToList<BiaoGeTi_M>(Answer_Json);
+                                if (Answer_bg != null)
                                 {
-                                    Answer_bg = JsonTool.JSONStringToList<BiaoGeTi_M>(Answer_Json);
+                                    foreach (BiaoGeTi_M d in Answer_bg)
+                                    {
+                                        value += d.f + ";";
+                                        Total_FZ += int.Parse(d.f);
+                                    }
                                 }
-                                catch (Exception ex)
-                                {
-                                    Answer_bg = new List<BiaoGeTi_M>();
-                                    value = "";
-                                }
-
-                                foreach (BiaoGeTi_M d in Answer_bg)
-                                {
-                                    value += d.f + ";";
-                                    Total_FZ += int.Parse(d.f);
-                                }
-                                //value.Substring(0, value.Length - 1);
                                 break;
                         }
 
@@ -368,7 +371,7 @@ namespace SXNU_Questionnaire.Common
                             {
                                 int tempValue = int.Parse(Answer_row.GetCell(cv.Key).NumericCellValue.ToString());
                                 Answer_row.GetCell(cv.Key).SetCellValue(Total_FZ + tempValue);
-                               // break;
+                                // break;
                             }
                         }
                         Total_FZ = 0;

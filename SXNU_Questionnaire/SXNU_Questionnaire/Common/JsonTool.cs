@@ -13,8 +13,8 @@ namespace SXNU_Questionnaire.Common
     //JSON转换类
     public static class JsonTool
     {
-      
-         
+
+
 
         #region DataTable 转换为Json 字符串
         /// <summary>
@@ -44,9 +44,18 @@ namespace SXNU_Questionnaire.Common
         public static List<T> JSONStringToList<T>(this string JsonStr)
         {
             JavaScriptSerializer Serializer = new JavaScriptSerializer();
+            List<T> objs = null;
+            try
+            {
 
-            List<T> objs = Serializer.Deserialize<List<T>>(JsonStr);
+                objs = Serializer.Deserialize<List<T>>(JsonStr);
+            }
+            catch (Exception ex)
+            {
+                //System.IO.File.AppendAllText(Request.MapPath("~/Generate/error.log"), DateTime.Now.ToString() + "=================error==============\r\n" + ex.ToString());
+            }
             return objs;
+
         }
 
         public static object ConvertToList(string json, Type t)

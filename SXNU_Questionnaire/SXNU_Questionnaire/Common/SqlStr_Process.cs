@@ -398,7 +398,7 @@ namespace SXNU_Questionnaire.Common
                 commandParameters = new SqlParameter[]{
                     new SqlParameter("@an_auID",com.an_auID),
                     new SqlParameter("@an_wtID",A.an_wtID),
-                    new SqlParameter("@an_Result",SqlDbType.VarChar,1000){Value=A.an_Result},
+                    new SqlParameter("@an_Result",SqlDbType.NVarChar,4000){Value=A.an_Result},
                     new SqlParameter("@an_Invalid",A.an_Invalid),
                     new SqlParameter("@an_leapfrog",A.an_leapfrog),
                     new SqlParameter("@an_wtType",A.an_wtType)
