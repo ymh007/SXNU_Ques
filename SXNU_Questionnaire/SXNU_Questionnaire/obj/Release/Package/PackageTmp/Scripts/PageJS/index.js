@@ -366,10 +366,10 @@ var SXNU_ViewModel_Index_FirstStep = function ($, currentDom) {
             alert("认证码不能为空");
             return false;
         }
-        if (code.length != 13) {
-            alert("认证码格式不正确");
-            return false;
-        }
+        //if (code.length != 13) {
+        //    alert("认证码格式不正确");
+        //    return false;
+        //}
         $.ajax("/Ques/Validate_Code", { async: true, type: "GET", cache: true, data: { wjid: sxnu.wjid(), code: sxnu.input_Code() }, dataType: "json", }).then(function (result) {
             if (result) {
                 if (result.IsSuccess) {
