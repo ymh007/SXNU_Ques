@@ -177,7 +177,7 @@ namespace SXNU_Questionnaire.Areas.Admin.Controllers
 
             QuestionInfo wj = new QuestionInfo();
             wj.wj_ID = int.Parse(Request.Form["WJ_nID"]);
-            wj.wj_Number = SXNU_Questionnaire.Common.Rand.Str(13, true);
+            wj.wj_Number = SXNU_Questionnaire.Common.Rand.Str(4, true);
             wj.wj_Title = Request.Form["wj_Title"];
             wj.wj_ProjectSource = Request.Form["wj_ProjectSource"];
             wj.wj_Time = Request.Form["wj_Time"];

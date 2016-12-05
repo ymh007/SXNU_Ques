@@ -121,6 +121,7 @@ namespace SXNU_Questionnaire.Controllers
             if (dt != null)
             {
                 ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                ViewBag.wj_Abstract = dt.Rows[0]["wj_BeginBody"].ToString();
                 ViewBag.time = dt.Rows[0]["wj_Time"].ToString();
             }
             else
@@ -233,6 +234,7 @@ namespace SXNU_Questionnaire.Controllers
             if (dt != null)
             {
                 ViewBag.wj_Title = dt.Rows[0]["wj_Title"].ToString();
+                ViewBag.wj_Abstract = dt.Rows[0]["wj_BeginBody"].ToString();
                 ViewBag.time = dt.Rows[0]["wj_Time"].ToString() == "" ? "0" : dt.Rows[0]["wj_Time"].ToString();
             }
             else
